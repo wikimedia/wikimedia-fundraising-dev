@@ -1,0 +1,24 @@
+# Setup for Fundraising development environment
+# See README.md for details
+
+version: '3.7'
+services:
+  mediawiki-payments:
+    image: docker-registry.wikimedia.org/dev/fundraising-buster-php73-apache2-xdebug:0.0.1-1
+    ports:
+      - "${MW_DOCKER_PORT:-9001}:8443"
+    volumes:
+      - ./src/${MW_SRC_DIR}/:/var/www/html:cached
+    environment:
+      COMPOSER_CACHE_DIR: '/var/www/html/cache/composer'
+      MW_LOG_DIR: /var/www/html/cache
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG:-}
+      MW_DOCKER_PORT: ${MW_DOCKER_PORT:-9001}
+    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+  database:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    user: "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
+    volumes:
+      - ./dbdata:/var/lib/mysql
