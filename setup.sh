@@ -5,7 +5,7 @@
 set -euo pipefail
 
 FR_CORE_BRANCH="fundraising/REL1_35"
-MW_SRC_DIR="mediawiki-payments"
+MW_SRC_DIR="payments"
 MW_LANG="en"
 MW_PASSWORD="dockerpass"
 
@@ -83,6 +83,7 @@ echo
 echo "**** Creating .env file"
 
 cat << EOF > .env
+COMPOSE_PROJECT_NAME=fundraising-dev
 MW_DOCKER_PORT=${MW_DOCKER_PORT}
 MW_SRC_DIR=${MW_SRC_DIR}
 MW_DOCKER_UID=$(id -u)
@@ -112,7 +113,7 @@ echo
 # Wait for db service
 
 echo "**** Waiting for database to be ready"
-while ! docker-compose exec mediawiki-payments \
+while ! docker-compose exec payments \
 	mysqladmin ping -h database -u root --silent > /dev/null; do
 	sleep 0.5 && printf '.'
 done
@@ -125,7 +126,7 @@ read -p "Run composer install? [Yn] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 	# TODO put this in a separate script
-	docker-compose exec -w "/var/www/html/" mediawiki-payments composer install
+	docker-compose exec -w "/var/www/html/" payments composer install
 fi
 echo
 
@@ -157,7 +158,7 @@ fi
 
 if [ $MW_INSTALL = true ]; then
 	echo "**** Running maintenance/install.php"
-	docker-compose exec -w "/var/www/html/" mediawiki-payments php maintenance/install.php \
+	docker-compose exec -w "/var/www/html/" payments php maintenance/install.php \
 		--server https://localhost:${MW_DOCKER_PORT} \
 		--dbname=payments \
 		--dbuser=root \
@@ -193,5 +194,5 @@ if [ $MW_INSTALL = false ]; then
 fi
 
 if [ $MW_UPDATE = true ]; then
-	docker-compose exec -w "/var/www/html/" mediawiki-payments php maintenance/update.php --quick
+	docker-compose exec -w "/var/www/html/" payments php maintenance/update.php --quick
 fi

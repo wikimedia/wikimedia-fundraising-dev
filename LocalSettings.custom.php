@@ -162,3 +162,63 @@ $wgPaypalExpressGatewayAccountInfo['test'] = array(
 'RedirectURL' => 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=',
 );
 $wgDonationInterfaceTimeout = 25; 
+
+// Capture all PHP log messages to syslog: see https://phabricator.wikimedia.org/T107918
+$defaultProcessors = array(
+    'wiki' => array(
+        'class' => 'MediaWiki\Logger\Monolog\WikiProcessor',
+    ),
+    'psr' => array(
+        'class' => 'Monolog\Processor\PsrLogMessageProcessor',
+    ),
+    'pid' => array(
+        'class' => 'Monolog\Processor\ProcessIdProcessor',
+    ),
+    'uid' => array(
+        'class' => 'Monolog\Processor\UidProcessor',
+    ),
+    'web' => array(
+        'class' => 'Monolog\Processor\WebProcessor',
+    ),
+);
+$syslogLogger = array(
+    'handlers' => array( 'syslog' ),
+    'processors' => array_keys( $defaultProcessors ),
+);
+
+$wgMWLoggerDefaultSpi = array(
+    'class' => 'MediaWiki\Logger\MonologSpi',
+    'args' => array( array(
+        'formatters' => array(
+            'line' => array(
+                'class' => 'Monolog\Formatter\LineFormatter',
+                'args' => array( 'mediawiki[%extra.process_id%]: %message%' ),
+            ),
+        ),
+        'handlers' => array(
+            'syslog' => array(
+                'class' => 'MediaWiki\Logger\Monolog\SyslogHandler',
+                'args' => array( 'mediawiki', 'localhost', 514, LOG_USER,
+                    // Although we only publish messages from the error streams,
+                    // note that anything published by wfDebugLog is at the
+                    // info level, thus the low bar.
+                    Monolog\Logger::INFO,
+                ),
+                'formatter' => 'line',
+            ),
+            'blackhole' => array(
+                'class' => 'Monolog\Handler\NullHandler',
+            ),
+        ),
+        'loggers' => array(
+            'exception' => $syslogLogger,
+            'fatal' => $syslogLogger,
+
+            // Throw out anything else.  Payments logging is already its
+            // own thing, so this only includes MediaWiki logs, below error
+            // level.
+            '@default' => array( 'handlers' => array( 'blackhole' ) ),
+        ),
+        'processors' => $defaultProcessors,
+    ), ),
+);

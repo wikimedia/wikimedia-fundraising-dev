@@ -20,27 +20,37 @@ Install [docker-pkg](https://doc.wikimedia.org/docker-pkg/):
 After installing, check that the `docker-pkg` executable is in your `PATH`. If it's not, you may need to
 add `~/.local/bin/` to your `PATH`.
 
-Clone the dev-images repository and check out the gerrit change with the setup
+Clone the dev-images repository and check out the gerrit changes with the setup
 for the fundraising-dev images:
 
     git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/releng/dev-images" && \
         scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
         "dev-images/.git/hooks/"
     cd dev-images
-    git review -d 632173
+    git review -d 635361
 
-You should then be able to build the image used for payments wiki, as follows (from the dev-images
-directory):
+You should then be able to build the images for payments and the centralized logger, as follows
+(from the dev-images directory):
 
     docker-pkg -c dockerfiles/config.yaml build --no-pull \
         --select 'docker-registry.wikimedia.org/dev/fundraising*:*' dockerfiles/
+    
+    docker-pkg -c dockerfiles/config.yaml build --no-pull \
+        --select 'docker-registry.wikimedia.org/dev/buster-rsyslog*:*' dockerfiles/
 
-Command to check that the new image was created:
+Command to check that the new images were created:
 
     docker image ls
 
-If there's an image appears in the list with no repository or tag, it means the image creation
+If there's an image appears in the list with no repository or tag, it means an image creation
 failed. Check docker-pkg-build.log for details.
+
+If you update the unmerged Gerrit changes and wish to rebuild an image, you may need to remove the
+previous build manually:
+
+    docker image rm {image id} -f
+
+(You can find the image id using `docker image ls`.)
 
 Once the [fundraising config](https://gerrit.wikimedia.org/r/c/releng/dev-images/+/632173) has been merged
 into the dev-images code repository, and the image has been uploaded to the Docker image repository,
@@ -74,4 +84,9 @@ To partly or completely rebuild the environment, run `./setup.sh` again.
 
 ## Unit tests
 
-For phpunit tests for DonationInterface, run `./phpunit-mediawiki-payments.sh`.
+For phpunit tests for DonationInterface, run `./phpunit-payments.sh`.
+
+## Logs
+
+Logs should appear magically in the logs directory. Filenames should be self-explanatory. If the logs don't
+show up as expected, try `docker-comppose ps` to check that the logger container is running.
