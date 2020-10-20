@@ -168,15 +168,18 @@ if [ $MW_INSTALL = true ]; then
 		--pass=${MW_PASSWORD} Payments admin
 
 	echo
-	echo "**** Customizing LocalSettings.php"
+	echo "**** Setting up payments-LocalSettings.php"
 	echo
 
-	# Substitute $wgServer line in newly created LocalSettings.php to get port from environment
-	sed -i '/wgServer/c\\$wgServer = "https://localhost:" . getenv( "MW_DOCKER_PORT" );' \
-		src/${MW_SRC_DIR}/LocalSettings.php
+	# TODO Verify the beginning of payments-LocalSettings is the same as the auto-generated
+	# LocalSettings.php
 
-	# Add custom settings from LocalSettings.custom.php
-	cat LocalSettings.custom.php >> src/${MW_SRC_DIR}/LocalSettings.php
+	# Overwrite auto-generated LocalSettings.php to just use config/payments-LocalSettings.php
+	cat << EOF > src/${MW_SRC_DIR}/LocalSettings.php
+<?php
+require( '/docker/payments-LocalSettings.php');
+EOF
+
 fi
 
 echo "**** maintenance/update.php"

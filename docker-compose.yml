@@ -14,6 +14,7 @@ services:
       - "${MW_DOCKER_PORT:-9001}:9001"
     volumes:
       - ./src/${MW_SRC_DIR}/:/var/www/html:cached
+      - ./config/payments-LocalSettings.php:/docker/payments-LocalSettings.php
     environment:
       - COMPOSER_CACHE_DIR='/var/www/html/cache/composer'
       - MW_LOG_DIR='/var/www/html/cache'
