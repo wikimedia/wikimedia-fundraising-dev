@@ -3,44 +3,48 @@
 
 version: '3.7'
 x-user:
-    user: &user "${MW_DOCKER_UID}:${MW_DOCKER_GID}"
-services:
+    user: &user "${FR_DOCKER_UID}:${FR_DOCKER_GID}"
 
-  # Container for payments wiki Web server and php
+
+services:
   payments:
     image: docker-registry.wikimedia.org/dev/fundraising-buster-php73-apache2-xdebug:0.0.1-1
     user: *user
     ports:
-      - "${MW_DOCKER_PORT:-9001}:9001"
-    volumes:
-      - ./src/${MW_SRC_DIR}/:/var/www/html:cached
-      - ./config/payments-LocalSettings.php:/docker/payments-LocalSettings.php
-    environment:
-      - COMPOSER_CACHE_DIR='/var/www/html/cache/composer'
-      - MW_LOG_DIR='/var/www/html/cache'
-      - XDEBUG_CONFIG=${XDEBUG_CONFIG:-}
+      - "${FR_DOCKER_PAYMENTS_PORT:-9001}:9001"
 
-      # Provide MW_DOCKER_PORT inside the container so LocalSettings.php can see it
-      - MW_DOCKER_PORT=${MW_DOCKER_PORT:-9001}
+    volumes:
+      - ./src/payments/:/var/www/html/:cached
+      - ./config/:/srv/config/exposed/
+
+    environment:
+      - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+      # TODO Check and fix setup for MW logs
+      - MW_LOG_DIR=/var/www/html/cache
+
+      # Provide FR_DOCKER_PAYMENTS_PORT inside the container so payments-LocalSettings.php can see it
+      - FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT:-9001}
 
       # Provide user id and group id for rsyslog to drop privileges
-      - MW_DOCKER_UID
-      - MW_DOCKER_GID
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=payments
 
 
-  # Single database service for the entire app
   database:
     image: mariadb:10.4
     user: *user
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
-      - ./dbdata/:/var/lib/mysql
+      - ./dbdata/:/var/lib/mysql/
 
-  # Centralized log collector
+
   logger:
     image: docker-registry.wikimedia.org/dev/buster-rsyslog
     user: *user
     volumes:
-      - ./config/logger-rsyslog.conf:/docker/logger-rsyslog.conf
+      - ./config/:/srv/config/exposed/
       - ./logs/:/logs/

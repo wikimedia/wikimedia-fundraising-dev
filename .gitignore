@@ -1,5 +1,13 @@
 # .env file is created by setup.sh and should contain environment variables for docker-compose.yml
 # including any local customizations
 .env
+
+# xdebug config is created by setup.sh but may contain local customizations
+config/payments-xdebug-cli.ini
+config/payments-xdebug-web.ini
+
+# ignore backups of customized files everywhere
+**/*.bkup*
+
 # Eclipse project files
 .project

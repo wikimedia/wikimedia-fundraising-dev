@@ -27,7 +27,7 @@ $wgSitename = "Payments";
 $wgScriptPath = "";
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = "https://localhost:" . getenv( "MW_DOCKER_PORT" );
+$wgServer = "https://localhost:" . getenv( "FR_DOCKER_PAYMENTS_PORT" );
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
