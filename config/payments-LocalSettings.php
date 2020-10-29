@@ -251,9 +251,7 @@ $wgAmazonGatewayNotifyOnConvert = false;
 $wgPaypalGatewayFallbackCurrency = 'USD';
 $wgPaypalGatewayNotifyOnConvert = true;
 $wgAstroPayGatewayTest = true;
-if (is_callable('wfLoadSkin')) {
-wfLoadSkin( 'Vector' );
-}
+
 $wgDonationInterfaceNoScriptRedirect = 'http://testNoScriptRedirect.example.com/blah';
 $wgAstroPayGatewayPriceFloor = 1.5;
 $wgAmazonGatewayAccountInfo['default'] = array(
