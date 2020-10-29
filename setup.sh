@@ -94,11 +94,18 @@ if [ $clone_mw = true ]; then
 		"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
 
 	cd src/${PAYMENTS_SRC_DIR}
-
 	git checkout --track remotes/origin/${FR_CORE_BRANCH}
-
 	git submodule update --init --recursive
-	cd ../../
+
+	# For DonationInterface and FundraisingEmailUnsubscribe, we want to be on the master branch for
+	# development purposes. Other extensions should stay at the version indicated by the submodule
+	# pointer for the FR_CORE_BRANCH.
+	cd extensions/DonationInterface
+	git checkout master
+	cd ../FundraisingEmailUnsubscribe
+	git checkout master
+
+	cd ../../../
 	echo
 fi
 
