@@ -48,3 +48,8 @@ services:
     volumes:
       - ./config/:/srv/config/exposed/
       - ./logs/:/logs/
+
+
+  queues:
+    image: redis:5.0-buster
+    #user: *user

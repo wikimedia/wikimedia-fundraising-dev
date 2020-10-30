@@ -322,7 +322,7 @@ $wgDonationInterfaceDefaultQueueServer = array(
 'type' => '\PHPQueue\Backend\Predis',
 'servers' => array(
 'scheme' => 'tcp',
-'host' => 'localhost',
+'host' => 'queues',
 'port' => 6379,
 ),
 );
