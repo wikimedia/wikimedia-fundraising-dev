@@ -2,10 +2,13 @@ data-store:
   # TODO check the FIXME below, copied from Vagrant
   # FIXME some way to reuse this between config files
   redis: &REDIS
-    servers:
-      scheme: tcp
-      host: queues
-      port: 6379
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        servers:
+          scheme: tcp
+          host: queues
+          port: 6379
 
   mysql: &MYSQL
     class: PDO
