@@ -13,7 +13,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
-
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
@@ -120,7 +119,6 @@ $wgDefaultSkin = "vector";
 # The following skins were automatically enabled:
 wfLoadSkin( 'Vector' );
 
-
 # End of automatically generated settings.
 # Add more configuration options below.
 
@@ -129,78 +127,76 @@ require_once "$IP/includes/DevelopmentSettings.php";
 // TODO Verify logging settings (currently just as copied from production)
 // Capture all PHP log messages to syslog: see https://phabricator.wikimedia.org/T107918
 $defaultProcessors = array(
-    'wiki' => array(
-        'class' => 'MediaWiki\Logger\Monolog\WikiProcessor',
-    ),
-    'psr' => array(
-        'class' => 'Monolog\Processor\PsrLogMessageProcessor',
-    ),
-    'pid' => array(
-        'class' => 'Monolog\Processor\ProcessIdProcessor',
-    ),
-    'uid' => array(
-        'class' => 'Monolog\Processor\UidProcessor',
-    ),
-    'web' => array(
-        'class' => 'Monolog\Processor\WebProcessor',
-    ),
+	'wiki' => array(
+		'class' => 'MediaWiki\Logger\Monolog\WikiProcessor',
+	),
+	'psr' => array(
+		'class' => 'Monolog\Processor\PsrLogMessageProcessor',
+	),
+	'pid' => array(
+		'class' => 'Monolog\Processor\ProcessIdProcessor',
+	),
+	'uid' => array(
+		'class' => 'Monolog\Processor\UidProcessor',
+	),
+	'web' => array(
+		'class' => 'Monolog\Processor\WebProcessor',
+	),
 );
 
 $syslogLogger = array(
-    'handlers' => array( 'syslog' ),
-    'processors' => array_keys( $defaultProcessors ),
+	'handlers' => array( 'syslog' ),
+	'processors' => array_keys( $defaultProcessors ),
 );
 
 $wgMWLoggerDefaultSpi = array(
-    'class' => 'MediaWiki\Logger\MonologSpi',
-    'args' => array( array(
-        'formatters' => array(
-            'line' => array(
-                'class' => 'Monolog\Formatter\LineFormatter',
-                'args' => array( 'mediawiki[%extra.process_id%]: %message%' ),
-            ),
-        ),
-        'handlers' => array(
-            'syslog' => array(
-                'class' => 'MediaWiki\Logger\Monolog\SyslogHandler',
-                'args' => array( 'mediawiki', 'localhost', 9514, LOG_USER,
-                    // Although we only publish messages from the error streams,
-                    // note that anything published by wfDebugLog is at the
-                    // info level, thus the low bar.
-                    Monolog\Logger::INFO,
-                ),
-                'formatter' => 'line',
-            ),
-            'blackhole' => array(
-                'class' => 'Monolog\Handler\NullHandler',
-            ),
-        ),
-        'loggers' => array(
-            'exception' => $syslogLogger,
-            'fatal' => $syslogLogger,
-            
-            // Throw out anything else.  Payments logging is already its
-            // own thing, so this only includes MediaWiki logs, below error
-            // level.
-            '@default' => array( 'handlers' => array( 'blackhole' ) ),
-        ),
-        'processors' => $defaultProcessors,
-    ), ),
+	'class' => 'MediaWiki\Logger\MonologSpi',
+	'args' => array( array(
+		'formatters' => array(
+			'line' => array(
+				'class' => 'Monolog\Formatter\LineFormatter',
+				'args' => array( 'mediawiki[%extra.process_id%]: %message%' ),
+			),
+		),
+		'handlers' => array(
+			'syslog' => array(
+				'class' => 'MediaWiki\Logger\Monolog\SyslogHandler',
+				'args' => array( 'mediawiki', 'localhost', 9514, LOG_USER,
+					// Although we only publish messages from the error streams,
+					// note that anything published by wfDebugLog is at the
+					// info level, thus the low bar.
+					Monolog\Logger::INFO,
+				),
+				'formatter' => 'line',
+			),
+			'blackhole' => array(
+				'class' => 'Monolog\Handler\NullHandler',
+			),
+		),
+		'loggers' => array(
+			'exception' => $syslogLogger,
+			'fatal' => $syslogLogger,
+
+			// Throw out anything else.  Payments logging is already its
+			// own thing, so this only includes MediaWiki logs, below error
+			// level.
+			'@default' => array( 'handlers' => array( 'blackhole' ) ),
+		),
+		'processors' => $defaultProcessors,
+	), ),
 );
 
 # Extensions
 wfLoadExtension( 'DonationInterface' );
+wfLoadExtension( 'FundraisingEmailUnsubscribe' );
 
 $wgAmazonGatewayEnabled = true;
 $wgAmazonGatewayFallbackCurrency = 'USD';
 $wgAmazonGatewayNotifyOnConvert = false;
-$wgAmazonGatewayAccountInfo['default'] = array(
-'WidgetScriptURL' => 'https://static-na.payments-amazon.com/OffAmazonPayments/us/sandbox/js/Widgets.js',
-'ReturnURL' => "https://mediawiki.dev/index.php/Special:AmazonGateway?debug=true"
-);
 $wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceEnableFormChooser = true;
 $wgGlobalCollectGatewayEnabled = true;
+$wgIngenicoGatewayEnabled = true;
 $wgAmazonGatewayEnabled = true;
 $wgAdyenGatewayEnabled = true;
 $wgAstroPayGatewayEnabled = true;
@@ -208,40 +204,20 @@ $wgPaypalGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
 $wgWorldpayGatewayEnabled = true;
 $wgAdyenGatewayURL = 'https://test.adyen.com';//'https://live.adyen.com';
-$wgAdyenGatewayAccountInfo['XXXX'] = array(
-'AccountName' => 'XXXXX',
-'SharedSecret' => '',
-'SkinCode' => 'XXXX',
-);
 $wgDonationInterfaceLogDebug = true;
 $wgDonationInterfaceUseSyslog = true;
-$wgAstroPayGatewayAccountInfo['test'] = array(
-'Create' => array( // For creating invoices
-'Login' => '',
-'Password' => '',
-),
-'Status' => array( // For checking payment status
-'Login' => '',
-'Password' => '',
-),
-'SecretKey' => '', // For signing requests and verifying responses
-);
 $wgAstroPayGatewayURL = 'https://sandbox.astropaycard.com/';
-#$wgAstroPayGatewayTestingURL = 'https://sandbox.astropaycard.com/';
 $wgGlobalCollectGatewayURL = 'https://ps.gcsip.nl/wdl/wdl'; // .nl is sandbox
 $wgGlobalCollectGatewayMerchantID = 'XXXX';
-$wgGlobalCollectGatewayAccountInfo['whatever'] = array(
-'MerchantID' => 'XXXX',
-);
 $wgDonationInterfaceRapidFail = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
 /** * Antifraud */
 $wgDonationInterfaceCustomFiltersFunctions = array(
-'getScoreCountryMap' => 100,
-'getScoreUtmCampaignMap' => 100,
-'getScoreUtmSourceMap' => 9,
-'getScoreUtmMediumMap' => 9,
-'getScoreEmailDomainMap' => 100,
+	'getScoreCountryMap' => 100,
+	'getScoreUtmCampaignMap' => 100,
+	'getScoreUtmSourceMap' => 9,
+	'getScoreUtmMediumMap' => 9,
+	'getScoreEmailDomainMap' => 100,
 );
 $wgGlobalCollectGatewayCustomFiltersFunctions = $wgDonationInterfaceCustomFiltersFunctions;
 $wgGlobalCollectGatewayCustomFiltersFunctions['getCVVResult'] = 50;
@@ -254,53 +230,44 @@ $wgAstroPayGatewayTest = true;
 
 $wgDonationInterfaceNoScriptRedirect = 'http://testNoScriptRedirect.example.com/blah';
 $wgAstroPayGatewayPriceFloor = 1.5;
-$wgAmazonGatewayAccountInfo['default'] = array(
-'SellerID' => "XXXXXXX",
-'ClientID' => "",
-'ClientSecret' => "",
-'MWSAccessKey' => "",
-'MWSSecretKey' => "",
-'Region' => "us",
-'WidgetScriptURL' => 'https://static-na.payments-amazon.com/OffAmazonPayments/us/sandbox/js/Widgets.js',
-'ReturnURL' => "https://mediawiki.dev/index.php/Special:AmazonGateway?debug=true",);
 $wgAmazonGatewayTestMode = true;
 $wgAstroPayGatewayFallbackCurrency = 'BRL';
 $wgAstroPayGatewayNotifyOnConvert = true;
 $wgDonationInterfaceTest = false;
 $wgDonationInterfaceTestMode = false;
 $wgDonationInterfaceCountryMap = array(
-'US' => 10,
+	'US' => 10,
 );
 $wgDonationInterfaceEnableFunctionsFilter = true;
 $wgDonationInterfaceKeyMapA = array(
-'q',
-'w',
-'e',
-'r',
-'t',
-'a',
-'s',
-'d',
-'f',
-'g',
-'z',
-'x',
-'c',
-'b',
-'v');
+	'q',
+	'w',
+	'e',
+	'r',
+	't',
+	'a',
+	's',
+	'd',
+	'f',
+	'g',
+	'z',
+	'x',
+	'c',
+	'b',
+	'v' );
 $wgDonationInterfaceKeyMapB = array(
-'y',
-'u',
-'i',
-'o',
-'p',
-'h',
-'j',
-'k',
-'l',
-'b',
-'n',
-'m'
+	'y',
+	'u',
+	'i',
+	'o',
+	'p',
+	'h',
+	'j',
+	'k',
+	'l',
+	'b',
+	'n',
+	'm'
 );
 $wgDonationInterfaceNameScore = 10;
 $wgDonationInterfaceNameGibberishWeight = .9;
@@ -308,43 +275,32 @@ $wgDonationInterfaceCustomFiltersFunctions['getScoreName'] = 10;
 $wgDonationInterfaceAllowedHtmlForms['adyen'][0]['countries']['+'] = array( 'US', 'GB', 'CA', 'AU', 'FR' );
 $wgDonationInterfaceAllowedHtmlForms['adyen'][0]['currencies']['+'] = array( 'USD', 'GBP', 'CAD', 'AUD', 'EUR' );
 $wgDonationInterfaceEmailDomainMap = array(
-'bad.com' => 90,
+	'bad.com' => 90,
 );
 $wgDonationInterfaceCustomFiltersActionRanges = array(
-'process' => array( 0, 89.99 ),
-'review' => array( 90, 100 ),
-'challenge' => array( -1, -1 ),
-'reject' => array( -1, -1 ),
+	'process' => array( 0, 89.99 ),
+	'review' => array( 90, 100 ),
+	'challenge' => array( -1, -1 ),
+	'reject' => array( -1, -1 ),
 );
 $wgAstroPayGatewayCurlVerboseLog = true;
 $wgDonationInterfaceLogCompleted = true;
 $wgDonationInterfaceDefaultQueueServer = array(
-'type' => '\PHPQueue\Backend\Predis',
-'servers' => array(
-'scheme' => 'tcp',
-'host' => 'queues',
-'port' => 6379,
-),
+	'type' => '\PHPQueue\Backend\Predis',
+	'servers' => array(
+		'scheme' => 'tcp',
+		'host' => 'queues',
+		'port' => 6379,
+	),
 );
-$wgDonationInterfaceQueues = array(
-"complete" => array( 'queue' => 'donations' ),
-);
-$wgDonationInterfaceEnableQueue = true;
 $wgDonationInterfaceCustomFiltersInitialFunctions = array(
-'getScoreUtmCampaignMap' => 100,
+	'getScoreUtmCampaignMap' => 100,
 );
 $wgDonationInterfaceUtmCampaignMap = array(
-'/^$/' => 20,
-'/badcampaign/' => 100,
+	'/^$/' => 20,
+	'/badcampaign/' => 100,
 );
 $wgPaypalExpressGatewayURL = 'https://api-3t.sandbox.paypal.com/nvp';
 $wgPaypalExpressGatewayTestingURL = 'https://api-3t.sandbox.paypal.com/nvp';
 $wgPaypalExpressGatewaySignatureURL = $wgPaypalExpressGatewayURL;
-$wgPaypalExpressGatewayAccountInfo['test'] = array(
-'User' => 'fr-tech-facilitator_api1.wikimedia.org',
-'Password' => '',
-//TODO: 'Credential' => '',
-'Signature' => '',
-'RedirectURL' => 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=',
-);
 $wgDonationInterfaceTimeout = 25;
