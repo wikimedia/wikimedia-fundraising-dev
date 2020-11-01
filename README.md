@@ -70,16 +70,63 @@ Containers will be configured to run as the same user that runs `setup.sh`. This
 
 ## Config
 
-Configurations that seem likely to need tweaking in the course of development work are exposed in the
-`config` directory. Most of these configuration files, and others not exposed, can also be accessed at
-their standard locations from within the containers. (See "Opening a shell", below.)
+Many configuration files used by the codebases or for dev environment setup are provided under
+the `config` directory, for ease of access.
+
+All files under the `config` directory are shared live between the host and the Docker containers. Changes
+made to these files on the host are visible immediately to the services running in the containers.
+(That is, there's no intermediate "provisioning" or copying step, as there was with Vagrant.)
+
+For example, to modify settings for payments wiki, just save your changes to
+`config/payments-LocalSettings.php` or `config/smashpig/main.yaml`, and reload the page in your browser.
+
+For a few settings under `config`, changes require a container restart to take effect, even though
+the changes are visible inside the containers right away. This is just because some processes only
+read configuration information when they start up. This is the case for configurations for Web xdebug
+and rsyslog. (See below on how to restart a container.)
+
+### Tracking changes to files under `config`
+
+Most files under the `config` directory are tracked by git as part of the fundraising-dev repo. You can use
+git to see how your configuration differs from what others are using, or share your changes with
+the rest of the team. Or, you can use git to easily switch among different config settings.
+
+There are also a few files in `config` that are ignored by git. Some--specifically, xdebug settings--are
+ignored because it seems likely that they'll be unique to each developer's local setup, so tracking
+them with git probably wouldn't be useful. A few other files are ignored by the fundraising-dev git repo, and
+are tracked by other means, because they contain private keys or passwords.
+
+### Container-internal config
+
+Not all configuration is visible outside the containers. A lot of config is baked into the images
+or created dynamically by scripts when the containers start up. It is expected that, for the most part,
+developers won't need to modify these internal settings. In any case, all config files,
+both exposed and container-internal, can be accessed at interal container locations by opening a shell
+in a container. (See "Opening a shell", below.) Also note that config that is not exposed outside
+the containers is stored on the containers' internal filesystems, so it will be reset when the containers
+are re-created.
+
+### How config works under-the-hood
+
+All configuration visible outside the containers is shared inside at `/srv/config/exposed/` and appears
+on the host in the `config` directory. This sharing is set up via `docker-compose.yml`. Container-internal
+config is under `/srv/config/internal/`.
+
+Inside the containers, symlinks are used to provide configuration files to services at appropriate
+container-internal locations.
 
 ## Logs
 
-Logs should appear magically in the logs directory. Filenames should be self-explanatory. If the logs don't
+Logs should appear magically in the `logs` directory. Filenames should be self-explanatory. If the logs don't
 show up as expected, try `docker-comppose ps` to check that the logger container is running.
 
 Logs are not yet rotated. If they start getting too big, you can just delete them.
+
+## Updating
+
+It's recommended that you stop all services and remove containers with `docker-compose down` before updating
+the fundraising-dev repo. This is because updates can include changes to `docker-compose.yml`, which
+shouldn't be modified while the application is running.
 
 ## Unit tests
 
@@ -128,7 +175,8 @@ For a root shell, use this command:
 ## Starting, stopping and rebuilding
 
 Start all services, or, if they're already running, rebuild any containers that need updating.
-(This is necessary for any changes to the `.env` file to take effect.)
+(This is necessary for any changes to the `.env` file to take effect.) Note: Don't do this before
+running `setup.sh` for the first time.
 
     docker-compose up -d
 
