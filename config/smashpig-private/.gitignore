@@ -1,6 +1,0 @@
-# This file allows us to check this folder into git and ignore its contents.
-
-##### Do not remove this file or change it to not ignore other files in this directory
-
-*
-!.gitignore

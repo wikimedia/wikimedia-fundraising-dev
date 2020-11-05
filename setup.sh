@@ -109,6 +109,28 @@ if [ $clone_mw = true ]; then
 	echo
 fi
 
+echo "**** Set up private config repo"
+
+clone_private=true
+if [ -d "config/private" ]; then
+	read -p "config/private exists. Remove and re-clone private config repo? [yN] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		rm -rf config/private
+	else
+		clone_private=false
+	fi
+	echo
+fi
+
+if [ $clone_private = true ]; then
+	read -p "Remote address for private config repo: " private_remote
+	echo
+
+	echo "**** Cloning private config repo in config/private"
+	git clone $private_remote config/private
+	echo
+fi
+
 echo "**** Network configuration"
 
 read -p "Port for XDebug [$DEFAULT_XDEBUG_PORT]: " xdebug_port

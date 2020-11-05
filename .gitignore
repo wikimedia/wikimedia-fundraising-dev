@@ -1,3 +1,7 @@
+### Ignore private settings
+### Do not remove or change this
+config/private
+
 # .env file is created by setup.sh and should contain environment variables for docker-compose.yml
 # including any local customizations
 .env
