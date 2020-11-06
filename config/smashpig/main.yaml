@@ -75,7 +75,7 @@ cache:
 
 # This is where the host directory config/smashpig-private appears in the container
 # (Production equivalent comes from localsettings/local-config.)
-provider-configuration-directory: /srv/config/exposed/smashpig-private
+provider-configuration-directory: /srv/config/exposed/smashpig/private/smashpig
 
 sequence-generator:
   contribution-tracking:
