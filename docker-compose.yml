@@ -52,4 +52,9 @@ services:
 
   queues:
     image: redis:5.0-buster
-    #user: *user
+    user: *user
+
+
+  memcached:
+    image: memcached
+    user: *user
