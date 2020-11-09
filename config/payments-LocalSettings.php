@@ -404,7 +404,10 @@ $wgDonationInterfaceEnableReferrerFilter = true;
 $wgDonationInterfaceEnableSourceFilter = true;
 $wgDonationInterfaceEnableFunctionsFilter = true;
 $wgDonationInterfaceEnableConversionLog = true;
-$wgDonationInterfaceEnableIPVelocityFilter = true;
+
+# The setting below is enbaled on staging, but it's best to leave it off for dev setup
+$wgDonationInterfaceEnableIPVelocityFilter = false;
+
 $wgDonationInterfaceEnableFormChooser = true;
 $wgDonationInterfaceEnableSessionVelocityFilter = true;
 $wgDonationInterfaceEnableSystemStatus = true;
@@ -442,6 +445,9 @@ $wgFundraisingEmailUnsubscribeQueueParameters = array(
 	'unsubscribe' => $wgDonationInterfaceDefaultQueueServer,
 	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
 );
+
+# Monthly convert: uncomment and set this to test default country-based monthly convert
+# $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
 
 # ZOMG DIRE EMERGENCY aka shut down gracefully :p
 # $wgDonationInterfaceFundraiserMaintenance = true;
