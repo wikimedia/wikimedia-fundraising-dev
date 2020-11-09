@@ -446,19 +446,20 @@ $wgFundraisingEmailUnsubscribeQueueParameters = array(
 	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
 );
 
-# Monthly convert: uncomment and set this to test default country-based monthly convert
-# $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
+### Set form_variants directory. This value is specific to our Docker setup. The setting
+### is also on vagrant and staging, with different values.
+$wgDonationInterfaceVariantConfigurationDirectory =
+	'/var/www/html/extensions/DonationInterface/form_variants';
 
 # ZOMG DIRE EMERGENCY aka shut down gracefully :p
 # $wgDonationInterfaceFundraiserMaintenance = true;
 
+# Monthly convert: uncomment and set this to test default country-based monthly convert
+# $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
+
 # TODO What do do about this setting? Below is the value it's at in both
 # staging and vagrant.
 # $wgDonationInterfaceMemcacheHost = 'localhost';
-
-# TODO How should we set $wgDonationInterfaceVariantConfigurationDirectory?
-# On vagrant, it's set to '/vagrant/mediawiki-fr/extensions/DonationInterface/form_variants',
-# and on staging, it's '/srv/www/org/wikimedia/payments/extensions/DonationInterface/form_variants'.
 
 # TODO How should we set $wgDonationInterfaceLocalConfigurationDirectory?
 # On staging, it's set to '/srv/www/org/wikimedia/payments/di-config'.
