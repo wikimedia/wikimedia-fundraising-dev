@@ -10,6 +10,7 @@ services:
   payments:
     image: docker-registry.wikimedia.org/dev/fundraising-buster-php73-apache2-xdebug:0.0.1-1
     user: *user
+
     ports:
       - "${FR_DOCKER_PAYMENTS_PORT:-9001}:9001"
 
@@ -36,15 +37,18 @@ services:
   database:
     image: mariadb:10.4
     user: *user
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
     volumes:
       - ./dbdata/:/var/lib/mysql/
+
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
 
 
   logger:
     image: docker-registry.wikimedia.org/dev/buster-rsyslog
     user: *user
+
     volumes:
       - ./config/:/srv/config/exposed/
       - ./logs/:/logs/
@@ -53,6 +57,11 @@ services:
   queues:
     image: redis:5.0-buster
     user: *user
+
+    volumes:
+      - ./qdata/:/data
+
+    command: [ "redis-server", "--appendonly", "yes" ]
 
 
   memcached:

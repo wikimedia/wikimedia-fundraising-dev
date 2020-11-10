@@ -184,6 +184,18 @@ else
 fi
 echo
 
+echo "**** Check for existing queue contents"
+
+if ! [[ -z $(find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \)) ]]; then
+	read -p "Existing mariadb contents found. Erase all databases? [yN] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \) -exec rm -rf {} +
+	fi
+else
+	echo "No queue contents found"
+fi
+echo
+
 echo "**** Start application"
 docker-compose up -d
 echo
