@@ -2,8 +2,13 @@
 # See README.md for details
 
 version: '3.7'
+
+# By setting an invalid default for FR_DOCKER_UID and FR_DOCKER_GID, we prevent
+# bringing up the application without a user being specified (which can happen
+# if setup.sh hasn't been run yet). This prevents the containers from running
+# and creating files as root (which causes issues later on).
 x-user:
-    user: &user "${FR_DOCKER_UID}:${FR_DOCKER_GID}"
+    user: &user "${FR_DOCKER_UID:-invalid-user}:${FR_DOCKER_GID:-invalid-user}"
 
 
 services:
