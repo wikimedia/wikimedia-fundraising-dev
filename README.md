@@ -5,6 +5,12 @@ Wikimedia Foundation for fundraising.
 
 ## Building the base images
 
+For the time being, Docker images for this setup must be built locally. Here is how to do
+that.
+
+(Hopefully soon we'll have the images in an image repository, which will make this step
+unnecessary, since you'll be able to just download them.)
+
 For the following commands, you can set the `GIT_REVIEW_USER` environment variable, then just
 copy and paste the command as-is onto the command line. (Note: the same environment variable is also
 used by `setup.sh`.)
@@ -19,6 +25,9 @@ Install [docker-pkg](https://doc.wikimedia.org/docker-pkg/):
 
 After installing, check that the `docker-pkg` executable is in your `PATH`. If it's not, you may need to
 add `~/.local/bin/` to your `PATH`.
+
+If you've previously installed docker-pkg, you may wish to pull the latest master via git.
+(An important fix was recently merged into the master branch for that tool.)
 
 Clone the dev-images repository and check out the gerrit changes with the setup
 for the fundraising-dev images:
@@ -61,12 +70,72 @@ and [instructions for using it for CI images](https://www.mediawiki.org/wiki/Con
 
 ## Creating the environment
 
-Optionally, set the `GIT_REVIEW_USER` environment variable (as above). Then, run `setup.sh`. After that, you
-should be able to visit your local payments wiki at https://localhost:9001 (or an alternate port, if you set
-one when prompted by the setup script).
+First, clone this repository. Optionally, set the `GIT_REVIEW_USER` environment variable (as above).
+Then, cd into the root directory of the repository and run `setup.sh`.
 
-Containers will be configured to run as the same user that runs `setup.sh`. This can be changed via the
-`.env` file.
+Note that normally `setup.sh` *only needs to run once* for each dev environment you set up. It
+does *not* need to be run again if you destroy your Docker containers (see below), because it
+doesn't change anything inside the containers, just on the host (so the containers are
+[ephemeral](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#create-ephemeral-containers)).
+
+What *does* `setup.sh` do? In a nutshell, it downloads source code for Fundraising projects
+and runs some setup, all of which creates stuff under the directory of this repository.
+It also creates an `.env` file in the root directory of the repository, where we store some
+configurable details of your local setup (i.e., the ports you choose for services exposed
+to the host, and the user to run the containers as).
+
+If `setup.sh` completes successfully, your dev environment should be up and running! You
+should be able to visit your local payments wiki at
+[https://localhost:9001](https://localhost:9001) (though, to see a payment form, you'll
+have to add params to the URL).
+
+See the next section for how to stop, start and rebuild the environment.
+
+## Starting, stopping and rebuilding
+
+Warning: Do not modify `docker-compose.yml` or update this repository without
+destroying the containers first.
+
+Warning: Run `setup.sh` before starting services.
+
+### Stopping and starting without destorying and recreating containers
+
+Start, restart or stop all services, without deleting the containers or their internal persistant
+storage, like this:
+
+    docker-compose start
+    docker-compose restart
+    docker-compose stop
+
+Just stopping containers, using the last command, above, is the most lightweight way to turn
+things off. All of the above commands can also be executed for any of the individual
+services specified in `docker-compose.yml`, just by adding the name of the service to the
+end of the command. The restart option can be useful to force some programs (apache,
+rsyslogd) to reload their configuration.
+
+### Stopping and stopping with destruction and recreation of containers
+
+Here is how to stop all services and destroy the containers and internal storage. (Database,
+queue and log contents will persist, since they are stored on the host. Nothing of
+importance is stored inside the containers, so doing this won't impact your setup at all.
+No need to re-run `setup.sh` afterwards, either.)
+*Do this before updating this repository.*
+
+    docker-compose down
+
+Create containers and start all services. Again, *don't* do this before running `setup.sh` for
+the first time.
+
+    docker-compose up -d
+
+### Rebuilding stuff with `setup.sh`
+
+To partly or completely rebuild the environment, run `setup.sh` again. Whenever it makes
+sense to do so, the script asks for confirmation before performing an action. So,
+for example, you can re-run `setup.sh`, skip the step about checking out the source code
+to leave the current source code intact, but still reset the database to a fresh state
+and re-run `install.php` on Payments. Just answer the corresponding prompts to perform
+or skip actions as desired.
 
 ## Config
 
@@ -77,13 +146,13 @@ All files under the `config` directory are shared live between the host and the 
 made to these files on the host are visible immediately to the services running in the containers.
 (That is, there's no intermediate "provisioning" or copying step, as there was with Vagrant.)
 
-For example, to modify settings for payments wiki, just save your changes to
+For example, to modify settings for Payments wiki, just save your changes to
 `config/payments-LocalSettings.php` or `config/smashpig/main.yaml`, and reload the page in your browser.
 
 For a few settings under `config`, changes require a container restart to take effect, even though
 the changes are visible inside the containers right away. This is just because some processes only
-read configuration information when they start up. This is the case for configurations for Web xdebug
-and rsyslog. (See below on how to restart a container.)
+read their configuration files when they start up. This is the case for configurations for Web xdebug
+and rsyslog. (See above on how to restart a container.)
 
 ### Tracking changes to files under `config`
 
@@ -91,10 +160,11 @@ Most files under the `config` directory are tracked by git as part of the fundra
 git to see how your configuration differs from what others are using, or share your changes with
 the rest of the team. Or, you can use git to easily switch among different config settings.
 
-There are also a few files in `config` that are ignored by git. Some--specifically, xdebug settings--are
-ignored because it seems likely that they'll be unique to each developer's local setup, so tracking
-them with git probably wouldn't be useful. A few other files are ignored by the fundraising-dev git repo, and
-are tracked by other means, because they contain private keys or passwords.
+There are also a few files in `config` that are ignored by git. Some&mdash;specifically, xdebug
+settings&mdash;are ignored because it seems likely that they'll be unique to each
+developer's local setup, so tracking them with git probably wouldn't be useful. (Also
+ignored by this git repo are the private settings, described below. Changes to those settings can be tracked
+using the private git repo.)
 
 ### Container-internal config
 
@@ -104,7 +174,10 @@ developers won't need to modify these internal settings. In any case, all config
 both exposed and container-internal, can be accessed at interal container locations by opening a shell
 in a container. (See "Opening a shell", below.) Also note that config that is not exposed outside
 the containers is stored on the containers' internal filesystems, so it will be reset when the containers
-are re-created.
+are re-created. (However, it is also not expected that such container-internal config will
+ever need to be customized. If you find yourself frequently opening a shell to modify config
+inside a container, that's probably an indication we should change the setup to make that
+config available on the host.)
 
 ### How config works under-the-hood
 
@@ -115,6 +188,12 @@ config is under `/srv/config/internal/`.
 Inside the containers, symlinks are used to provide configuration files to services at appropriate
 container-internal locations.
 
+### Private config
+
+See [this task](https://phabricator.wikimedia.org/T266093) for the remote address of the private config
+repository. Enter the remote when prompted by `setup.sh`. All private config is located under
+`config/private` (and is ignored by this public repository).
+
 ## Logs
 
 Logs should appear magically in the `logs` directory. Filenames should be self-explanatory. If the logs don't
@@ -122,15 +201,15 @@ show up as expected, try `docker-comppose ps` to check that the logger container
 
 Logs are not yet rotated. If they start getting too big, you can just delete them.
 
-## Updating
-
-It's recommended that you stop all services and remove containers with `docker-compose down` before updating
-the fundraising-dev repo. This is because updates can include changes to `docker-compose.yml`, which
-shouldn't be modified while the application is running.
-
 ## Unit tests
 
-For phpunit tests for DonationInterface, run `./phpunit-payments.sh`.
+For phpunit tests for DonationInterface, run `payments-phpunit.sh`.
+
+## Queues
+
+`queues-redis-cli.sh` provides easy access to `redis-cli` in the queues container. Arguemnts
+passed to the script are passed along to command in the container. For example, to monitor
+the queues, run `queues-redis-cli.sh monitor`.
 
 ## XDebug
 
@@ -172,30 +251,7 @@ For a root shell, use this command:
 
     docker-compose exec -u 0 {service} bash
 
-## Starting, stopping and rebuilding
-
-Start all services, or, if they're already running, rebuild any containers that need updating.
-(This is necessary for any changes to the `.env` file to take effect.) Note: Don't do this before
-running `setup.sh` for the first time.
-
-    docker-compose up -d
-
-Stop all services without deleting the containers or their internal persistant storeage:
-
-    docker-compose stop
-
-Stop all services, remove the containers and internal storage. (Database contents will
-persist, since they are stored on the host, in the `dbdata` directory.)
-
-    docker-compose down
-
-Restart a service:
-
-    docker-compose restart {service}
-
-To partly or completely rebuild the environment, run `setup.sh` again.
-
-## Docker issues
+## Docker troubleshooting
 
 Here are some commands for debugging problems with this Docker appliaction.
 
