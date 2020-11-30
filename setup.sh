@@ -123,7 +123,12 @@ if [ -d "config/private" ]; then
 fi
 
 if [ $clone_private = true ]; then
-	read -p "Remote address for private config repo: " private_remote
+	echo "See https://phabricator.wikimedia.org/T266093 for remote for private config repo."
+	read -p "Please enter remote for private config repo: " private_remote
+
+	while [[ -z $private_remote ]]; do
+		read -p "Please enter remote for private config repo (can't be empty): " private_remote
+	done
 	echo
 
 	echo "**** Cloning private config repo in config/private"
