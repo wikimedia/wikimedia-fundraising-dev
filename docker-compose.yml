@@ -19,7 +19,7 @@ x-logger:
 
 services:
   payments:
-    image: docker-registry.wikimedia.org/dev/fundraising-buster-php73-apache2-xdebug:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-payments-buster-php73-apache2-xdebug:0.0.1-1
     user: *user
 
     ports:
@@ -28,6 +28,7 @@ services:
     volumes:
       - ./src/payments/:/var/www/html/:cached
       - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
 
     environment:
       - *logger-host
@@ -45,6 +46,30 @@ services:
 
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=payments
+
+
+  civicrm:
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2-xdebug:0.0.1-1
+    user: *user
+
+    ports:
+      - "${FR_DOCKER_CIVICRM_PORT:-32353}:9001"
+
+    volumes:
+      - ./src/civi-sites:/srv/civi-sites
+      - ./src/civicrm-buildkit/:/srv/civicrm-buildkit/
+      - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
+
+    environment:
+      - *logger-host
+
+      # Provide user id and group id for rsyslog to drop privileges
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=civicrm
 
 
   database:

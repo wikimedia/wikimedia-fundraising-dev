@@ -325,6 +325,8 @@ $wgWhitelistRead =  array (
 	"Special:AstroPayGatewayResult",
 	"Special:IngenicoGatewayResult",
 	"Special:IngenicoGateway",
+	"Main_Page",
+	"Donate-thanks"
 );
 $wgBlockDisablesLogin = true;
 
@@ -474,7 +476,8 @@ $wgDonationInterfaceTest = false;
 $wgDonationInterfaceTestMode = false;
 
 # Note: Several other "Test" settings were set in the private 20-DI-accounts.php file, and
-# have been left private in payments-LocalSettings-private.php, just in case they need to be there.
+# have been left private in config-private/payments/LocalSettings-private.php, just in case
+# they need to be there.
 # They are: $wgAstroPayGatewayTest, $wgPaypalGatewayTest and $wgGlobalCollectGatewayTest,
 # $wgAdyenGatewayTest, $wgAmazonGatewayTest (different from above). TODO Check this, and maybe
 # move those settings here.
@@ -499,4 +502,4 @@ $wgAmazonGatewayLogDebug = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
 
 ### Include private settings
-require( '/srv/config/exposed/private/payments-LocalSettings-private.php' );
+require( '/srv/config/private/payments/LocalSettings-private.php' );

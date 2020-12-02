@@ -2,14 +2,40 @@
 
 # Script to set up fundraising development environment
 
-set -euo pipefail
-
-FR_CORE_BRANCH="fundraising/REL1_35"
+# source directories
 PAYMENTS_SRC_DIR="payments"
+CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
+CRM_SRC_DIR="civi-sites/wmff"
+
+# various settings
+PAYMENTS_CORE_BRANCH="fundraising/REL1_35"
 PAYMENTS_LANG="en"
 PAYMENTS_PASSWORD="dockerpass"
+CIVI_ADMIN_PASS=admin
+
+# default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
+DEFAULT_CIVICRM_PORT=32353
+
+# Check for existence of a source dir and ask about removing and re-cloning
+# $1 is the directory to check, $2 is a friendly name for the repository.
+ask_reclone () {
+	local reclone=true
+	if [ -d $1 ]; then
+		read -p "$1 exists. Remove and re-clone $2? [yN] " -r
+		if [[ $REPLY =~ ^[Yy]$ ]]; then
+			read -p "Are you sure? This will delete $1, including local branches. [yN] " -r
+			if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+				reclone=false
+			fi
+		else
+			reclone=false
+		fi
+		echo >&2
+	fi
+	echo $reclone
+}
 
 # Moves file $1 to $1.bkup{n}, where n is the final number of the last backup + 1
 backup () {
@@ -30,6 +56,7 @@ backup_mv () {
 	mv $1 $2
 }
 
+# If $1 is not a valid port, ask the user for a valid port, with $2 as default
 validate_port () {
 	input=${1:-$2}
 	while ! [[ $input =~ ^[0-9]+$ ]]; do
@@ -39,14 +66,25 @@ validate_port () {
 	echo $input
 }
 
+# Store current directory, then change to the directory this script resides in
+start_dir=$(pwd)
+cd "${0%/*}"
+script_dir=$(pwd)
+echo $script_dir
+
+set -euo pipefail
+
 # Output all commands except... a few. See
 # https://stackoverflow.com/questions/33411737/bash-script-print-commands-but-do-not-print-echo-command/33412142
-trap '! [[ "$BASH_COMMAND" =~ ^(echo|read|if|\[ |\[\[ |cat|sleep|printf|cmp|cp|backup|[A-Za-z_]*=) ]] && \
+trap '! [[ "$BASH_COMMAND" =~ ^(echo|read|if|\[ |\[\[ |cat|sleep|printf|cmp|cp|backup|reclone|[A-Za-z_]*=) ]] && \
 cmd=`eval echo "$BASH_COMMAND" 2>/dev/null` && ! [[ -z $cmd ]] && echo "$cmd"' DEBUG
 
 echo
 echo "****** Setting up fundraising development environment *****"
 echo
+echo ">>> Please run this script as the same user that will own source code files. <<<"
+echo
+
 
 # Check for existing containers for this application
 
@@ -74,19 +112,13 @@ fi
 
 echo "**** Set up source code"
 
-clone_mw=true
-if [ -d "src/${PAYMENTS_SRC_DIR}" ]; then
-	read -p "src/${PAYMENTS_SRC_DIR} exists. Remove and re-clone payments wiki source? [yN] " -r
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		rm -rf src/${PAYMENTS_SRC_DIR}
-	else
-		clone_mw=false
-	fi
-	echo
-fi
+clone_mw=$(ask_reclone "src/${PAYMENTS_SRC_DIR}" "Payments wiki source")
 
 if [ $clone_mw = true ]; then
 	echo "**** Cloning and setting up Mediawiki source code in src/${PAYMENTS_SRC_DIR}"
+
+	rm -rf src/${PAYMENTS_SRC_DIR}
+
 	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 		--depth=10 --no-single-branch \
 		src/${PAYMENTS_SRC_DIR} && \
@@ -94,46 +126,87 @@ if [ $clone_mw = true ]; then
 		"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
 
 	cd src/${PAYMENTS_SRC_DIR}
-	git checkout --track remotes/origin/${FR_CORE_BRANCH}
+	git checkout --track remotes/origin/${PAYMENTS_CORE_BRANCH}
 	git submodule update --init --recursive
 
 	# For DonationInterface and FundraisingEmailUnsubscribe, we want to be on the master branch for
 	# development purposes. Other extensions should stay at the version indicated by the submodule
-	# pointer for the FR_CORE_BRANCH.
+	# pointer for the PAYMENTS_CORE_BRANCH.
 	cd extensions/DonationInterface
 	git checkout master
 	cd ../FundraisingEmailUnsubscribe
 	git checkout master
 
-	cd ../../../
+	cd "${script_dir}"
+	echo
+fi
+
+clone_buildkit=$(ask_reclone "src/${CIVICRM_BUILDKIT_SRC_DIR}" "Civicrm Buildkit source")
+
+if [ $clone_buildkit = true ]; then
+	echo "**** Cloning and setting up Civicrm Buildkit source code in src/${CIVICRM_BUILDKIT_SRC_DIR}"
+
+	rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
+
+	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civicrm-buildkit" \
+		src/${CIVICRM_BUILDKIT_SRC_DIR} && \
+		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		"src/${CIVICRM_BUILDKIT_SRC_DIR}/.git/hooks/"
+
+	echo
+fi
+
+clone_crm=$(ask_reclone "src/${CRM_SRC_DIR}" "WMF crm source repo (includes civicrm and drupal)")
+
+if [ $clone_crm = true ]; then
+	echo "**** Cloning and setting up WMF crm source repo in src/${CRM_SRC_DIR}"
+
+	rm -rf src/${CRM_SRC_DIR}
+	mkdir -p src/civi-sites
+
+	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
+		src/${CRM_SRC_DIR} && \
+		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		"src/${CRM_SRC_DIR}/.git/hooks/"
+
+	cd src/${CRM_SRC_DIR}
+	git submodule update --init --recursive
+	cd "${script_dir}"
+
 	echo
 fi
 
 echo "**** Set up private config repo"
 
-clone_private=true
+# Migrate old private repo location
 if [ -d "config/private" ]; then
-	read -p "config/private exists. Remove and re-clone private config repo? [yN] " -r
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		rm -rf config/private
-	else
-		clone_private=false
+	read -p "Old private repo location exists (config/private). Migrate to new location and update? [Yn] " -r
+	if ! [[ $REPLY =~ ^[Nn]$ ]]; then
+		mv config/private config-private
+		cd config-private
+		git checkout master
+		git pull
+		cd "${script_dir}"
 	fi
 	echo
-fi
+else
+	clone_private=$(ask_reclone "config-private" "private config repo")
 
-if [ $clone_private = true ]; then
-	echo "See https://phabricator.wikimedia.org/T266093 for remote for private config repo."
-	read -p "Please enter remote for private config repo: " private_remote
+	if [ $clone_private = true ]; then
+		rm -rf config-private
 
-	while [[ -z $private_remote ]]; do
-		read -p "Please enter remote for private config repo (can't be empty): " private_remote
-	done
-	echo
+		echo "See https://phabricator.wikimedia.org/T266093 for remote for private config repo."
+		read -p "Please enter remote for private config repo: " private_remote
 
-	echo "**** Cloning private config repo in config/private"
-	git clone $private_remote config/private
-	echo
+		while [[ -z $private_remote ]]; do
+			read -p "Please enter remote for private config repo (can't be empty): " private_remote
+		done
+		echo
+
+		echo "**** Cloning private config repo in config-private"
+		git clone $private_remote config-private
+		echo
+	fi
 fi
 
 echo "**** Network configuration"
@@ -144,12 +217,16 @@ xdebug_port=$(validate_port $xdebug_port $DEFAULT_XDEBUG_PORT)
 read -p "Port for Payments https [$DEFAULT_PAYMENTS_PORT]: " FR_DOCKER_PAYMENTS_PORT
 FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMENTS_PORT)
 
+FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
+echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
+
 echo
 echo "**** Creating .env file"
 
 cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=fundraising-dev
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
+FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_UID=$(id -u)
 FR_DOCKER_GID=$(id -g)
 EOF
@@ -172,9 +249,13 @@ xdebug.remote_autostart=off
 EOF
 
 cp /tmp/payments-xdebug-cli.ini /tmp/payments-xdebug-web.ini
+cp /tmp/payments-xdebug-cli.ini /tmp/civicrm-xdebug-cli.ini
+cp /tmp/payments-xdebug-cli.ini /tmp/civicrm-xdebug-web.ini
 
-backup_mv /tmp/payments-xdebug-cli.ini config/payments-xdebug-cli.ini
-backup_mv /tmp/payments-xdebug-web.ini config/payments-xdebug-web.ini
+backup_mv /tmp/payments-xdebug-cli.ini config/payments/xdebug-cli.ini
+backup_mv /tmp/payments-xdebug-web.ini config/payments/xdebug-web.ini
+backup_mv /tmp/civicrm-xdebug-cli.ini config/civicrm/xdebug-cli.ini
+backup_mv /tmp/civicrm-xdebug-web.ini config/civicrm/xdebug-web.ini
 echo
 
 echo "**** Check for existing mariadb databases"
@@ -192,7 +273,7 @@ echo
 echo "**** Check for existing queue contents"
 
 if ! [[ -z $(find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \)) ]]; then
-	read -p "Existing mariadb contents found. Erase all databases? [yN] " -r
+	read -p "Existing queue contents found. Erase all queue contents? [yN] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
 		find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \) -exec rm -rf {} +
 	fi
@@ -217,10 +298,24 @@ echo
 
 echo "**** Composer"
 
-read -p "Run composer install? [Yn] " -r
+read -p "Payments: run composer install? [Yn] " -r
 if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 	# TODO put this in a separate script
 	docker-compose exec -w "/var/www/html/" payments composer install
+fi
+echo
+
+read -p "Civicrm buildkit: run composer install? [Yn] " -r
+if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+	# TODO put this in a separate script
+	docker-compose exec -w "/srv/civicrm-buildkit" civicrm composer install
+fi
+echo
+
+read -p "Civicrm buildkit: run npm install? [Yn] " -r
+if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+	# TODO put this in a separate script
+	docker-compose exec -w "/srv/civicrm-buildkit" civicrm npm install
 fi
 echo
 
@@ -234,7 +329,7 @@ localsettings_fn=src/${PAYMENTS_SRC_DIR}/LocalSettings.php
 # Prepare customized LocalSettings.php
 	cat << EOF > /tmp/LocalSettings.php
 <?php
-require( '/srv/config/exposed/payments-LocalSettings.php');
+require( '/srv/config/exposed/payments/LocalSettings.php');
 EOF
 
 if [[ -e $localsettings_fn || -L $localsettings_fn ]]; then
@@ -289,18 +384,40 @@ if [ $payments_update = true ]; then
 fi
 echo
 
-echo "**** update payments wiki text"
+echo "**** Update Payments wiki text"
 
 ./payments-update-text.sh
-
-echo "**** civibuild"
-
-read -p "Run civibuild create to create wmf site? [Yn] " -r
 echo
+
+echo "**** Set up Civicrm"
+
+read -p "Set up config and run civibuild create to create wmf site? [Yn] " -r
+echo
+
 if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+
+	echo "Clean up any untracked files that may remain from previous builds."
+	rm -f src/civi-sites/wmff.sh
+	rm -f src/civi-sites/wmff/sites/default/civicrm.settings.php
+	rm -rf config/civicrm/amp/my.cnf.d/
+	rm -rf config/civicrm/amp/nginx.d/
+	rm -rf config/civicrm/amp/log/
+	rm -rf config/civicrm/amp/apache.d/*.conf
+
+	echo "Link config/civicrm/civibuild.conf to required location under buildkit source."
+	docker-compose exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
+	echo
+
 	docker-compose exec -w "/srv/civi-sites/" civicrm civibuild create \
-		wmff --admin-pass admin
+		wmff --admin-pass $CIVI_ADMIN_PASS
+
+	echo
 fi
 
 # go back to whatever directory we were in to start
 cd "${start_dir}"
+
+echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
+echo "Civicrm URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
+echo "Civicrm user/pasword: admin/$CIVI_ADMIN_PASS"
+echo

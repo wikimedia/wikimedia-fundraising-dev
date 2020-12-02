@@ -1,0 +1,1 @@
+This folder holds files with settings to add to civicrm.settings.php

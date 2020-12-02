@@ -36,10 +36,10 @@ for the fundraising-dev images:
         scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
         "dev-images/.git/hooks/"
     cd dev-images
-    git review -d 635361
+    git review -d 663294
 
-You should then be able to build the images for payments and the centralized logger, as follows
-(from the dev-images directory):
+You should then be able to build the images for payments, civicrm and the centralized logger,
+as follows (from the dev-images directory):
 
     docker-pkg -c dockerfiles/config.yaml build --no-pull \
         --select 'docker-registry.wikimedia.org/dev/fundraising*:*' dockerfiles/
@@ -85,9 +85,9 @@ configurable details of your local setup (i.e., the ports you choose for service
 to the host, and the user to run the containers as).
 
 If `setup.sh` completes successfully, your dev environment should be up and running! You
-should be able to visit your local payments wiki at
-[https://localhost:9001](https://localhost:9001) (though, to see a payment form, you'll
-have to add params to the URL).
+should be able to visit your local Payments wiki at
+[https://localhost:9001](https://localhost:9001) (unless you chose a different port
+for Payments). Civicrm should be at [https://wmff.localhost:32353](https://wmff.localhost:32353).
 
 See the next section for how to stop, start and rebuild the environment.
 
@@ -147,7 +147,7 @@ made to these files on the host are visible immediately to the services running 
 (That is, there's no intermediate "provisioning" or copying step, as there was with Vagrant.)
 
 For example, to modify settings for Payments wiki, just save your changes to
-`config/payments-LocalSettings.php` or `config/smashpig/main.yaml`, and reload the page in your browser.
+`config/payments/LocalSettings.php` or `config/smashpig/main.yaml`, and reload the page in your browser.
 
 For a few settings under `config`, changes require a container restart to take effect, even though
 the changes are visible inside the containers right away. This is just because some processes only
@@ -192,7 +192,7 @@ container-internal locations.
 
 See [this task](https://phabricator.wikimedia.org/T266093) for the remote address of the private config
 repository. Enter the remote when prompted by `setup.sh`. All private config is located under
-`config/private` (and is ignored by this public repository).
+`config-private` (and is ignored by this public repository).
 
 ## Logs
 
@@ -204,6 +204,8 @@ Logs are not yet rotated. If they start getting too big, you can just delete the
 ## Unit tests
 
 For phpunit tests for DonationInterface, run `payments-phpunit.sh`.
+
+For phpunit tests for Civicrm, run `civicrm-phpunit.sh wmff`.
 
 ## Queues
 
@@ -219,7 +221,7 @@ configuration files  in the host `config` directory. Note that some xdebug setti
 However, any settings can be changed via the files in the `config` directory. Re-running `setup.sh` will
 reset them to default values and back up any customizations.
 
-For changes in `xdebug-web.ini` to take effect, the payments container must be re-started, so Apache
+For changes in `xdebug-web.ini` to take effect, the payments or civicrm container must be re-started, so Apache
 can reload the settings (see below on how to do this). However, changes in `xdebug-cli.ini` don't
 require a container restart.
 
@@ -230,11 +232,13 @@ Details of each IDE setup may vary. Here are some IDE settings that have been te
   - Encoding: ISO-8859-1
   - Path mapping: `/var/www/html/` <-> `src/payments/`
 
-For debugging the debugger, logs are available in `logs/payments-xdebug.log`.
+For debugging the debugger, logs are available in `logs/payments-xdebug.log` or
+`logs/civicrm-xdebug.log`
 
 If you're running your IDE on a different computer than the Docker application, you can tunnel
 both XDebug and Web connections by executing the following command on the host computer where the
 Docker application is running (substituting everything in {} with the appropriate values).
+TODO: Adapt this command for access to Civicrm, too.
 
     ssh -N -L*:{XDBUG_PORT}:localhost:{XDBUG_PORT} \
         -Rlocalhost:{FR_DOCKER_PAYMENTS_PORT}:localhost:{FR_DOCKER_PAYMENTS_PORT} \
@@ -243,7 +247,7 @@ Docker application is running (substituting everything in {} with the appropriat
 ## Opening a shell
 
 Here's how to get a shell in a container (provided it's running). Substitute {service} for any
-of the services defined in docker-compose.yml (i.e., payments, logger or database).
+of the services defined in docker-compose.yml (i.e., payments, civicrm, logger or database).
 
     docker-compose exec {service} bash
 
