@@ -8,7 +8,13 @@ version: '3.7'
 # if setup.sh hasn't been run yet). This prevents the containers from running
 # and creating files as root (which causes issues later on).
 x-user:
-    user: &user "${FR_DOCKER_UID:-invalid-user}:${FR_DOCKER_GID:-invalid-user}"
+  user: &user "${FR_DOCKER_UID:-invalid-user}:${FR_DOCKER_GID:-invalid-user}"
+
+# This environment variable tell containers where to send logs.
+# By using a variable for this, we avoid a hard dependency between images and this
+# specific docker-compose setup.
+x-logger:
+  &logger-host FR_DOCKER_LOGGER_HOST=logger
 
 
 services:
@@ -24,7 +30,9 @@ services:
       - ./config/:/srv/config/exposed/
 
     environment:
+      - *logger-host
       - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+
       # TODO Check and fix setup for MW logs
       - MW_LOG_DIR=/var/www/html/cache
 
