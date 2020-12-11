@@ -363,6 +363,9 @@ wfLoadExtensions( array(
 
 # TODO Check all these settings
 
+# Set as per production LocalSettings.php
+$wgHooks['AlterPaymentFormData'][] = 'EndowmentHooks::onAlterPaymentFormData';
+
 # Queues
 $wgDonationInterfaceDefaultQueueServer = array(
 	'type' => '\PHPQueue\Backend\Predis',
