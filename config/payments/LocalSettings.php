@@ -202,11 +202,7 @@ if ( $wgCommandLineMode ) {
 }
 
 ### Logging setup
-# TODO check that this works as expected to capture MediaWiki logs, and
-# also check interactions with $wgDebugLogFile and other possible log
-# settings that we might use from DeveloperSettings.php.
-# The following comment also comes from staging settings:
-# Capture all PHP log messages to syslog: see https://phabricator.wikimedia.org/T107918
+# See https://phabricator.wikimedia.org/T107918 for initial discussion of this setup
 $defaultProcessors = array(
 	'wiki' => array(
 		'class' => 'MediaWiki\Logger\Monolog\WikiProcessor',
@@ -242,30 +238,32 @@ $wgMWLoggerDefaultSpi = array(
 		'handlers' => array(
 			'syslog' => array(
 				'class' => 'MediaWiki\Logger\Monolog\SyslogHandler',
-				'args' => array( 'mediawiki', 'localhost', 9514, LOG_USER,
-					// Although we only publish messages from the error streams,
-					// note that anything published by wfDebugLog is at the
-					// info level, thus the low bar.
+				'args' => array(
+					'mediawiki',
+					# Sending to external logger since local syslog only listens on
+					# socket
+					getenv( "FR_DOCKER_LOGGER_HOST" ),
+					9514,
+					LOG_USER,
+					# For extremely verbose MW logs, set this to DEBUG
 					Monolog\Logger::INFO,
 				),
 				'formatter' => 'line',
 			),
-			'blackhole' => array(
-				'class' => 'Monolog\Handler\NullHandler',
-			),
 		),
 		'loggers' => array(
-			'exception' => $syslogLogger,
-			'fatal' => $syslogLogger,
-
-			// Throw out anything else.  Payments logging is already its
-			// own thing, so this only includes MediaWiki logs, below error
-			// level.
-			'@default' => array( 'handlers' => array( 'blackhole' ) ),
+			'@default' => $syslogLogger,
 		),
 		'processors' => $defaultProcessors,
 	), ),
 );
+
+### Debug and log settings
+# TODO Make sure we get whatever would go in the file set by wgDBerrorLog.
+$wgDevelopmentWarnings = true;
+$wgShowExceptionDetails = true;
+$wgShowHostnames = true;
+$wgDebugRawPage = true;
 
 ### This line is Docker-specific. On staging, we set this using $hwgMemCachedServers,
 ### which in turn is set in /etc/LocalSettings.php. Also, note that the empty value for
@@ -486,13 +484,6 @@ $wgDonationInterfaceTestMode = false;
 $wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
 $wgDonationInterfaceLogCompleted = true; # Apperently never read in the code
-
-# TODO Maybe we want to change this to have these settings on all the time on Docker? See also note about
-# DevelopmentSettings.php, above.
-if( php_sapi_name() === "cli" ) {
-	$wgShowExceptionDetails = true;
-	$wgShowDBErrorBacktrace = true;
-}
 
 $wgDonationInterfaceLogDebug = false;
 $wgGlobalCollectGatewayLogCompleted = true;
