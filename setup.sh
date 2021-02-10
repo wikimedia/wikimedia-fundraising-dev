@@ -287,3 +287,20 @@ fi
 if [ $payments_update = true ]; then
 	docker-compose exec -w "/var/www/html/" payments php maintenance/update.php --quick
 fi
+echo
+
+echo "**** update payments wiki text"
+
+./payments-update-text.sh
+
+echo "**** civibuild"
+
+read -p "Run civibuild create to create wmf site? [Yn] " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+	docker-compose exec -w "/srv/civi-sites/" civicrm civibuild create \
+		wmff --admin-pass admin
+fi
+
+# go back to whatever directory we were in to start
+cd "${start_dir}"
