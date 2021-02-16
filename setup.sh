@@ -12,6 +12,7 @@ PAYMENTS_CORE_BRANCH="fundraising/REL1_35"
 PAYMENTS_LANG="en"
 PAYMENTS_PASSWORD="dockerpass"
 CIVI_ADMIN_PASS=admin
+DEFAULT_COMPOSE_PROJECT_NAME=fundraising-dev
 
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
@@ -222,7 +223,7 @@ else
 	fi
 fi
 
-echo "**** Network configuration"
+echo "**** Network configuration and project name"
 
 read -p "Port for XDebug [$DEFAULT_XDEBUG_PORT]: " xdebug_port
 xdebug_port=$(validate_port $xdebug_port $DEFAULT_XDEBUG_PORT)
@@ -232,12 +233,27 @@ FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMEN
 
 FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
 echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
+echo
+
+echo "You can enter a unique name for this instance of the fundraising-dev setup."
+echo "This allows you to set up multiple instances on the same computer and avoid"
+echo "collisions between Docker container names."
+echo
+echo "If you only set up one instance on this computer, you can just use the default."
+echo
+read -p "Enter a name for this fundraising-dev instance [$DEFAULT_COMPOSE_PROJECT_NAME]: " \
+	compose_project_name
+
+if [[ -z $compose_project_name ]]; then
+	compose_project_name=$DEFAULT_COMPOSE_PROJECT_NAME
+fi
+
 
 echo
 echo "**** Creating .env file"
 
 cat << EOF > /tmp/.env
-COMPOSE_PROJECT_NAME=fundraising-dev
+COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_UID=$(id -u)
