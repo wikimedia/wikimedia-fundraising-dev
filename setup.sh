@@ -85,17 +85,30 @@ echo
 echo ">>> Please run this script as the same user that will own source code files. <<<"
 echo
 
+if [ -d dbdata ]; then
+	echo "dbdata, old host directory with database contents, still exists."
+	echo "Please remove it or revert to a previous version of fundraising-dev."
+	exit 1
+fi
 
-# Check for existing containers for this application
+if [ -d qdata ]; then
+	echo "qdata, old host directory with queue contents, still exists."
+	echo "Please remove it or revert to a previous version of fundraising-dev."
+	exit 1
+fi
 
-if ! [[ -z $(docker-compose ps -q) ]]; then
-	read -p "Existing containers found for this Docker application. Remove them? [yN] " -r
+# Ask about resetting containers and volumes
+
+read -p "Remove any existing containers for this Docker application? [yN] " -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	read -p "Reset persistent storage for this Docker application? [yN] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		docker-compose down
+		docker-compose down -v
 	else
-		docker-compose stop
+		docker-compose down
 	fi
-	echo
+else
+	docker-compose stop
 fi
 
 # GIT_REVIEW_USER environment variable is needed to fetch source code
@@ -256,30 +269,6 @@ backup_mv /tmp/payments-xdebug-cli.ini config/payments/xdebug-cli.ini
 backup_mv /tmp/payments-xdebug-web.ini config/payments/xdebug-web.ini
 backup_mv /tmp/civicrm-xdebug-cli.ini config/civicrm/xdebug-cli.ini
 backup_mv /tmp/civicrm-xdebug-web.ini config/civicrm/xdebug-web.ini
-echo
-
-echo "**** Check for existing mariadb databases"
-
-if ! [[ -z $(find dbdata/ ! \( -name 'dbdata' -o -name '.gitignore' \)) ]]; then
-	read -p "Existing mariadb contents found. Erase all databases? [yN] " -r
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		find dbdata/ ! \( -name 'dbdata' -o -name '.gitignore' \) -exec rm -rf {} +
-	fi
-else
-	echo "No database contents found"
-fi
-echo
-
-echo "**** Check for existing queue contents"
-
-if ! [[ -z $(find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \)) ]]; then
-	read -p "Existing queue contents found. Erase all queue contents? [yN] " -r
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		find qdata/ ! \( -name 'qdata' -o -name '.gitignore' \) -exec rm -rf {} +
-	fi
-else
-	echo "No queue contents found"
-fi
 echo
 
 echo "**** Start application"

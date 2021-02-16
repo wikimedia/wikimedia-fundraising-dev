@@ -74,10 +74,9 @@ services:
 
   database:
     image: mariadb:10.4
-    user: *user
 
     volumes:
-      - ./dbdata/:/var/lib/mysql/
+      - dbdata:/var/lib/mysql/
 
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -94,10 +93,9 @@ services:
 
   queues:
     image: redis:5.0-buster
-    user: *user
 
     volumes:
-      - ./qdata/:/data
+      - qdata:/data
 
     command: [ "redis-server", "--appendonly", "yes" ]
 
@@ -105,3 +103,7 @@ services:
   memcached:
     image: memcached
     user: *user
+
+volumes:
+  dbdata:
+  qdata:
