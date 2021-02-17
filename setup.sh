@@ -6,6 +6,7 @@
 PAYMENTS_SRC_DIR="payments"
 CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
+CIVIPROXY_SRC_DIR="civiproxy"
 TOOLS_SRC_DIR="tools"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
 SMASHPIG_SRC_DIR="smashpig"
@@ -22,6 +23,7 @@ DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
+DEFAULT_CIVIPROXY_PORT=9005
 DEFAULT_MARIADB_PORT=3306
 
 # Check for existence of a source dir and ask about removing and re-cloning
@@ -232,6 +234,22 @@ if [ $clone_crm = true ]; then
 	echo
 fi
 
+clone_civiproxy=$(ask_reclone "src/${CIVIPROXY_SRC_DIR}" "Civiproxy source")
+
+if [ $clone_civiproxy = true ]; then
+	echo "**** Cloning and setting up Civiproxy in src/${CIVIPROXY_SRC_DIR}"
+
+	rm -rf src/${CIVIPROXY_SRC_DIR}
+
+	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
+	--branch fundraising-dev \
+		src/${CIVIPROXY_SRC_DIR} && \
+		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
+
+	echo
+fi
+
 clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
 
 if [ $clone_tools = true ]; then
@@ -344,6 +362,9 @@ FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMEN
 FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
 echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
 
+FR_DOCKER_CIVIPROXY_PORT=$DEFAULT_CIVIPROXY_PORT
+echo "Port for CiviProxy is currently fixed at $FR_DOCKER_CIVIPROXY_PORT."
+
 read -p "Port for E-mail Preference Center https [$DEFAULT_EMAIL_PREF_CTR_PORT]: " \
 	FR_DOCKER_EMAIL_PREF_CTR_PORT
 FR_DOCKER_EMAIL_PREF_CTR_PORT=$(validate_port $FR_DOCKER_EMAIL_PREF_CTR_PORT $DEFAULT_EMAIL_PREF_CTR_PORT)
@@ -374,6 +395,7 @@ cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
+FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
 FR_DOCKER_MARIADB_PORT=${FR_DOCKER_MARIADB_PORT}
 FR_DOCKER_UID=$(id -u)
@@ -404,6 +426,8 @@ declare -a xdebug_config_files=(
 	"config/civicrm/xdebug-web.ini"
 	"config/email-pref-ctr/xdebug-cli.ini"
 	"config/email-pref-ctr/xdebug-web.ini"
+	"config/civiproxy/xdebug-cli.ini"
+	"config/civiproxy/xdebug-web.ini"
 )
 
 for i in "${xdebug_config_files[@]}"
@@ -629,9 +653,11 @@ echo
 # go back to whatever directory we were in to start
 cd "${start_dir}"
 
+
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
+echo "CiviProxy URL: https://localhost:$FR_DOCKER_CIVIPROXY_PORT"
 echo "E-mail Preference Center URL: https://localhost:$FR_DOCKER_EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
 echo
