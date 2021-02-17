@@ -396,7 +396,7 @@ echo
 
 echo "**** Set up Civicrm"
 
-read -p "Set up config and run civibuild create to create wmf site? [Yn] " -r
+read -p "Set up config and run civibuild create to create wmff & dmaster sites? [Yn] " -r
 echo
 
 if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
@@ -404,6 +404,10 @@ if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 	echo "Clean up any untracked files that may remain from previous builds."
 	rm -f src/civi-sites/wmff.sh
 	rm -f src/civi-sites/wmff/sites/default/civicrm.settings.php
+	rm -f src/civi-sites/dmaster.sh
+	rm -f src/civi-sites/dmaster/web/sites/default/civicrm.settings.php
+	rm -rf srv/civi-sites/dmaster/web/sites/default/files/civicrm/templates_c/*
+	rm -rf srv/civi-sites/wmff/sites/default/files/civicrm/templates_c/*
 	rm -rf config/civicrm/amp/my.cnf.d/
 	rm -rf config/civicrm/amp/nginx.d/
 	rm -rf config/civicrm/amp/log/
@@ -416,6 +420,8 @@ if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 	docker-compose exec -w "/srv/civi-sites/" civicrm civibuild create \
 		wmff --admin-pass $CIVI_ADMIN_PASS
 
+  docker-compose exec -w "/srv/civi-sites/" civicrm civibuild create \
+		dmaster --admin-pass $CIVI_ADMIN_PASS
 	echo
 fi
 
@@ -423,6 +429,7 @@ fi
 cd "${start_dir}"
 
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
-echo "Civicrm URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
-echo "Civicrm user/pasword: admin/$CIVI_ADMIN_PASS"
+echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
+echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
+echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
 echo
