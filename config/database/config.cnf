@@ -1,0 +1,2 @@
+# Placehlder for mariadb configuration. These settings are added to the settings
+# in /etc/mysql/my.cnf inside the container.

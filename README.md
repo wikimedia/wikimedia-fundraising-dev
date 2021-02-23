@@ -213,6 +213,23 @@ For phpunit tests for Civicrm, run `civicrm-phpunit.sh wmff`.
 passed to the script are passed along to command in the container. For example, to monitor
 the queues, run `queues-redis-cli.sh monitor`.
 
+## Database
+
+`setup.sh` will ask for a port to expose on the host for the database connection. You can use that
+port to connect to the database from the host computer. For the MySQL database host setting,
+use 127.0.0.1. You can connect as root database user, without a password. So, for example,
+substituting the correct port, the following command can be used to test database access
+from the host computer:
+
+    mysql -h 127.0.0.1 -P {exposed_maridb_port} -u root
+
+(Note: If, instead of 127.0.0.1, you specify `localhost` as the database host, you may need
+to explicitly tell your MySQL client to connect using TCP.)
+
+The script `database-mysql.sh` opens a mysql shell directly on the database container. Arguments
+passed to that script are added to the arguments passed to the command-line client. So,
+you can say, for example, `./database-mysql.sh civicrm` to directly access the civicrm database.
+
 ## XDebug
 
 By default, debugging is enabled via `xdebug.remote_enable`. `setup.sh` creates web and cli xdebug

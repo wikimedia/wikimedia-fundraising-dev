@@ -75,8 +75,12 @@ services:
   database:
     image: mariadb:10.4
 
+    ports:
+      - "${FR_DOCKER_MARIADB_PORT:-3306}:3306"
+
     volumes:
       - dbdata:/var/lib/mysql/
+      - ./config/database:/etc/mysql/conf.d
 
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1

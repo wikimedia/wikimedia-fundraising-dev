@@ -18,6 +18,7 @@ DEFAULT_COMPOSE_PROJECT_NAME=fundraising-dev
 DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_CIVICRM_PORT=32353
+DEFAULT_MARIADB_PORT=3306
 
 # Check for existence of a source dir and ask about removing and re-cloning
 # $1 is the directory to check, $2 is a friendly name for the repository.
@@ -235,6 +236,9 @@ FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
 echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
 echo
 
+read -p "Port for MariaDB connection [$DEFAULT_MARIADB_PORT]: " FR_DOCKER_MARIADB_PORT
+FR_DOCKER_MARIADB_PORT=$(validate_port $FR_DOCKER_MARIADB_PORT $DEFAULT_MARIADB_PORT)
+
 echo "You can enter a unique name for this instance of the fundraising-dev setup."
 echo "This allows you to set up multiple instances on the same computer and avoid"
 echo "collisions between Docker container names."
@@ -256,6 +260,7 @@ cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
+FR_DOCKER_MARIADB_PORT=${FR_DOCKER_MARIADB_PORT}
 FR_DOCKER_UID=$(id -u)
 FR_DOCKER_GID=$(id -g)
 EOF
