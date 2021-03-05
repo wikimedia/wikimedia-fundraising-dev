@@ -22,7 +22,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename = "Payments";
+$wgSitename = "Email Preference Center";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -297,34 +297,11 @@ $wgGroupPermissions['user']['edit'] = false;
 $wgGroupPermissions['sysop']['edit'] = false;
 $wgGroupPermissions['sysop']['edit'] = 1;
 $wgWhitelistRead =  array (
-	"Special:GlobalCollectGatewayResult",
-	"Special:GlobalCollectGateway",
-	"2010_Landing_9/en",
-	"-",
 	"MediaWiki:Common.css",
 	"MediaWiki:Print.css",
 	"MediaWiki:Vector.css",
-	"Donate-error",
-	"Special:GatewayFormChooser",
-	"Special:AmazonGateway",
-	"Special:FundraiserMaintenance",
-	"Special:FundraiserUnsubscribe",
-	"Special:FundraiserSubscribe",
-	"Special:OptIn",
 	"Special:EmailPreferences",
 	"Special:SystemStatus",
-	"Special:PaypalGateway",
-	"Special:PaypalExpressGateway",
-	"Special:PaypalExpressGatewayResult",
-	"Special:PaypalLegacyGateway",
-	"Special:AdyenGateway",
-	"Special:AdyenGatewayResult",
-	"Special:AstroPayGateway",
-	"Special:AstroPayGatewayResult",
-	"Special:IngenicoGatewayResult",
-	"Special:IngenicoGateway",
-	"Main_Page",
-	"Donate-thanks"
 );
 $wgBlockDisablesLogin = true;
 
@@ -334,7 +311,6 @@ wfLoadExtensions( array(
 	'cldr',
 	'ParserFunctions',
 	'DonationInterface',
-	'FundraisingEmailUnsubscribe',
 	'WikiEditor',
 	'SyntaxHighlight_GeSHi'
 ) );
@@ -347,17 +323,8 @@ wfLoadExtensions( array(
 ### Begin public settings for DonationInterface ###
 ###################################################
 
-### These settings configure payment processors supported by DonationInterface.
-### They are mostly based on settings from staging at localsettings commit c6a5b1dac95876199,
-### vagrant puppet/modules/payments/manifests/donation_interface.pp at commit
-### 2fdf07cd5ade16 and the 2017-05-31 version of
-### https://www.mediawiki.org/wiki/Fundraising_tech/donation_pipeline_setup/settings#Payments-Wiki_LocalSettings.php.
-###
-### Note that many settings in staging have been moved to the private repository
-### instead of here. Below are just the settings that have been left public.
-###
-### Inline comments have been added about minor differences with staging
-### or vagrant settings.
+### Settings for E-mail Preference Center, adapted from those for Payments
+### (See config/payments/LocalSettings.php.)
 
 # TODO Check all these settings
 
@@ -387,17 +354,15 @@ $wgDonationInterfaceLogoOverride = [
 ];
 
 # Gateways
-$wgAdyenGatewayEnabled = true;
-$wgAmazonGatewayEnabled = true;
-$wgAstroPayGatewayEnabled = true;
-$wgGlobalCollectGatewayEnabled = true;
-$wgIngenicoGatewayEnabled = true;
-$wgPaypalGatewayEnabled = true;
-$wgPaypalExpressGatewayEnabled = true;
+$wgAdyenGatewayEnabled = false;
+$wgAmazonGatewayEnabled = false;
+$wgAstroPayGatewayEnabled = false;
+$wgGlobalCollectGatewayEnabled = false;
+$wgIngenicoGatewayEnabled = false;
+$wgPaypalGatewayEnabled = false;
+$wgPaypalExpressGatewayEnabled = false;
 
-# TODO Deprecate this, remove relateed code, something? Not present on staging, but mentioned
-# in documentation on mediawiki.org
-# $wgWorldpayGatewayEnabled = false;
+# FIXME Remove stuff not used in E-mail Preference Center
 
 # Components
 $wgDonationInterfaceEnableReferrerFilter = true;
@@ -409,14 +374,11 @@ $wgDonationInterfaceEnableConversionLog = true;
 $wgDonationInterfaceEnableIPVelocityFilter = false;
 
 $wgDonationInterfaceEnableFormChooser = true;
-$wgDonationInterfaceEnableSessionVelocityFilter = true;
+$wgDonationInterfaceEnableSessionVelocityFilter = false;
 $wgDonationInterfaceEnableSystemStatus = true;
 $wgDonationInterfaceEnableQueue = true;
-$wgDonationInterfaceEnableBannerHistoryLog = true;
+$wgDonationInterfaceEnableBannerHistoryLog = false;
 
-# As per vagrant, leaving this off, though it's on for staging. Also not setting
-# $wgDonationInterfaceMinFraudWeight, which is set on staging. See private
-# settings for related stuff. TODO Check this.
 $wgDonationInterfaceEnableMinFraud = false;
 
 $wgDonationInterfaceThankYouPage = 'https://thankyou.wikipedia.org/wiki/Thank_You';
@@ -432,19 +394,16 @@ $wgDonationInterfaceExtrasLog = 'syslog'; # Removed conditional from staging con
 $wgDonationInterfaceSaveCommStats = true;
 $wgDonationInterfaceTimeout = 12; # Comment from staging: Can't seem to override this for PayPal EC, trying here in desperation
 
-$wgIngenicoGatewayHostedFormVariants = [ 'iframe' => 102, 'redirect' => 101 ];
+### Commented out, but do we need something like this?
+# $wgFundraisingEmailUnsubscribeQueueClass = 'PHPQueue\Backend\Predis';
+# $wgFundraisingEmailUnsubscribeQueueParameters = array(
+#	'unsubscribe' => $wgDonationInterfaceDefaultQueueServer,
+#	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
+#);
 
-$wgDonationInterfaceRapidFail = true;
-$wgGlobalCollectGatewayFailPage = 'donate-error';
-
-# Always notify donor when we automatically switch currency.
-$wgDonationInterfaceNotifyOnConvert = true;
-
-$wgFundraisingEmailUnsubscribeQueueClass = 'PHPQueue\Backend\Predis';
-$wgFundraisingEmailUnsubscribeQueueParameters = array(
-	'unsubscribe' => $wgDonationInterfaceDefaultQueueServer,
-	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
-);
+### Added for E-mail Preference Center (in DonationInterface)
+# FIXME DI shouldn't use FundraisingEmailUnsubscribe settings
+$wgFundraisingEmailUnsubscribeHelpEmail='fake-help-email-pref@wikimeeeedia.org';
 
 ### Set form_variants directory. This value is specific to our Docker setup. The setting
 ### is also on vagrant and staging, with different values.
@@ -473,24 +432,7 @@ $wgDonationInterfaceVariantConfigurationDirectory =
 $wgDonationInterfaceTest = false;
 $wgDonationInterfaceTestMode = false;
 
-# Note: Several other "Test" settings were set in the private 20-DI-accounts.php file, and
-# have been left private in config-private/payments/LocalSettings-private.php, just in case
-# they need to be there.
-# They are: $wgAstroPayGatewayTest, $wgPaypalGatewayTest and $wgGlobalCollectGatewayTest,
-# $wgAdyenGatewayTest, $wgAmazonGatewayTest (different from above). TODO Check this, and maybe
-# move those settings here.
-
-# This following settings only appear in the mediawiki.org documentation.
-$wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
-$wgDonationInterfaceLogCompleted = true; # Apperently never read in the code
-
 $wgDonationInterfaceLogDebug = false;
-$wgGlobalCollectGatewayLogCompleted = true;
-$wgIngenicoGatewayLogCompleted = true;
-$wgIngenicoGatewayCurlVerboseLog = true;
-$wgAmazonGatewayLogDebug = true;
-$wgAstroPayGatewayCurlVerboseLog = true;
 
-### Include private settings
-require( '/srv/config/private/payments/LocalSettings-private.php' );
+# Don't include any private settings

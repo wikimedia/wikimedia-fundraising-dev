@@ -255,7 +255,7 @@ For debugging the debugger, logs are available in `logs/payments-xdebug.log` or
 If you're running your IDE on a different computer than the Docker application, you can tunnel
 both XDebug and Web connections by executing the following command on the host computer where the
 Docker application is running (substituting everything in {} with the appropriate values).
-TODO: Adapt this command for access to Civicrm, too.
+TODO: Adapt this command for access to Civicrm and E-mail Preference Center, too.
 
     ssh -N -L*:{XDBUG_PORT}:localhost:{XDBUG_PORT} \
         -Rlocalhost:{FR_DOCKER_PAYMENTS_PORT}:localhost:{FR_DOCKER_PAYMENTS_PORT} \

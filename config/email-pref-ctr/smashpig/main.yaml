@@ -1,0 +1,90 @@
+# Config for SmashPig under E-mail Preference Center
+# FIXME Remove all unnecessary stuff
+
+data-store:
+  # TODO check the FIXME below, copied from Vagrant
+  # FIXME some way to reuse this between config files
+  redis: &REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        servers:
+          scheme: tcp
+          host: queues
+          port: 6379
+
+  mysql: &MYSQL
+    class: PDO
+    constructor-parameters:
+      - mysql:host=database;dbname=smashpig
+      - smashpig
+
+  pending-db:
+    <<: *MYSQL
+
+  damaged-db:
+    <<: *MYSQL
+
+  fredge-db:
+    class: PDO
+    constructor-parameters:
+      - mysql:host=database;dbname=fredge
+      - smashpig
+
+  banner-history:
+    <<: *REDIS
+
+  contribution-tracking:
+    <<: *REDIS
+
+  donations:
+    <<: *REDIS
+
+  jobs-adyen:
+    <<: *REDIS
+
+  jobs-amazon:
+    <<: *REDIS
+
+  jobs-ingenico:
+    <<: *REDIS
+
+  jobs-paypal:
+    <<: *REDIS
+
+  opt-in:
+    <<: *REDIS
+
+  payments-antifraud:
+    <<: *REDIS
+
+  payments-init:
+    <<: *REDIS
+
+  pending:
+    <<: *REDIS
+
+  recurring:
+    <<: *REDIS
+
+  refund:
+    <<: *REDIS
+
+  unsubscribe:
+    <<: *REDIS
+
+cache:
+    class: LocalClusterPsr6Cache
+
+# No provider-configuration-directory needed in this config
+
+sequence-generator:
+  contribution-tracking:
+    class: SmashPig\Core\SequenceGenerators\PredisSequenceGenerator
+    constructor-parameters:
+      -
+        servers:
+          scheme: tcp
+          host: queues
+          port: 6379
+        sequence: contribution-tracking

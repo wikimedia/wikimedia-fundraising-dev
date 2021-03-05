@@ -19,7 +19,7 @@ x-logger:
 
 services:
   payments:
-    image: docker-registry.wikimedia.org/dev/fundraising-payments-buster-php73-apache2-xdebug:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.1-1
     user: *user
 
     ports:
@@ -34,8 +34,8 @@ services:
       - *logger-host
       - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
 
-      # Provide FR_DOCKER_PAYMENTS_PORT inside the container so payments-LocalSettings.php can see it
-      - FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT:-9001}
+      # Set FR_DOCKER_MW_PORT inside the container so LocalSettings.php can see it
+      - FR_DOCKER_MW_PORT=${FR_DOCKER_PAYMENTS_PORT:-9001}
 
       # Provide user id and group id for rsyslog to drop privileges
       - FR_DOCKER_UID
@@ -45,8 +45,42 @@ services:
       - FR_DOCKER_SERVICE_NAME=payments
 
 
+  email-pref-ctr:
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.1-1
+    user: *user
+
+    ports:
+      - "${FR_DOCKER_EMAIL_PREF_CTR_PORT:-9002}:9001"
+
+    volumes:
+      - ./src/email-pref-ctr/:/var/www/html/:cached
+      - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
+
+    environment:
+      - *logger-host
+      - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+
+      # TODO Check and fix setup for MW logs
+      - MW_LOG_DIR=/var/www/html/cache
+
+      # Set FR_DOCKER_MW_PORT  inside the container so LocalSettings.php can see it
+      - FR_DOCKER_MW_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT:-9001}
+
+      # Provide user id and group id for rsyslog to drop privileges
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=email-pref-ctr
+
+      # Use a non-default SmashPig configuration, like on production
+      # This is relative to the config directory (on the host)
+      - FR_DOCKER_SMASHPIG_CONFIG_DIR=email-pref-ctr/smashpig
+
+
   civicrm:
-    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2-xdebug:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2:0.0.1-1
     user: *user
 
     ports:
