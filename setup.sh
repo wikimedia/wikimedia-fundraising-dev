@@ -6,6 +6,7 @@
 PAYMENTS_SRC_DIR="payments"
 CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
+TOOLS_SRC_DIR ="tools"
 
 # various settings
 PAYMENTS_CORE_BRANCH="fundraising/REL1_35"
@@ -187,6 +188,22 @@ if [ $clone_crm = true ]; then
 	cd src/${CRM_SRC_DIR}
 	git submodule update --init --recursive
 	cd "${script_dir}"
+
+	echo
+fi
+
+clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR }" "Tools")
+
+if [ $clone_tools = true ]; then
+	echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR }"
+
+	rm -rf src/${TOOLS_SRC_DIR}
+	mkdir -p src/
+
+	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
+		src/${TOOLS_SRC_DIR} && \
+		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		"src/${TOOLS_SRC_DIR}/.git/hooks/"
 
 	echo
 fi

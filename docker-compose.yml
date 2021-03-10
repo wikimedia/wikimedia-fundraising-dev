@@ -60,6 +60,7 @@ services:
       - ./src/civicrm-buildkit/:/srv/civicrm-buildkit/
       - ./config/:/srv/config/exposed/
       - ./config-private/:/srv/config/private/
+      - ./src/tools/:/srv/tools/
 
     environment:
       - *logger-host
