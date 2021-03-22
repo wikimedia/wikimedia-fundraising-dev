@@ -3,13 +3,15 @@
 A Docker-based environment for developing and maintaining tools used by the
 Wikimedia Foundation for fundraising.
 
+## Images from temporary Docker Hub registries
+
+By default, the most recent images will be pulled from Docker Hub, so it's no longer necessary
+to build the images locally. Building locally is only necessary when developing on the images
+themselves. If you wish to do that, see the following section.
+
 ## Building the base images
 
-For the time being, Docker images for this setup must be built locally. Here is how to do
-that.
-
-(Hopefully soon we'll have the images in an image repository, which will make this step
-unnecessary, since you'll be able to just download them.)
+(Only necessary for developing on the images themselves.)
 
 For the following commands, you can set the `GIT_REVIEW_USER` environment variable, then just
 copy and paste the command as-is onto the command line. (Note: the same environment variable is also
@@ -67,6 +69,15 @@ these steps will no longer be necessary. However, these tools will be needed to 
 
 For more information about docker-pkg see the [documentation](https://doc.wikimedia.org/docker-pkg/)
 and [instructions for using it for CI images](https://www.mediawiki.org/wiki/Continuous_integration/Docker).
+
+If you haven't run `setup.sh` yet, do so before starting the application. To run `setup.sh` using
+locally built images, start it with the -w flag:
+
+    setup.sh -w
+
+To start the application with the locally built images, use the following command:
+
+    docker-compose -f docker-compose.yml -f docker-compose-wmf-reg.yml up -d
 
 ## Creating the environment
 

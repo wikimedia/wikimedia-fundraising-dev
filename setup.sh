@@ -71,6 +71,20 @@ validate_port () {
 	echo $input
 }
 
+# Check script arguments and set options accordingly
+wmf_reg=false
+while getopts 'w' flag; do
+	case "${flag}" in
+		# The -w flag indicates we should run docker-compose with images tagged as
+		# being from the WMF registry (which would be as locally built by docker-pkg)
+		# rather than from Docker Hub.
+		w) wmf_reg=true ;;
+
+		# TODO Add usage help in case of incorrect options
+		*) exit 1 ;;
+	esac
+done
+
 # Store current directory, then change to the directory this script resides in
 start_dir=$(pwd)
 cd "${0%/*}"
@@ -350,7 +364,11 @@ backup_mv /tmp/email-pref-ctr-xdebug-web.ini config/email-pref-ctr/xdebug-web.in
 echo
 
 echo "**** Start application"
-docker-compose up -d
+if [ $wmf_reg = true ]; then
+	docker-compose -f docker-compose.yml -f docker-compose-wmf-reg.yml up -d
+else
+	docker-compose up -d
+fi
 echo
 
 # Wait for db service
