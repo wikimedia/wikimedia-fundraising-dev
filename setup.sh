@@ -6,7 +6,7 @@
 PAYMENTS_SRC_DIR="payments"
 CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
-TOOLS_SRC_DIR ="tools"
+TOOLS_SRC_DIR="tools"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
 
 # various settings
@@ -208,10 +208,10 @@ if [ $clone_crm = true ]; then
 	echo
 fi
 
-clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR }" "Tools")
+clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
 
 if [ $clone_tools = true ]; then
-	echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR }"
+	echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
 
 	rm -rf src/${TOOLS_SRC_DIR}
 	mkdir -p src/
