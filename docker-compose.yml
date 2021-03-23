@@ -34,9 +34,6 @@ services:
       - *logger-host
       - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
 
-      # TODO Check and fix setup for MW logs
-      - MW_LOG_DIR=/var/www/html/cache
-
       # Provide FR_DOCKER_PAYMENTS_PORT inside the container so payments-LocalSettings.php can see it
       - FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT:-9001}
 
