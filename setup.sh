@@ -117,7 +117,7 @@ set -euo pipefail
 
 # Output all commands except... a few. See
 # https://stackoverflow.com/questions/33411737/bash-script-print-commands-but-do-not-print-echo-command/33412142
-trap '! [[ "$BASH_COMMAND" =~ ^(echo|read|if|\[ |\[\[ |cat|sleep|printf|cmp|cp|backup|reclone|for|create_or_maybe|[A-Za-z_]*=) ]] && \
+trap '! [[ "$BASH_COMMAND" =~ ^(echo|read|if|\[ |\[\[ |cat|sleep|printf|cmp|cp|source|backup|reclone|for|create_or_maybe|[A-Za-z_]*=) ]] && \
 cmd=`eval echo "$BASH_COMMAND" 2>/dev/null` && ! [[ -z $cmd ]] && echo "$cmd"' DEBUG
 
 echo
@@ -307,7 +307,16 @@ else
 	fi
 fi
 
-echo "**** Network configuration and project name"
+echo "**** Configuration: ports and project name"
+
+# If there's an.env file, read it in as source, modifying variable names to the names used
+# as defaults for ports and project name
+
+if [[ -e .env ]]; then
+	echo ".env exists; setting default values from there."
+	source <(sed 's/COMPOSE_PROJECT_NAME/DEFAULT_COMPOSE_PROJECT_NAME/' .env | sed 's/FR_DOCKER_/DEFAULT_/')
+	echo
+fi
 
 read -p "Port for XDebug [$DEFAULT_XDEBUG_PORT]: " xdebug_port
 xdebug_port=$(validate_port $xdebug_port $DEFAULT_XDEBUG_PORT)
