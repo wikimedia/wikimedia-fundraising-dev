@@ -19,7 +19,7 @@ x-logger:
 
 services:
   payments:
-    image: andyrussg/fundraising-mediawiki-buster-php73-apache2:0.0.1-1-cff7b8b1
+    image: andyrussg/fundraising-mediawiki-buster-php73-apache2:0.0.1-1-f41e1be6
     user: *user
 
     ports:
@@ -46,7 +46,7 @@ services:
 
 
   email-pref-ctr:
-    image: andyrussg/fundraising-mediawiki-buster-php73-apache2:0.0.1-1-cff7b8b1
+    image: andyrussg/fundraising-mediawiki-buster-php73-apache2:0.0.1-1-f41e1be6
     user: *user
 
     ports:
