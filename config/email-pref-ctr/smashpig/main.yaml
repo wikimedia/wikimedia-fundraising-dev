@@ -73,6 +73,9 @@ data-store:
   unsubscribe:
     <<: *REDIS
 
+  email-preferences:
+    <<: *REDIS
+
 cache:
     class: LocalClusterPsr6Cache
 
