@@ -8,6 +8,7 @@ CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
 TOOLS_SRC_DIR="tools"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
+SMASHPIG_SRC_DIR="smashpig"
 
 # various settings
 FR_MW_CORE_BRANCH="fundraising/REL1_35"
@@ -271,6 +272,22 @@ if [ $clone_mw = true ]; then
 	git checkout master
 
 	cd "${script_dir}"
+	echo
+fi
+
+clone_smashpig=$(ask_reclone "src/${SMASHPIG_SRC_DIR}" "SmashPig")
+
+if [ $clone_smashpig = true ]; then
+	echo "**** Cloning and setting up SmashPig in src/${SMASHPIG_SRC_DIR}"
+
+	rm -rf src/${SMASHPIG_SRC_DIR}
+	mkdir -p src/
+
+	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
+		src/${SMASHPIG_SRC_DIR} && \
+		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		"src/${SMASHPIG_SRC_DIR}/.git/hooks/"
+
 	echo
 fi
 

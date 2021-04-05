@@ -92,6 +92,7 @@ services:
       - ./config/:/srv/config/exposed/
       - ./config-private/:/srv/config/private/
       - ./src/tools/:/srv/tools/
+      - ./src/smashpig/:/srv/smashpig/
 
     environment:
       - *logger-host
