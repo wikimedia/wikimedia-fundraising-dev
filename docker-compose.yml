@@ -78,6 +78,11 @@ services:
       # This is relative to the config directory (on the host)
       - FR_DOCKER_SMASHPIG_CONFIG_DIR=email-pref-ctr/smashpig
 
+      # Provide host and port for connection to Civiproxy
+      # Note: Here we use the port the civiproxy service exposes on the Docker network,
+      # not on the host.
+      - FR_DOCKER_CIVIPROXY_URL_BASE=https://civiproxy:9001
+
 
   civicrm:
     image: andyrussg/fundraising-civicrm-buster-php73-apache2:0.0.1-1-cebfaa91

@@ -404,6 +404,7 @@ $wgDonationInterfaceTimeout = 12; # Comment from staging: Can't seem to override
 ### Added for E-mail Preference Center (in DonationInterface)
 # FIXME DI shouldn't use FundraisingEmailUnsubscribe settings
 $wgFundraisingEmailUnsubscribeHelpEmail='fake-help-email-pref@wikimeeeedia.org';
+$wgDonationInterfaceCiviproxyURLBase = getenv( 'FR_DOCKER_CIVIPROXY_URL_BASE' );
 
 ### Set form_variants directory. This value is specific to our Docker setup. The setting
 ### is also on vagrant and staging, with different values.
