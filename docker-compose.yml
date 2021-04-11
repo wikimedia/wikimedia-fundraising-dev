@@ -80,7 +80,7 @@ services:
 
 
   civicrm:
-    image: andyrussg/fundraising-civicrm-buster-php73-apache2:0.0.1-1-cf09771f
+    image: andyrussg/fundraising-civicrm-buster-php73-apache2:0.0.1-1-cebfaa91
     user: *user
 
     ports:
