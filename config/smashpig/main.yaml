@@ -15,6 +15,7 @@ data-store:
     constructor-parameters:
       - mysql:host=database;dbname=smashpig
       - smashpig
+      - dockerpass
 
   pending-db:
     <<: *MYSQL

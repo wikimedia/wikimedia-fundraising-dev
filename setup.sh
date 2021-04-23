@@ -14,8 +14,9 @@ SMASHPIG_SRC_DIR="smashpig"
 FR_MW_CORE_BRANCH="fundraising/REL1_35"
 MW_LANG="en"
 MW_PASSWORD="dockerpass"
-CIVI_ADMIN_PASS=admin
-DEFAULT_COMPOSE_PROJECT_NAME=fundraising-dev
+CIVI_ADMIN_PASS="admin"
+SMASHPIG_DB_USER_PASSWORD="dockerpass"
+DEFAULT_COMPOSE_PROJECT_NAME="fundraising-dev"
 
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
@@ -461,6 +462,13 @@ if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 fi
 echo
 
+read -p "Smashpig: run composer install? [Yn] " -r
+if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+	# TODO put this in a separate script
+	docker-compose exec -w "/srv/smashpig" civicrm composer install
+fi
+echo
+
 # if Payments LocalSettings exists, ask about replacing or skipping install step
 
 echo "**** Payments: install.php, LocalSettings.php and update.php"
@@ -622,8 +630,37 @@ fi
 
 if [ $email_pref_ctr_update = true ]; then
 	docker-compose exec -w "/var/www/html/" email-pref-ctr php maintenance/update.php --quick
+	echo
 fi
+
+echo "**** Smashpig setup"
+
+read -p "Create Smashpig database and db user? [Yn] " -r
 echo
+
+if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+
+	# Create SQL script
+	cat << EOF > /tmp/smashpig_setup.sql
+CREATE DATABASE IF NOT EXISTS smashpig;
+use smashpig;
+EOF
+
+	cat src/smashpig/Schema/mysql/00[12]*.sql >> /tmp/smashpig_setup.sql
+
+	cat << EOF >> /tmp/smashpig_setup.sql
+;
+CREATE USER IF NOT EXISTS 'smashpig'@'localhost' IDENTIFIED BY '$SMASHPIG_DB_USER_PASSWORD';
+CREATE USER IF NOT EXISTS 'smashpig'@'%' IDENTIFIED BY '$SMASHPIG_DB_USER_PASSWORD';
+GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'localhost';
+GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'%';
+EOF
+
+	cat /tmp/smashpig_setup.sql | docker-compose exec -T civicrm \
+		mysql -u root -h database
+
+	echo
+fi
 
 
 # go back to whatever directory we were in to start
