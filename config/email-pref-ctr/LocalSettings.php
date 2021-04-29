@@ -37,10 +37,6 @@ $wgServer = "https://localhost:" . getenv( "FR_DOCKER_MW_PORT" );
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
 
-## The URL paths to the logo.  Make sure you change this from the default,
-## or else you'll overwrite your logo when you upgrade!
-$wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/wiki.png" ];
-
 ## UPO means: this is also a user preference option
 
 $wgEnableEmail = true;
@@ -284,8 +280,8 @@ $wgRawHtml = true;
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
 
-$wgLogo = "/images/e/eb/Wmf_logo.png";
-$wgLogoHD = array(
+$wgLogos = array(
+	"1x" => "/images/e/eb/Wmf_logo.png",
 	"1.5x" => "/images/f/fc/Wmf_logo_1.5x.png",
 	"2x" => "/images/d/d1/Wmf_logo_2x.png"
 );
@@ -295,7 +291,6 @@ $wgGroupPermissions['*']['edit'] = false;
 $wgGroupPermissions['*']['read'] = false;
 $wgGroupPermissions['user']['edit'] = false;
 $wgGroupPermissions['sysop']['edit'] = false;
-$wgGroupPermissions['sysop']['edit'] = 1;
 $wgWhitelistRead =  array (
 	"MediaWiki:Common.css",
 	"MediaWiki:Print.css",
@@ -310,9 +305,7 @@ $wgAllowUserCss = false;
 wfLoadExtensions( array(
 	'cldr',
 	'ParserFunctions',
-	'DonationInterface',
-	'WikiEditor',
-	'SyntaxHighlight_GeSHi'
+	'DonationInterface'
 ) );
 
 # TODO Commenting out for now, since this doesn't seem useful for dev setup.
@@ -326,80 +319,12 @@ wfLoadExtensions( array(
 ### Settings for E-mail Preference Center, adapted from those for Payments
 ### (See config/payments/LocalSettings.php.)
 
-# TODO Check all these settings
-
-# Queues
-$wgDonationInterfaceDefaultQueueServer = array(
-	'type' => '\PHPQueue\Backend\Predis',
-	'servers' => array(
-		'scheme' => 'tcp',
-		'host' => 'queues',
-		'port' => 6379,
-	),
-	# On staging expiry is set to one month. TODO Set it here, too?
-	# 'expiry' => 2592000,
-);
-
-# Endowment logo
-$wgDonationInterfaceLogoOverride = [
-	[
-		'variable' => 'utm_medium',
-		'value' => 'endowment',
-		'logo' => '/images/4/49/Wikimedia_Endowment.png',
-		'logoHD' => [
-			'1.5x' => '/images/4/49/Wikimedia_Endowment_1.5x.png',
-			'2x' => '/images/8/85/Wikimedia_Endowment_2x.png',
-		]
-	]
-];
-
-# Gateways
-$wgAdyenGatewayEnabled = false;
-$wgAmazonGatewayEnabled = false;
-$wgAstroPayGatewayEnabled = false;
-$wgGlobalCollectGatewayEnabled = false;
-$wgIngenicoGatewayEnabled = false;
-$wgPaypalGatewayEnabled = false;
-$wgPaypalExpressGatewayEnabled = false;
-
-# FIXME Remove stuff not used in E-mail Preference Center
-
-# Components
-$wgDonationInterfaceEnableReferrerFilter = true;
-$wgDonationInterfaceEnableSourceFilter = true;
-$wgDonationInterfaceEnableFunctionsFilter = true;
-$wgDonationInterfaceEnableConversionLog = true;
-
-# The setting below is enbaled on staging, but it's best to leave it off for dev setup
-$wgDonationInterfaceEnableIPVelocityFilter = false;
-
-$wgDonationInterfaceEnableFormChooser = true;
-$wgDonationInterfaceEnableSessionVelocityFilter = false;
-$wgDonationInterfaceEnableSystemStatus = true;
-$wgDonationInterfaceEnableQueue = true;
-$wgDonationInterfaceEnableBannerHistoryLog = false;
-
-$wgDonationInterfaceEnableMinFraud = false;
-
-$wgDonationInterfaceThankYouPage = 'https://thankyou.wikipedia.org/wiki/Thank_You';
-$wgDonationInterfacePriceCeiling = 12000;
-
 $wgDonationInterfaceHeader = "{{2010/Donate-banner/@language}}";
 
 # Value on staging: 'http://wikimediafoundation.org/wiki/DonateNonJS/en'
 $wgDonationInterfaceNoScriptRedirect = 'http://testNoScriptRedirect.example.com/blah';
 
 $wgDonationInterfaceUseSyslog = true;
-$wgDonationInterfaceExtrasLog = 'syslog'; # Removed conditional from staging config
-$wgDonationInterfaceSaveCommStats = true;
-$wgDonationInterfaceTimeout = 12; # Comment from staging: Can't seem to override this for PayPal EC, trying here in desperation
-
-### Commented out, but do we need something like this?
-# $wgFundraisingEmailUnsubscribeQueueClass = 'PHPQueue\Backend\Predis';
-# $wgFundraisingEmailUnsubscribeQueueParameters = array(
-#	'unsubscribe' => $wgDonationInterfaceDefaultQueueServer,
-#	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
-#);
 
 ### Added for E-mail Preference Center (in DonationInterface)
 # FIXME DI shouldn't use FundraisingEmailUnsubscribe settings
@@ -421,19 +346,9 @@ $wgDonationInterfaceVariantConfigurationDirectory =
 # staging and vagrant.
 # $wgDonationInterfaceMemcacheHost = 'localhost';
 
-# TODO How should we set $wgDonationInterfaceLocalConfigurationDirectory?
-# On staging, it's set to '/srv/www/org/wikimedia/payments/di-config'.
-
 # These debug and log settings are scattered in various parts of staging LocalSettings.php.
 # Moving them to the bottom of this file for easier tweaking.
 
-# Enabled in vagrant but not on staging
-# TODO Check if this should be on. README.txt says, "Test mode flag,
-# alters various behavior."
-$wgDonationInterfaceTest = false;
-$wgDonationInterfaceTestMode = false;
-
-$wgDonationInterfaceFailPage = 'Donate-error';
-$wgDonationInterfaceLogDebug = false;
+$wgDonationInterfaceLogDebug = true;
 
 # Don't include any private settings
