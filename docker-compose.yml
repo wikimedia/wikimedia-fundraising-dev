@@ -16,6 +16,10 @@ x-user:
 x-logger:
   &logger-host FR_DOCKER_LOGGER_HOST=logger
 
+# API KEY for admin Civi user, needed in civiproxy and civicrm containers.
+x-civicrm-api-key:
+  &civicrm-api-key FR_DOCKER_CIVI_API_KEY=docker_api_key
+
 
 services:
   payments:
@@ -101,6 +105,7 @@ services:
 
     environment:
       - *logger-host
+      - *civicrm-api-key
 
       # Provide user id and group id for rsyslog to drop privileges
       - FR_DOCKER_UID
@@ -127,6 +132,7 @@ services:
 
     environment:
       - *logger-host
+      - *civicrm-api-key
 
       # Provide user id and group id for rsyslog to drop privileges?
       - FR_DOCKER_UID
@@ -136,7 +142,6 @@ services:
       - FR_DOCKER_SERVICE_NAME=civicrm
 
       # Provide Civiproxy some details to link it to CiviCRM
-      - CIVICRM_ADMIN_API_KEY=docker-api-key
       - CIVICRM_SITE_KEY=wmff-civicrm-site-key-goes-here
 
   database:
