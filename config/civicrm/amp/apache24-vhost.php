@@ -17,6 +17,10 @@
 
     ServerName <?php echo $host ?>
 
+    <?php if ($host == "wmff.localhost") { ?>
+    ServerAlias wmff.civicrm
+    <?php } ?>
+
     ErrorLog "| /usr/bin/logger -thttpd -plocal6.err"
     CustomLog "| /usr/bin/logger -thttpd -plocal6.notice" combined
 

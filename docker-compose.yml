@@ -109,6 +109,35 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civicrm
 
+    networks:
+      default:
+        aliases:
+          - wmff.civicrm
+
+  civiproxy:
+    image: jgleeson/fundraising-civiproxy-buster-php73-apache2:latest
+
+    ports:
+      - 9005:9001
+
+    volumes:
+      - ./config/civiproxy/config.php:/var/www/html/proxy/config.php
+      - ./config/civiproxy/proxy.php:/var/www/html/proxy/proxy.php
+      - ./src/civiproxy:/var/www/html/
+
+    environment:
+      - *logger-host
+
+      # Provide user id and group id for rsyslog to drop privileges?
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=civicrm
+
+      # Provide Civiproxy some details to link it to CiviCRM
+      - CIVICRM_ADMIN_API_KEY=docker-api-key
+      - CIVICRM_SITE_KEY=wmff-civicrm-site-key-goes-here
 
   database:
     image: mariadb:10.4

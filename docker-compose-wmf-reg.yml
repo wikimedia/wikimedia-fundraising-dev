@@ -14,5 +14,8 @@ services:
   civicrm:
     image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2:0.0.1-1
 
+  civiproxy:
+    image: docker-registry.wikimedia.org/dev/fundraising-civiproxy-buster-php73-apache2:0.0.1-1
+
   logger:
     image: docker-registry.wikimedia.org/dev/buster-rsyslog:0.0.1-1
