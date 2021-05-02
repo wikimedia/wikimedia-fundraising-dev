@@ -73,7 +73,7 @@ $target_interface           = NULL;
 
 // API and SITE keys
 $api_key_map = array('API_KEY' => getenv('FR_DOCKER_CIVI_API_KEY'));
-$sys_key_map = array('SITE_KEY' => getenv('CIVICRM_SITE_KEY'));
+$sys_key_map = array('SITE_KEY' => getenv('FR_DOCKER_CIVI_SITE_KEY'));
 
 if (file_exists(dirname(__FILE__)."/secrets.php")) {
   // keys can also be stored in 'secrets.php'

@@ -16,9 +16,12 @@ x-user:
 x-logger:
   &logger-host FR_DOCKER_LOGGER_HOST=logger
 
-# API KEY for admin Civi user, needed in civiproxy and civicrm containers.
+# Civi user api key and site key, needed in civiproxy and civicrm containers
 x-civicrm-api-key:
   &civicrm-api-key FR_DOCKER_CIVI_API_KEY=docker_api_key
+
+x-civicrm-site-key:
+  &civicrm-site-key FR_DOCKER_CIVI_SITE_KEY=docker_site_key
 
 
 services:
@@ -106,6 +109,7 @@ services:
     environment:
       - *logger-host
       - *civicrm-api-key
+      - *civicrm-site-key
 
       # Provide user id and group id for rsyslog to drop privileges
       - FR_DOCKER_UID
@@ -118,6 +122,7 @@ services:
       default:
         aliases:
           - wmff.civicrm
+
 
   civiproxy:
     image: jgleeson/fundraising-civiproxy-buster-php73-apache2:latest
@@ -133,6 +138,7 @@ services:
     environment:
       - *logger-host
       - *civicrm-api-key
+      - *civicrm-site-key
 
       # Provide user id and group id for rsyslog to drop privileges?
       - FR_DOCKER_UID
@@ -141,8 +147,6 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civicrm
 
-      # Provide Civiproxy some details to link it to CiviCRM
-      - CIVICRM_SITE_KEY=wmff-civicrm-site-key-goes-here
 
   database:
     image: mariadb:10.4
