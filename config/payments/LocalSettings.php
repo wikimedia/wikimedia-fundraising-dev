@@ -156,6 +156,7 @@ $wgLocalisationUpdateDirectory = "{$wgCacheDirectory}/l10n";
 function NoLoginLinkOnMainPage(&$personal_urls){
 	unset($personal_urls['anonlogin']);
 	unset($personal_urls['login']);
+	unset($personal_urls['login-private']);
 	unset($personal_urls['anonuserpage']);
 	unset($personal_urls['anontalk']);
 	return true;

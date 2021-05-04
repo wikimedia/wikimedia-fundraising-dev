@@ -152,6 +152,7 @@ $wgLocalisationUpdateDirectory = "{$wgCacheDirectory}/l10n";
 function NoLoginLinkOnMainPage(&$personal_urls){
 	unset($personal_urls['anonlogin']);
 	unset($personal_urls['login']);
+	unset($personal_urls['login-private']);
 	unset($personal_urls['anonuserpage']);
 	unset($personal_urls['anontalk']);
 	return true;
@@ -330,6 +331,7 @@ $wgDonationInterfaceUseSyslog = true;
 # FIXME DI shouldn't use FundraisingEmailUnsubscribe settings
 $wgFundraisingEmailUnsubscribeHelpEmail='fake-help-email-pref@wikimeeeedia.org';
 $wgDonationInterfaceCiviproxyURLBase = getenv( 'FR_DOCKER_CIVIPROXY_URL_BASE' );
+$wgDonationInterfaceMessageSourceType = 'emailpreferences';
 
 ### Set form_variants directory. This value is specific to our Docker setup. The setting
 ### is also on vagrant and staging, with different values.
@@ -350,5 +352,4 @@ $wgDonationInterfaceVariantConfigurationDirectory =
 # Moving them to the bottom of this file for easier tweaking.
 
 $wgDonationInterfaceLogDebug = true;
-
 # Don't include any private settings
