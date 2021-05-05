@@ -207,10 +207,7 @@ if [ $clone_buildkit = true ]; then
 
 	rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
 
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civicrm-buildkit" \
-		src/${CIVICRM_BUILDKIT_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${CIVICRM_BUILDKIT_SRC_DIR}/.git/hooks/"
+	git clone "git@github.com:civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
 
 	echo
 fi
