@@ -243,7 +243,6 @@ if [ $clone_civiproxy = true ]; then
 	rm -rf src/${CIVIPROXY_SRC_DIR}
 
 	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
-	--branch fundraising-dev \
 		src/${CIVIPROXY_SRC_DIR} && \
 		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 		"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
