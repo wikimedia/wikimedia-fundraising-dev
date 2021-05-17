@@ -207,7 +207,7 @@ if [ $clone_buildkit = true ]; then
 
 	rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
 
-	git clone "git@github.com:civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
+	git clone "https://github.com/civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
 
 	echo
 fi
