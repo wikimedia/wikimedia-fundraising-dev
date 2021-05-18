@@ -319,6 +319,8 @@ $wgWhitelistRead =  array (
 	"Special:PaypalLegacyGateway",
 	"Special:AdyenGateway",
 	"Special:AdyenGatewayResult",
+	"Special:AdyenCheckoutGateway",
+	"Special:AdyenCheckoutGatewayResult",
 	"Special:AstroPayGateway",
 	"Special:AstroPayGatewayResult",
 	"Special:IngenicoGatewayResult",
@@ -391,6 +393,7 @@ $wgDonationInterfaceLogoOverride = [
 
 # Gateways
 $wgAdyenGatewayEnabled = true;
+$wgAdyenCheckoutGatewayEnabled = true;
 $wgAmazonGatewayEnabled = true;
 $wgAstroPayGatewayEnabled = true;
 $wgGlobalCollectGatewayEnabled = true;
