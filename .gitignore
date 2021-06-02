@@ -27,5 +27,8 @@ config/civicrm/amp/log/
 # ignore backups of customized files everywhere
 **/*.bkup*
 
+# docker-compose.override.yml is for local-specific settings
+docker-compose.override.yml
+
 # Eclipse project files
 .project
