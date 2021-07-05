@@ -442,7 +442,6 @@ $wgDonationInterfaceTimeout = 12; # Comment from staging: Can't seem to override
 $wgIngenicoGatewayHostedFormVariants = [ 'iframe' => 102, 'redirect' => 101 ];
 
 $wgDonationInterfaceRapidFail = true;
-$wgGlobalCollectGatewayFailPage = 'donate-error';
 
 # Always notify donor when we automatically switch currency.
 $wgDonationInterfaceNotifyOnConvert = true;
