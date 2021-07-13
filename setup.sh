@@ -25,6 +25,7 @@ DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
 DEFAULT_CIVIPROXY_PORT=9005
+DEFAULT_SMASHPIG_PORT=9006
 DEFAULT_MARIADB_PORT=3306
 
 # Check for existence of a source dir and ask about removing and re-cloning
@@ -367,6 +368,10 @@ read -p "Port for E-mail Preference Center https [$DEFAULT_EMAIL_PREF_CTR_PORT]:
 	FR_DOCKER_EMAIL_PREF_CTR_PORT
 FR_DOCKER_EMAIL_PREF_CTR_PORT=$(validate_port $FR_DOCKER_EMAIL_PREF_CTR_PORT $DEFAULT_EMAIL_PREF_CTR_PORT)
 
+read -p "Port for SmashPig listener https [$DEFAULT_SMASHPIG_PORT]: " \
+	FR_DOCKER_SMASHPIG_PORT
+FR_DOCKER_SMASHPIG_PORT=$(validate_port $FR_DOCKER_SMASHPIG_PORT $DEFAULT_SMASHPIG_PORT)
+
 read -p "Port for MariaDB connection [$DEFAULT_MARIADB_PORT]: " FR_DOCKER_MARIADB_PORT
 FR_DOCKER_MARIADB_PORT=$(validate_port $FR_DOCKER_MARIADB_PORT $DEFAULT_MARIADB_PORT)
 
@@ -395,6 +400,7 @@ FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
+FR_DOCKER_SMASHPIG_PORT=${FR_DOCKER_SMASHPIG_PORT}
 FR_DOCKER_MARIADB_PORT=${FR_DOCKER_MARIADB_PORT}
 FR_DOCKER_UID=$(id -u)
 FR_DOCKER_GID=$(id -g)
@@ -426,6 +432,8 @@ declare -a xdebug_config_files=(
 	"config/email-pref-ctr/xdebug-web.ini"
 	"config/civiproxy/xdebug-cli.ini"
 	"config/civiproxy/xdebug-web.ini"
+	"config/smashpig/xdebug-cli.ini"
+	"config/smashpig/xdebug-web.ini"
 )
 
 for i in "${xdebug_config_files[@]}"
