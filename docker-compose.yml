@@ -124,6 +124,29 @@ services:
           - wmff.civicrm
 
 
+  smashpig:
+    image: andyrussg/fundraising-smashpig-buster-php73-apache2:0.0.1-1-45f92c4
+    user: *user
+
+    ports:
+      - "${FR_DOCKER_SMASHPIG_PORT:-9001}:9001"
+
+    volumes:
+      - ./src/smashpig/:/srv/smashpig/
+      - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
+
+    environment:
+      - *logger-host
+
+      # Provide user id and group id for rsyslog to drop privileges
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=smashpig
+
+
   civiproxy:
     image: jgleeson/fundraising-civiproxy-buster-php73-apache2:latest
 
