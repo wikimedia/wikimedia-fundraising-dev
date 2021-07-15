@@ -38,7 +38,6 @@ for the fundraising-dev images:
         scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
         "dev-images/.git/hooks/"
     cd dev-images
-    git review -d 663294
 
 You should then be able to build the images for payments, civicrm and the centralized logger,
 as follows (from the dev-images directory):
@@ -271,6 +270,18 @@ TODO: Adapt this command for access to Civicrm and E-mail Preference Center, too
     ssh -N -L*:{XDBUG_PORT}:localhost:{XDBUG_PORT} \
         -Rlocalhost:{FR_DOCKER_PAYMENTS_PORT}:localhost:{FR_DOCKER_PAYMENTS_PORT} \
         {USER_ON_IDE_BOX}@{IP_OF_IDE_BOX}
+
+Depending on your IDE you may wish to set the environment variable PHP_IDE_CONFIG
+For phpstorm it should hold a value like "serverName=wmff" - where wmff is configured 
+as a deployment server in phpstorm. If you are using drush then the site alias will set
+this variable - e.g drush @wmff will run drush in the context of the wmff.localhost
+site, including the PHP_IDE_CONFIG.serverName key.
+
+You can set a system default for this variable (or set any other environment variable)
+by adding a docker-compose.override.yml - renaming the docker-compose.override.sample.yml will get you started.
+Note that the drush environment variables are instantiated per process and override
+the system default variable (the override file overrides docker not anything set
+at a per process level).
 
 ## Opening a shell
 

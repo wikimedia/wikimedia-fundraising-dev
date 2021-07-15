@@ -1,0 +1,7 @@
+version: '3.7'
+# sample docker-composer.override.yml file - must be renamed to use.
+services:
+  civicrm:
+    environment:
+      # IDE call back (works for CLI with wmff, needs altering for dmaster)
+      - PHP_IDE_CONFIG="serverName=wmff"
