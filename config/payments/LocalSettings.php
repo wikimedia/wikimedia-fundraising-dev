@@ -416,7 +416,7 @@ $wgDonationInterfaceEnableConversionLog = true;
 $wgDonationInterfaceEnableIPVelocityFilter = false;
 
 $wgDonationInterfaceEnableFormChooser = true;
-$wgDonationInterfaceEnableSessionVelocityFilter = true;
+$wgDonationInterfaceEnableSessionVelocityFilter = false;
 $wgDonationInterfaceEnableSystemStatus = true;
 $wgDonationInterfaceEnableQueue = true;
 $wgDonationInterfaceEnableBannerHistoryLog = true;
