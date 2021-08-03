@@ -659,15 +659,13 @@ EOF
 	cat src/smashpig/Schema/mysql/00[12]*.sql >> /tmp/smashpig_setup.sql
 
 	cat << EOF >> /tmp/smashpig_setup.sql
-;
 CREATE USER IF NOT EXISTS 'smashpig'@'localhost' IDENTIFIED BY '$SMASHPIG_DB_USER_PASSWORD';
 CREATE USER IF NOT EXISTS 'smashpig'@'%' IDENTIFIED BY '$SMASHPIG_DB_USER_PASSWORD';
 GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'localhost';
 GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'%';
 EOF
 
-	cat /tmp/smashpig_setup.sql | docker-compose exec -T civicrm \
-		mysql -u root -h database
+	docker-compose exec -T civicrm mysql -u root -h database < /tmp/smashpig_setup.sql
 
 	echo
 fi
