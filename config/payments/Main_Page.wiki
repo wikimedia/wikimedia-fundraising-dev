@@ -10,6 +10,13 @@ To contribute to development or for more help, please visit the [https://www.med
 
 = Some donation forms =
 Donate links:
+* Adyen Checkout
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com}} Credit card in US, English, USD]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=fr&language=fr&currency=EUR&amount=10&country=FR&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com}} Credit card in FR, French, EUR]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=ja&language=ja&currency=JPY&amount=250&country=JP&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com}} Credit card in JP, Japanese, JPY]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=he&language=he&currency=ILS&amount=100&country=IL&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com}} Credit card in IL, Hebrew, ILS]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=uk&language=uk&currency=UAH&amount=100&country=UA&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com}} Credit card in UA, Ukrainian, UAH]
+
 * Adyen
 ** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com}} Credit card in US, English, USD]
 ** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=fr&language=fr&currency=EUR&amount=10&country=FR&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com}} Credit card in FR, French, EUR]
