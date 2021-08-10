@@ -22,6 +22,7 @@ DEFAULT_COMPOSE_PROJECT_NAME="fundraising-dev"
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
+DEFAULT_APPLE_PAY_PAYMENTS_PORT=443
 DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
 DEFAULT_CIVIPROXY_PORT=9005
@@ -362,6 +363,10 @@ xdebug_port=$(validate_port $xdebug_port $DEFAULT_XDEBUG_PORT)
 read -p "Port for Payments https [$DEFAULT_PAYMENTS_PORT]: " FR_DOCKER_PAYMENTS_PORT
 FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMENTS_PORT)
 
+# allow setting of custom port for Apple Pay overrides
+read -p "Port for Apple Pay Payments https [$DEFAULT_APPLE_PAY_PAYMENTS_PORT]: " FR_DOCKER_APPLE_PAY_PAYMENTS_PORT
+FR_DOCKER_APPLE_PAY_PAYMENTS_PORT=$(validate_port $FR_DOCKER_APPLE_PAY_PAYMENTS_PORT $DEFAULT_APPLE_PAY_PAYMENTS_PORT)
+
 FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
 echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
 
@@ -401,6 +406,7 @@ echo "**** Creating .env file"
 cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
+FR_DOCKER_APPLE_PAY_PAYMENTS_PORT=${FR_DOCKER_APPLE_PAY_PAYMENTS_PORT}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
@@ -569,6 +575,41 @@ echo
 echo "**** Update Payments wiki text"
 
 ./payments-update-text.sh
+echo
+
+# Ask about setting up Apple Pay testing server config
+
+echo "**** ApplePay test server payments-wiki setup"
+
+read -p "Enable ApplePay Payments-wiki override to use ApplePay test server locally? [yN]" -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  applepay_localsettings_fn=config-private/payments/applepay/LocalSettings-apple-pay.php
+  if [ -f "$applepay_localsettings_fn" ]; then
+    echo "require( '/srv/config/private/payments/applepay/LocalSettings-apple-pay.php' );" >> $localsettings_fn
+    docker-compose exec -u root payments sh -c 'cp /srv/config/private/payments/applepay/apple-pay-payments.ssl.conf /etc/apache2/sites-available/ &&
+    cp /srv/config/private/payments/applepay/jg-cert-file.pem /etc/ssl/certs/ &&
+    cp /srv/config/private/payments/applepay/jg-privkey.pem /etc/ssl/private/ &&
+    a2dissite 000-default.conf &&
+    service apache2 reload &&
+    a2ensite apple-pay-payments.ssl.conf &&
+    service apache2 reload'
+  else
+      echo "Error: $applepay_localsettings_fn does not exist. Try updating your config-private repo"
+  fi
+fi
+echo
+
+read -p "Disable ApplePay Payments-wiki override and restore normal Payments-wiki install? [yN]" -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  docker-compose exec -u root payments sh -c 'rm /etc/apache2/sites-available/apple-pay-payments.ssl.conf &&
+  rm /etc/ssl/certs/jg-cert-file.pem &&
+  rm /etc/ssl/private/jg-privkey.pem &&
+  a2dissite apple-pay-payments.ssl.conf &&
+  service apache2 reload &&
+  a2ensite 000-default.conf &&
+  service apache2 reload'
+  sed -i "/require( '\/srv\/config\/private\/payments\/applepay\/LocalSettings-apple-pay.php' );/d" $localsettings_fn
+fi
 echo
 
 echo "**** Set up Civicrm"
