@@ -2,6 +2,7 @@
 $aliases['wmff'] = [
   'root' => '/srv/civi-sites/wmff/drupal',
   'uri' => 'https://wmff.localhost:32353/',
+  'user' => 1,
   '#env-vars' => [
     // IDE call back - if you call your deployment config
     // wmff in phpstorm this will connect to it
