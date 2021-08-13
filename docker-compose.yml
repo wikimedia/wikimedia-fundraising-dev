@@ -234,6 +234,14 @@ services:
     image: memcached
     user: *user
 
+    
+  mailcatcher:
+    image: schickling/mailcatcher
+
+    ports:
+      - "${FR_DOCKER_SMTP_PORT:-1025}:1025"
+      - "${FR_DOCKER_MAILCATCHER_PORT:-1080}:1080"
+
 volumes:
   dbdata:
   qdata:
