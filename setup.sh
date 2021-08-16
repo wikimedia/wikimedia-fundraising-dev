@@ -28,6 +28,22 @@ DEFAULT_CIVIPROXY_PORT=9005
 DEFAULT_SMASHPIG_PORT=9006
 DEFAULT_MARIADB_PORT=3306
 
+skip_install_dependencies=false
+skip_reclone=false
+
+# getopt seems terrible, let's just loop over the args
+for arg in "$@"
+do
+	case "$arg" in
+	--skip-deps)	skip_install_dependencies=true
+			;;
+	--skip-reclone)	skip_reclone=true
+			;;
+	*)		echo "Unknown argument $arg"
+			;;
+	esac
+done
+
 # Check for existence of a source dir and ask about removing and re-cloning
 # $1 is the directory to check, $2 is a friendly name for the repository.
 ask_reclone () {
@@ -156,141 +172,144 @@ else
 	echo
 fi
 
-echo "**** Set up source code"
-
-clone_mw=$(ask_reclone "src/${PAYMENTS_SRC_DIR}" "Payments wiki source")
-
-if [ $clone_mw = true ]; then
-	echo "**** Cloning and setting up Payments source code in src/${PAYMENTS_SRC_DIR}"
-
-	rm -rf src/${PAYMENTS_SRC_DIR}
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
-		--depth=10 --no-single-branch \
-		src/${PAYMENTS_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
-
-	cd src/${PAYMENTS_SRC_DIR}
-	git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
-	git submodule update --init --recursive
-
-	# For DonationInterface and FundraisingEmailUnsubscribe, we want to be on the master branch for
-	# development purposes. Other extensions should stay at the version indicated by the submodule
-	# pointer for the FR_MW_CORE_BRANCH.
-	cd extensions/DonationInterface
-	git checkout master
-	cd ../FundraisingEmailUnsubscribe
-	git checkout master
-
-	cd "${script_dir}"
-	echo
-fi
-
-clone_buildkit=$(ask_reclone "src/${CIVICRM_BUILDKIT_SRC_DIR}" "Civicrm Buildkit source")
-
-if [ $clone_buildkit = true ]; then
-	echo "**** Cloning and setting up Civicrm Buildkit source code in src/${CIVICRM_BUILDKIT_SRC_DIR}"
-
-	rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
-
-	git clone "https://github.com/civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
-
-	echo
-fi
-
-clone_crm=$(ask_reclone "src/${CRM_SRC_DIR}" "WMF crm source repo (includes civicrm and drupal)")
-
-if [ $clone_crm = true ]; then
-	echo "**** Cloning and setting up WMF crm source repo in src/${CRM_SRC_DIR}"
-
-	rm -rf src/${CRM_SRC_DIR}
-	mkdir -p src/civi-sites
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
-		src/${CRM_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${CRM_SRC_DIR}/.git/hooks/"
-
-	cd src/${CRM_SRC_DIR}
-	git submodule update --init --recursive
-	cd "${script_dir}"
-
-	echo
-fi
-
-clone_civiproxy=$(ask_reclone "src/${CIVIPROXY_SRC_DIR}" "Civiproxy source")
-
-if [ $clone_civiproxy = true ]; then
-	echo "**** Cloning and setting up Civiproxy in src/${CIVIPROXY_SRC_DIR}"
-
-	rm -rf src/${CIVIPROXY_SRC_DIR}
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
-		src/${CIVIPROXY_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
-
-	echo
-fi
-
-clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
-
-if [ $clone_tools = true ]; then
-	echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
-
-	rm -rf src/${TOOLS_SRC_DIR}
-	mkdir -p src/
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
-		src/${TOOLS_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${TOOLS_SRC_DIR}/.git/hooks/"
-
-	echo
-fi
-
-clone_mw=$(ask_reclone "src/${EMAIL_PREF_CTR_SRC_DIR}" "E-mail Preference Center wiki source")
-
-if [ $clone_mw = true ]; then
-	echo "**** Cloning and setting up E-mail Preference Center source code in src/${EMAIL_PREF_CTR_SRC_DIR}"
-
-	rm -rf src/${EMAIL_PREF_CTR_SRC_DIR}
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
-		--depth=10 --no-single-branch \
-		src/${EMAIL_PREF_CTR_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${EMAIL_PREF_CTR_SRC_DIR}/.git/hooks/"
-
-	cd src/${EMAIL_PREF_CTR_SRC_DIR}
-	git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
-	git submodule update --init --recursive
-
-	# For DonationInterface we want to be on the master branch for
-	# development purposes. Other extensions should stay at the version indicated by the submodule
-	# pointer for the FR_MW_CORE_BRANCH.
-	cd extensions/DonationInterface
-	git checkout master
-
-	cd "${script_dir}"
-	echo
-fi
-
-clone_smashpig=$(ask_reclone "src/${SMASHPIG_SRC_DIR}" "SmashPig")
-
-if [ $clone_smashpig = true ]; then
-	echo "**** Cloning and setting up SmashPig in src/${SMASHPIG_SRC_DIR}"
-
-	rm -rf src/${SMASHPIG_SRC_DIR}
-	mkdir -p src/
-
-	git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
-		src/${SMASHPIG_SRC_DIR} && \
-		scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-		"src/${SMASHPIG_SRC_DIR}/.git/hooks/"
-
-	echo
+if [ $skip_reclone = false ]; then
+	echo "**** Set up source code"
+	
+	clone_mw=$(ask_reclone "src/${PAYMENTS_SRC_DIR}" "Payments wiki source")
+	
+	if [ $clone_mw = true ]; then
+		echo "**** Cloning and setting up Payments source code in src/${PAYMENTS_SRC_DIR}"
+	
+		rm -rf src/${PAYMENTS_SRC_DIR}
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+			--depth=10 --no-single-branch \
+			src/${PAYMENTS_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
+	
+		cd src/${PAYMENTS_SRC_DIR}
+		git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
+		git submodule update --init --recursive
+	
+		# For DonationInterface and FundraisingEmailUnsubscribe, we want to be on the master branch for
+		# development purposes. Other extensions should stay at the version indicated by the submodule
+		# pointer for the FR_MW_CORE_BRANCH.
+		cd extensions/DonationInterface
+		git checkout master
+		cd ../FundraisingEmailUnsubscribe
+		git checkout master
+	
+		cd "${script_dir}"
+		echo
+	fi
+	
+	clone_buildkit=$(ask_reclone "src/${CIVICRM_BUILDKIT_SRC_DIR}" "Civicrm Buildkit source")
+	
+	if [ $clone_buildkit = true ]; then
+		echo "**** Cloning and setting up Civicrm Buildkit source code in src/${CIVICRM_BUILDKIT_SRC_DIR}"
+	
+		rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
+	
+		git clone "https://github.com/civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
+	
+		echo
+	fi
+	
+	clone_crm=$(ask_reclone "src/${CRM_SRC_DIR}" "WMF crm source repo (includes civicrm and drupal)")
+	
+	if [ $clone_crm = true ]; then
+		echo "**** Cloning and setting up WMF crm source repo in src/${CRM_SRC_DIR}"
+	
+		rm -rf src/${CRM_SRC_DIR}
+		mkdir -p src/civi-sites
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
+			src/${CRM_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${CRM_SRC_DIR}/.git/hooks/"
+	
+		cd src/${CRM_SRC_DIR}
+		git submodule update --init --recursive
+		cd "${script_dir}"
+	
+		echo
+	fi
+	
+	clone_civiproxy=$(ask_reclone "src/${CIVIPROXY_SRC_DIR}" "Civiproxy source")
+	
+	if [ $clone_civiproxy = true ]; then
+		echo "**** Cloning and setting up Civiproxy in src/${CIVIPROXY_SRC_DIR}"
+	
+		rm -rf src/${CIVIPROXY_SRC_DIR}
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
+			src/${CIVIPROXY_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
+	
+		echo
+	fi
+	
+	clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
+	
+	if [ $clone_tools = true ]; then
+		echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
+	
+		rm -rf src/${TOOLS_SRC_DIR}
+		mkdir -p src/
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
+			src/${TOOLS_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${TOOLS_SRC_DIR}/.git/hooks/"
+	
+		echo
+	fi
+	
+	clone_mw=$(ask_reclone "src/${EMAIL_PREF_CTR_SRC_DIR}" "E-mail Preference Center wiki source")
+	
+	if [ $clone_mw = true ]; then
+		echo "**** Cloning and setting up E-mail Preference Center source code in src/${EMAIL_PREF_CTR_SRC_DIR}"
+	
+		rm -rf src/${EMAIL_PREF_CTR_SRC_DIR}
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+			--depth=10 --no-single-branch \
+			src/${EMAIL_PREF_CTR_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${EMAIL_PREF_CTR_SRC_DIR}/.git/hooks/"
+	
+		cd src/${EMAIL_PREF_CTR_SRC_DIR}
+		git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
+		git submodule update --init --recursive
+	
+		# For DonationInterface we want to be on the master branch for
+		# development purposes. Other extensions should stay at the version indicated by the submodule
+		# pointer for the FR_MW_CORE_BRANCH.
+		cd extensions/DonationInterface
+		git checkout master
+	
+		cd "${script_dir}"
+		echo
+	fi
+	
+	clone_smashpig=$(ask_reclone "src/${SMASHPIG_SRC_DIR}" "SmashPig")
+	
+	if [ $clone_smashpig = true ]; then
+		echo "**** Cloning and setting up SmashPig in src/${SMASHPIG_SRC_DIR}"
+	
+		rm -rf src/${SMASHPIG_SRC_DIR}
+		mkdir -p src/
+	
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
+			src/${SMASHPIG_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${SMASHPIG_SRC_DIR}/.git/hooks/"
+	
+		echo
+	fi
+	
 fi
 
 echo "**** Set up private config repo"
@@ -387,6 +406,7 @@ FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
 FR_DOCKER_SMASHPIG_PORT=${FR_DOCKER_SMASHPIG_PORT}
 FR_DOCKER_MARIADB_PORT=${FR_DOCKER_MARIADB_PORT}
+FR_DOCKER_XDEBUG_PORT=${xdebug_port}
 FR_DOCKER_UID=$(id -u)
 FR_DOCKER_GID=$(id -g)
 EOF
@@ -442,43 +462,46 @@ done
 echo "Database ready"
 echo
 
-echo "**** Composer"
+if [ $skip_install_dependencies = false ]; then
+	
+	echo "**** Composer"
+	
+	read -p "Payments: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/var/www/html/" payments composer install
+	fi
+	echo
+	
+	read -p "Civicrm buildkit: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/srv/civicrm-buildkit" civicrm composer install
+	fi
+	echo
+	
+	read -p "Civicrm buildkit: run npm install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/srv/civicrm-buildkit" civicrm npm install
+	fi
+	echo
+	
+	read -p "Email Preference Center: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/var/www/html/" email-pref-ctr composer install
+	fi
+	echo
+	
+	read -p "Smashpig: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/srv/smashpig" civicrm composer install
+	fi
+	echo
 
-read -p "Payments: run composer install? [Yn] " -r
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	# TODO put this in a separate script
-	docker-compose exec -w "/var/www/html/" payments composer install
 fi
-echo
-
-read -p "Civicrm buildkit: run composer install? [Yn] " -r
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	# TODO put this in a separate script
-	docker-compose exec -w "/srv/civicrm-buildkit" civicrm composer install
-fi
-echo
-
-read -p "Civicrm buildkit: run npm install? [Yn] " -r
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	# TODO put this in a separate script
-	docker-compose exec -w "/srv/civicrm-buildkit" civicrm npm install
-fi
-echo
-
-read -p "Email Preference Center: run composer install? [Yn] " -r
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	# TODO put this in a separate script
-	docker-compose exec -w "/var/www/html/" email-pref-ctr composer install
-fi
-echo
-
-read -p "Smashpig: run composer install? [Yn] " -r
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	# TODO put this in a separate script
-	docker-compose exec -w "/srv/smashpig" civicrm composer install
-fi
-echo
-
 # if Payments LocalSettings exists, ask about replacing or skipping install step
 
 echo "**** Payments: install.php, LocalSettings.php and update.php"
