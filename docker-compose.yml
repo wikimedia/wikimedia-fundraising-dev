@@ -54,6 +54,30 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=payments
 
+  privatebin:
+    image: docker-registry.wikimedia.org/dev/fundraising-privatebin-buster-php73-apache2:0.0.1-1
+    user: *user
+
+    ports:
+      - "${FR_DOCKER_PRIVATEBIN_RO_PORT:-9007}:9001"
+      - "${FR_DOCKER_PRIVATEBIN_RW_PORT:-9008}:9002"
+
+    volumes:
+      - ./src/privatebin/:/var/www/html/:cached
+      - ./config/:/srv/config/exposed/
+      - pbdata:/srv/privatebin_data
+
+    environment:
+      - *logger-host
+      - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+
+      # Provide user id and group id for rsyslog to drop privileges
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=privatebin
+
 
   email-pref-ctr:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.1-1
@@ -213,3 +237,4 @@ services:
 volumes:
   dbdata:
   qdata:
+  pbdata:

@@ -10,6 +10,7 @@ CIVIPROXY_SRC_DIR="civiproxy"
 TOOLS_SRC_DIR="tools"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
 SMASHPIG_SRC_DIR="smashpig"
+PRIVATEBIN_SRC_DIR="privatebin"
 
 # various settings
 FR_MW_CORE_BRANCH="fundraising/REL1_35"
@@ -27,6 +28,8 @@ DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
 DEFAULT_CIVIPROXY_PORT=9005
 DEFAULT_SMASHPIG_PORT=9006
+DEFAULT_PRIVATEBIN_RO_PORT=9007
+DEFAULT_PRIVATEBIN_RW_PORT=9008
 DEFAULT_MARIADB_PORT=3306
 
 skip_install_dependencies=false
@@ -311,6 +314,21 @@ if [ $skip_reclone = false ]; then
 		echo
 	fi
 	
+	clone_privatebin=$(ask_reclone "src/${PRIVATEBIN_SRC_DIR}" "PrivateBin source")
+
+	if [ $clone_privatebin = true ]; then
+		echo "**** Cloning and setting up PrivateBin source code in src/${PRIVATEBIN_SRC_DIR}"
+
+		rm -rf src/${PRIVATEBIN_SRC_DIR}
+
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/privatebin" \
+			src/${PRIVATEBIN_SRC_DIR} && \
+			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${PRIVATEBIN_SRC_DIR}/.git/hooks/"
+
+		echo
+	fi
+
 fi
 
 echo "**** Set up private config repo"
@@ -381,6 +399,12 @@ read -p "Port for SmashPig listener https [$DEFAULT_SMASHPIG_PORT]: " \
 	FR_DOCKER_SMASHPIG_PORT
 FR_DOCKER_SMASHPIG_PORT=$(validate_port $FR_DOCKER_SMASHPIG_PORT $DEFAULT_SMASHPIG_PORT)
 
+read -p "Port for PrivateBin read-only https [$DEFAULT_PRIVATEBIN_RO_PORT]: " FR_DOCKER_PRIVATEBIN_RO_PORT
+FR_DOCKER_PRIVATEBIN_RO_PORT=$(validate_port $FR_DOCKER_PRIVATEBIN_RO_PORT $DEFAULT_PRIVATEBIN_RO_PORT)
+
+read -p "Port for PrivateBin read-write https [$DEFAULT_PRIVATEBIN_RW_PORT]: " FR_DOCKER_PRIVATEBIN_RW_PORT
+FR_DOCKER_PRIVATEBIN_RW_PORT=$(validate_port $FR_DOCKER_PRIVATEBIN_RW_PORT $DEFAULT_PRIVATEBIN_RW_PORT)
+
 read -p "Port for MariaDB connection [$DEFAULT_MARIADB_PORT]: " FR_DOCKER_MARIADB_PORT
 FR_DOCKER_MARIADB_PORT=$(validate_port $FR_DOCKER_MARIADB_PORT $DEFAULT_MARIADB_PORT)
 
@@ -411,6 +435,8 @@ FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
 FR_DOCKER_SMASHPIG_PORT=${FR_DOCKER_SMASHPIG_PORT}
+FR_DOCKER_PRIVATEBIN_RO_PORT=${FR_DOCKER_PRIVATEBIN_RO_PORT}
+FR_DOCKER_PRIVATEBIN_RW_PORT=${FR_DOCKER_PRIVATEBIN_RW_PORT}
 FR_DOCKER_MARIADB_PORT=${FR_DOCKER_MARIADB_PORT}
 FR_DOCKER_XDEBUG_PORT=${xdebug_port}
 FR_DOCKER_UID=$(id -u)
@@ -445,6 +471,8 @@ declare -a xdebug_config_files=(
 	"config/civiproxy/xdebug-web.ini"
 	"config/smashpig/xdebug-cli.ini"
 	"config/smashpig/xdebug-web.ini"
+	"config/privatebin/xdebug-cli.ini"
+	"config/privatebin/xdebug-web.ini"
 )
 
 for i in "${xdebug_config_files[@]}"
@@ -471,39 +499,46 @@ echo
 if [ $skip_install_dependencies = false ]; then
 	
 	echo "**** Composer"
-	
+
 	read -p "Payments: run composer install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/var/www/html/" payments composer install
 	fi
 	echo
-	
+
 	read -p "Civicrm buildkit: run composer install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/srv/civicrm-buildkit" civicrm composer install
 	fi
 	echo
-	
+
 	read -p "Civicrm buildkit: run npm install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/srv/civicrm-buildkit" civicrm npm install
 	fi
 	echo
-	
+
 	read -p "Email Preference Center: run composer install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/var/www/html/" email-pref-ctr composer install
 	fi
 	echo
-	
+
 	read -p "Smashpig: run composer install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/srv/smashpig" civicrm composer install
+	fi
+	echo
+
+	read -p "Privatebin: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO put this in a separate script
+		docker-compose exec -w "/var/www/html" privatebin composer install
 	fi
 	echo
 
@@ -745,4 +780,6 @@ echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.lo
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
 echo "CiviProxy URL: https://localhost:$FR_DOCKER_CIVIPROXY_PORT"
 echo "E-mail Preference Center URL: https://localhost:$FR_DOCKER_EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
+echo "PrivateBin read-only URL: https://localhost:$FR_DOCKER_PRIVATEBIN_RO_PORT"
+echo "PrivateBin read-write URL: https://localhost:$FR_DOCKER_PRIVATEBIN_RW_PORT"
 echo
