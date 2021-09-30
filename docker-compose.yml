@@ -26,14 +26,14 @@ x-civicrm-site-key:
 
 services:
   payments:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.2-1
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0 # Allow non-root user to listen on the privileged 443 port.
     user: *user
 
     ports:
       - "${FR_DOCKER_PAYMENTS_PORT:-9001}:9001"
-      - "${FR_DOCKER_APPLE_PAY_PAYMENTS_PORT:-443}:443" # Apple Pay override port settings
+      - "${FR_DOCKER_PAYMENTS_HTTP_PORT:-9009}:9002"
 
     volumes:
       - ./src/payments/:/var/www/html/:cached
