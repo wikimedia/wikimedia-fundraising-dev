@@ -19,6 +19,7 @@ MW_PASSWORD="dockerpass"
 CIVI_ADMIN_PASS="admin"
 SMASHPIG_DB_USER_PASSWORD="dockerpass"
 DEFAULT_COMPOSE_PROJECT_NAME="fundraising-dev"
+DEFAULT_PAYMENTS_TEST_NUMBER=1
 
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
@@ -385,6 +386,13 @@ FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMEN
 read -p "Port for Payments http [$DEFAULT_PAYMENTS_HTTP_PORT]: " FR_DOCKER_PAYMENTS_HTTP_PORT
 FR_DOCKER_PAYMENTS_HTTP_PORT=$(validate_port $FR_DOCKER_PAYMENTS_HTTP_PORT $DEFAULT_PAYMENTS_HTTP_PORT)
 
+# select one of the six test hostnames to forward
+read -p "Which payments test hostname would you like to use (1-6)? [$DEFAULT_PAYMENTS_TEST_NUMBER]: " FR_DOCKER_PAYMENTS_TEST_NUMBER
+FR_DOCKER_PAYMENTS_TEST_NUMBER=${FR_DOCKER_PAYMENTS_TEST_NUMBER:-$DEFAULT_PAYMENTS_TEST_NUMBER}
+while ! [[ $FR_DOCKER_PAYMENTS_TEST_NUMBER =~ ^[1-6]$ ]]; do
+  read -p "Please enter a number 1-6: " FR_DOCKER_PAYMENTS_TEST_NUMBER
+done
+
 FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
 echo "Port for Civicrm is currently not easily configurable. Set to $FR_DOCKER_CIVICRM_PORT."
 
@@ -431,6 +439,7 @@ cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_PAYMENTS_HTTP_PORT=${FR_DOCKER_PAYMENTS_HTTP_PORT}
+FR_DOCKER_PAYMENTS_TEST_NUMBER=${FR_DOCKER_PAYMENTS_TEST_NUMBER}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
@@ -741,6 +750,7 @@ cd "${start_dir}"
 
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
+echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PAYMENTS_TEST_NUMBER.wmcloud.org (run payments-proxy-forward.sh)"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"

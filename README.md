@@ -286,6 +286,22 @@ For a root shell, use this command:
 
     docker-compose exec -u 0 {service} bash
 
+## Serving payments-wiki via a routable URL
+
+You may need a routable (non-localhost) URL to test payments-wiki for certain methods (e.g. Apple Pay) or just
+to test using different devices. Fundraising tech has a Wikimedia Cloud Services project (fr-tech-dev) set up
+to forward the URLs paymentstest1.wmcloud.org ... paymentstest6.wmcloud.org to different ports on our VPS. You
+can forward one of those to your local machine using the payments-proxy-forward.sh script. Note that it assumes
+you have a setting in your .ssh/config like the following:
+
+Host payments.fr-tech-dev
+    User <your shell name>
+    Hostname %h.eqiad1.wikimedia.cloud
+    ProxyJump bastion.wmcloud.org:22
+    IdentityFile ~/.ssh/id_rsa
+
+For more info, see [Help accessing Cloud VPS instances](https://wikitech.wikimedia.org/wiki/Help:Accessing_Cloud_VPS_instances).
+
 ## Docker troubleshooting
 
 Here are some commands for debugging problems with this Docker appliaction.
