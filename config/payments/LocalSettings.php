@@ -368,15 +368,18 @@ wfLoadExtensions( array(
 $wgHooks['AlterPaymentFormData'][] = 'EndowmentHooks::onAlterPaymentFormData';
 
 # Queues
-$wgDonationInterfaceDefaultQueueServer = array(
-	'type' => '\PHPQueue\Backend\Predis',
+$fundraisingEmailUnsubscribeQueueDefaults = array(
 	'servers' => array(
 		'scheme' => 'tcp',
 		'host' => 'queues',
 		'port' => 6379,
 	),
-	# On staging expiry is set to one month. TODO Set it here, too?
-	# 'expiry' => 2592000,
+);
+
+$wgFundraisingEmailUnsubscribeQueueClass = 'PHPQueue\Backend\Predis';
+$wgFundraisingEmailUnsubscribeQueueParameters = array(
+	'unsubscribe' => $fundraisingEmailUnsubscribeQueueDefaults,
+	'opt-in' => $fundraisingEmailUnsubscribeQueueDefaults,
 );
 
 # Endowment logo
@@ -402,23 +405,18 @@ $wgIngenicoGatewayEnabled = true;
 $wgPaypalGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
 
-# TODO Deprecate this, remove relateed code, something? Not present on staging, but mentioned
-# in documentation on mediawiki.org
-# $wgWorldpayGatewayEnabled = false;
-
 # Components
 $wgDonationInterfaceEnableReferrerFilter = true;
 $wgDonationInterfaceEnableSourceFilter = true;
 $wgDonationInterfaceEnableFunctionsFilter = true;
 $wgDonationInterfaceEnableConversionLog = true;
 
-# The setting below is enbaled on staging, but it's best to leave it off for dev setup
+# The setting below is enabled on staging, but it's best to leave it off for dev setup
 $wgDonationInterfaceEnableIPVelocityFilter = false;
 
 $wgDonationInterfaceEnableFormChooser = true;
 $wgDonationInterfaceEnableSessionVelocityFilter = false;
 $wgDonationInterfaceEnableSystemStatus = true;
-$wgDonationInterfaceEnableQueue = true;
 $wgDonationInterfaceEnableBannerHistoryLog = true;
 
 # As per vagrant, leaving this off, though it's on for staging. Also not setting
@@ -429,13 +427,10 @@ $wgDonationInterfaceEnableMinFraud = false;
 $wgDonationInterfaceThankYouPage = 'https://thankyou.wikipedia.org/wiki/Thank_You';
 $wgDonationInterfacePriceCeiling = 12000;
 
-$wgDonationInterfaceHeader = "{{2010/Donate-banner/@language}}";
-
 # Value on staging: 'http://wikimediafoundation.org/wiki/DonateNonJS/en'
 $wgDonationInterfaceNoScriptRedirect = 'http://testNoScriptRedirect.example.com/blah';
 
 $wgDonationInterfaceUseSyslog = true;
-$wgDonationInterfaceExtrasLog = 'syslog'; # Removed conditional from staging config
 $wgDonationInterfaceSaveCommStats = true;
 $wgDonationInterfaceTimeout = 12; # Comment from staging: Can't seem to override this for PayPal EC, trying here in desperation
 
@@ -445,12 +440,6 @@ $wgDonationInterfaceRapidFail = true;
 
 # Always notify donor when we automatically switch currency.
 $wgDonationInterfaceNotifyOnConvert = true;
-
-$wgFundraisingEmailUnsubscribeQueueClass = 'PHPQueue\Backend\Predis';
-$wgFundraisingEmailUnsubscribeQueueParameters = array(
-	'unsubscribe' => $wgDonationInterfaceDefaultQueueServer,
-	'opt-in' => $wgDonationInterfaceDefaultQueueServer,
-);
 
 ### Set form_variants directory. This value is specific to our Docker setup. The setting
 ### is also on vagrant and staging, with different values.
@@ -462,10 +451,6 @@ $wgDonationInterfaceVariantConfigurationDirectory =
 
 # Monthly convert: uncomment and set this to test default country-based monthly convert
 # $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
-
-# TODO What do do about this setting? Below is the value it's at in both
-# staging and vagrant.
-# $wgDonationInterfaceMemcacheHost = 'localhost';
 
 # TODO How should we set $wgDonationInterfaceLocalConfigurationDirectory?
 # On staging, it's set to '/srv/www/org/wikimedia/payments/di-config'.
@@ -489,11 +474,9 @@ $wgDonationInterfaceTestMode = false;
 # This following settings only appear in the mediawiki.org documentation.
 $wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
-$wgDonationInterfaceLogCompleted = true; # Apperently never read in the code
+$wgDonationInterfaceLogCompleted = true;
 
 $wgDonationInterfaceLogDebug = false;
-$wgGlobalCollectGatewayLogCompleted = true;
-$wgIngenicoGatewayLogCompleted = true;
 $wgIngenicoGatewayCurlVerboseLog = true;
 $wgAmazonGatewayLogDebug = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
