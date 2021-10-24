@@ -142,14 +142,18 @@ wfLoadSkin( 'Vector' );
 ### Begin payments-specific general Mediawiki settings ###
 ##########################################################
 
+# Prevent server- and client-side caching of page content
+$wgParserCacheType = CACHE_NONE;
+$wgCachePages = false;
+$wgUseFileCache = false;
+
 ### Settings below are based on settings for staging in the localsettings repo,
 ### at commit c6a5b1dac95876199.
 
 # TODO Check all these, too.
 
-$wgUseFileCache = true;
+# $wgUseFileCache and $wgFileCacheDirectory omitted here; see above
 $wgCacheDirectory = '/tmp/'; # Different value from staging
-$wgFileCacheDirectory = "{$wgCacheDirectory}/html";
 $wgLocalisationUpdateDirectory = "{$wgCacheDirectory}/l10n";
 
 # NoLogin
