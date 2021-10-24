@@ -471,14 +471,14 @@ $wgDonationInterfaceTestMode = false;
 # $wgAdyenGatewayTest, $wgAmazonGatewayTest (different from above). TODO Check this, and maybe
 # move those settings here.
 
-# This following settings only appear in the mediawiki.org documentation.
+# The following settings only appear in the mediawiki.org documentation.
 $wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
 $wgDonationInterfaceLogCompleted = true;
 
-$wgDonationInterfaceLogDebug = false;
+# Set this to false for less verbose logging
+$wgDonationInterfaceLogDebug = true;
 $wgIngenicoGatewayCurlVerboseLog = true;
-$wgAmazonGatewayLogDebug = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
 
 ### Include private settings
