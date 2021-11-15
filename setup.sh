@@ -19,7 +19,7 @@ MW_PASSWORD="dockerpass"
 CIVI_ADMIN_PASS="admin"
 SMASHPIG_DB_USER_PASSWORD="dockerpass"
 DEFAULT_COMPOSE_PROJECT_NAME="fundraising-dev"
-DEFAULT_PAYMENTS_TEST_NUMBER=1
+DEFAULT_PROXY_FORWARD_ID=1
 
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
@@ -181,24 +181,24 @@ fi
 
 if [ $skip_reclone = false ]; then
 	echo "**** Set up source code"
-	
+
 	clone_mw=$(ask_reclone "src/${PAYMENTS_SRC_DIR}" "Payments wiki source")
-	
+
 	if [ $clone_mw = true ]; then
 		echo "**** Cloning and setting up Payments source code in src/${PAYMENTS_SRC_DIR}"
-	
+
 		rm -rf src/${PAYMENTS_SRC_DIR}
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 			--depth=10 --no-single-branch \
 			src/${PAYMENTS_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
-	
+
 		cd src/${PAYMENTS_SRC_DIR}
 		git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
 		git submodule update --init --recursive
-	
+
 		# For DonationInterface and FundraisingEmailUnsubscribe, we want to be on the master branch for
 		# development purposes. Other extensions should stay at the version indicated by the submodule
 		# pointer for the FR_MW_CORE_BRANCH.
@@ -206,117 +206,117 @@ if [ $skip_reclone = false ]; then
 		git checkout master
 		cd ../FundraisingEmailUnsubscribe
 		git checkout master
-	
+
 		cd "${script_dir}"
 		echo
 	fi
-	
+
 	clone_buildkit=$(ask_reclone "src/${CIVICRM_BUILDKIT_SRC_DIR}" "Civicrm Buildkit source")
-	
+
 	if [ $clone_buildkit = true ]; then
 		echo "**** Cloning and setting up Civicrm Buildkit source code in src/${CIVICRM_BUILDKIT_SRC_DIR}"
-	
+
 		rm -rf src/${CIVICRM_BUILDKIT_SRC_DIR}
-	
+
 		git clone "https://github.com/civicrm/civicrm-buildkit.git" src/${CIVICRM_BUILDKIT_SRC_DIR}
-	
+
 		echo
 	fi
-	
+
 	clone_crm=$(ask_reclone "src/${CRM_SRC_DIR}" "WMF crm source repo (includes civicrm and drupal)")
-	
+
 	if [ $clone_crm = true ]; then
 		echo "**** Cloning and setting up WMF crm source repo in src/${CRM_SRC_DIR}"
-	
+
 		rm -rf src/${CRM_SRC_DIR}
 		mkdir -p src/civi-sites
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
 			src/${CRM_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${CRM_SRC_DIR}/.git/hooks/"
-	
+
 		cd src/${CRM_SRC_DIR}
 		git submodule update --init --recursive
 		cd "${script_dir}"
-	
+
 		echo
 	fi
-	
+
 	clone_civiproxy=$(ask_reclone "src/${CIVIPROXY_SRC_DIR}" "Civiproxy source")
-	
+
 	if [ $clone_civiproxy = true ]; then
 		echo "**** Cloning and setting up Civiproxy in src/${CIVIPROXY_SRC_DIR}"
-	
+
 		rm -rf src/${CIVIPROXY_SRC_DIR}
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
 			src/${CIVIPROXY_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
-	
+
 		echo
 	fi
-	
+
 	clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
-	
+
 	if [ $clone_tools = true ]; then
 		echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
-	
+
 		rm -rf src/${TOOLS_SRC_DIR}
 		mkdir -p src/
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
 			src/${TOOLS_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${TOOLS_SRC_DIR}/.git/hooks/"
-	
+
 		echo
 	fi
-	
+
 	clone_mw=$(ask_reclone "src/${EMAIL_PREF_CTR_SRC_DIR}" "E-mail Preference Center wiki source")
-	
+
 	if [ $clone_mw = true ]; then
 		echo "**** Cloning and setting up E-mail Preference Center source code in src/${EMAIL_PREF_CTR_SRC_DIR}"
-	
+
 		rm -rf src/${EMAIL_PREF_CTR_SRC_DIR}
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 			--depth=10 --no-single-branch \
 			src/${EMAIL_PREF_CTR_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${EMAIL_PREF_CTR_SRC_DIR}/.git/hooks/"
-	
+
 		cd src/${EMAIL_PREF_CTR_SRC_DIR}
 		git checkout --track remotes/origin/${FR_MW_CORE_BRANCH}
 		git submodule update --init --recursive
-	
+
 		# For DonationInterface we want to be on the master branch for
 		# development purposes. Other extensions should stay at the version indicated by the submodule
 		# pointer for the FR_MW_CORE_BRANCH.
 		cd extensions/DonationInterface
 		git checkout master
-	
+
 		cd "${script_dir}"
 		echo
 	fi
-	
+
 	clone_smashpig=$(ask_reclone "src/${SMASHPIG_SRC_DIR}" "SmashPig")
-	
+
 	if [ $clone_smashpig = true ]; then
 		echo "**** Cloning and setting up SmashPig in src/${SMASHPIG_SRC_DIR}"
-	
+
 		rm -rf src/${SMASHPIG_SRC_DIR}
 		mkdir -p src/
-	
+
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
 			src/${SMASHPIG_SRC_DIR} && \
 			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${SMASHPIG_SRC_DIR}/.git/hooks/"
-	
+
 		echo
 	fi
-	
+
 	clone_privatebin=$(ask_reclone "src/${PRIVATEBIN_SRC_DIR}" "PrivateBin source")
 
 	if [ $clone_privatebin = true ]; then
@@ -389,10 +389,10 @@ read -p "Port for Payments http [$DEFAULT_PAYMENTS_HTTP_PORT]: " FR_DOCKER_PAYME
 FR_DOCKER_PAYMENTS_HTTP_PORT=$(validate_port $FR_DOCKER_PAYMENTS_HTTP_PORT $DEFAULT_PAYMENTS_HTTP_PORT)
 
 # select one of the six test hostnames to forward
-read -p "Which payments test hostname would you like to use (1-6)? [$DEFAULT_PAYMENTS_TEST_NUMBER]: " FR_DOCKER_PAYMENTS_TEST_NUMBER
-FR_DOCKER_PAYMENTS_TEST_NUMBER=${FR_DOCKER_PAYMENTS_TEST_NUMBER:-$DEFAULT_PAYMENTS_TEST_NUMBER}
-while ! [[ $FR_DOCKER_PAYMENTS_TEST_NUMBER =~ ^[1-6]$ ]]; do
-  read -p "Please enter a number 1-6: " FR_DOCKER_PAYMENTS_TEST_NUMBER
+read -p "Which proxy forwarding ID would you like to use (1-6)? [$DEFAULT_PROXY_FORWARD_ID]: " FR_DOCKER_PROXY_FORWARD_ID
+FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID:-$DEFAULT_PROXY_FORWARD_ID}
+while ! [[ $FR_DOCKER_PROXY_FORWARD_ID =~ ^[1-6]$ ]]; do
+	read -p "Please enter a number 1-6: " FR_DOCKER_PROXY_FORWARD_ID
 done
 
 FR_DOCKER_CIVICRM_PORT=$DEFAULT_CIVICRM_PORT
@@ -447,7 +447,7 @@ cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_PAYMENTS_HTTP_PORT=${FR_DOCKER_PAYMENTS_HTTP_PORT}
-FR_DOCKER_PAYMENTS_TEST_NUMBER=${FR_DOCKER_PAYMENTS_TEST_NUMBER}
+FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
 FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT}
@@ -514,7 +514,7 @@ echo "Database ready"
 echo
 
 if [ $skip_install_dependencies = false ]; then
-	
+
 	echo "**** Composer"
 
 	read -p "Payments: run composer install? [Yn] " -r
@@ -758,11 +758,12 @@ cd "${start_dir}"
 
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
-echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PAYMENTS_TEST_NUMBER.wmcloud.org (run payments-proxy-forward.sh)"
+echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
 echo "CiviProxy URL: https://localhost:$FR_DOCKER_CIVIPROXY_PORT"
+echo "SmashPig IPN listener routable URL: https://paymentsipntest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
 echo "E-mail Preference Center URL: https://localhost:$FR_DOCKER_EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
 echo "PrivateBin read-only URL: https://localhost:$FR_DOCKER_PRIVATEBIN_RO_PORT"
 echo "PrivateBin read-write URL: https://localhost:$FR_DOCKER_PRIVATEBIN_RW_PORT"

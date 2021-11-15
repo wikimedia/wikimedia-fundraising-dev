@@ -286,13 +286,19 @@ For a root shell, use this command:
 
     docker-compose exec -u 0 {service} bash
 
-## Serving payments-wiki via a routable URL
+## Serving payments and smashpig services via routable URLs
 
-You may need a routable (non-localhost) URL to test payments-wiki for certain methods (e.g. Apple Pay) or just
-to test using different devices. Fundraising tech has a Wikimedia Cloud Services project (fr-tech-dev) set up
-to forward the URLs paymentstest1.wmcloud.org ... paymentstest6.wmcloud.org to different ports on our VPS. You
-can forward one of those to your local machine using the payments-proxy-forward.sh script. Note that it assumes
-you have a setting in your .ssh/config like the following:
+You may need a routable (non-localhost) URL to test Payments for certain methods (e.g.
+Apple Pay) or just to test using different devices. Also, to test SmashPig IPN
+listeners, your local SmashPig service needs to be publicly accessible.
+
+Fundraising tech has a Wikimedia Cloud Services project (fr-tech-dev) set up to forward
+the URLs paymentstest[1-6].wmcloud.org and paymentsipntest[1-6].wmcloud.org to different
+ports on our VPS. You can forward these ports to your local machine using the
+proxy-forward.sh script. Consult with FR-Tech to reserve a pair of URLs and a pair of
+ports, and enter the corresponding number when setup.sh asks for your proxy forwarding ID.
+
+Note that the script assumes you have a setting in your .ssh/config like the following:
 
 Host payments.fr-tech-dev
     User <your shell name>
@@ -301,6 +307,37 @@ Host payments.fr-tech-dev
     IdentityFile ~/.ssh/id_rsa
 
 For more info, see [Help accessing Cloud VPS instances](https://wikitech.wikimedia.org/wiki/Help:Accessing_Cloud_VPS_instances).
+
+### Using autossh and a systemd service
+
+autossh is a utility for restarting ssh connections if they fail. If you install autossh on your system,
+you can use it to forward ports for your services like this:
+
+    proxy-forward.sh --autossh
+
+On Linux, to set this up as a service managed by your local user, create a file called
+~/.config/systemd/user/fr-tunnel.service with the following contents (substituting
+{FUNDRAISING-DEV_DIRECTORY} with the full path to your fundraising-dev setup):
+
+    [Unit]
+    Description=Tunnels for Fundraising local development
+
+    [Service]
+    WorkingDirectory={FUNDRAISING-DEV_DIRECTORY}
+    ExecStart={FUNDRAISING-DEV_DIRECTORY}/proxy-forward.sh --autossh
+    ExecStop=/bin/kill $MAINPID
+
+    [Install]
+    WantedBy=default.target
+
+Then run:
+
+    systemctl --user daemon-reload
+
+After that, you should be able to start and stop the tunnels with the following commands:
+
+    systemctl --user start fr-tunnel.service
+    systemctl --user stop fr-tunnel.service
 
 ## Docker troubleshooting
 
