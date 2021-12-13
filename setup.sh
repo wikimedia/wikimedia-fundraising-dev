@@ -762,6 +762,7 @@ echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PROXY_FORWARD_I
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
+echo "Mailcatcher - mails sent from CiviCRM core code: http://localhost:$FR_DOCKER_MAILCATCHER_PORT"
 echo "CiviProxy URL: https://localhost:$FR_DOCKER_CIVIPROXY_PORT"
 echo "SmashPig IPN listener routable URL: https://paymentsipntest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
 echo "E-mail Preference Center URL: https://localhost:$FR_DOCKER_EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
