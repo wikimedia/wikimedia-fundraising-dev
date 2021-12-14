@@ -4,6 +4,9 @@
 // send email to mailcatcher. When CIVICRM_MAIL_LOG is defined all email will go to
 // that folder
 
-//if (!defined('CIVICRM_MAIL_LOG')) {
-  //define('CIVICRM_MAIL_LOG', '/dev/null');
-//}
+// This sets our WMF mailFactory (in the omnimail extension) to send
+// to our local dev mailcatcher - accessible at http://localhost:1080/
+// This is used for end of year emails and thank you emails & large donations
+if (!defined('CIVICRM_SMTP_HOST')) {
+  putenv('CIVICRM_SMTP_HOST=mailcatcher:1025');
+}
