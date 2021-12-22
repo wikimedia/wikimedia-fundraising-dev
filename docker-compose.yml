@@ -80,7 +80,7 @@ services:
 
 
   email-pref-ctr:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.2-1
     user: *user
 
     ports:
@@ -119,7 +119,7 @@ services:
 
 
   civicrm:
-    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2:0.0.1-1-s2
     user: *user
 
     ports:
@@ -152,7 +152,7 @@ services:
 
 
   smashpig:
-    image: docker-registry.wikimedia.org/dev/fundraising-smashpig-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-smashpig-buster-php73-apache2:0.0.1-1-s3
     user: *user
 
     ports:
@@ -175,7 +175,7 @@ services:
 
 
   civiproxy:
-    image: docker-registry.wikimedia.org/dev/fundraising-civiproxy-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-civiproxy-buster-php73-apache2:0.0.1-1-s2
 
     ports:
       - 9005:9001
@@ -213,7 +213,7 @@ services:
 
 
   logger:
-    image: docker-registry.wikimedia.org/dev/buster-rsyslog:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s1
     user: *user
 
     volumes:
