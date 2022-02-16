@@ -141,6 +141,7 @@ services:
       # Provide user id and group id for rsyslog to drop privileges
       - FR_DOCKER_UID
       - FR_DOCKER_GID
+      - FR_DOCKER_EMAIL_PREF_CTR_PORT=${FR_DOCKER_EMAIL_PREF_CTR_PORT:-9002}
 
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civicrm
