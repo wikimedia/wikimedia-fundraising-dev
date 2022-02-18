@@ -113,7 +113,7 @@ $rest_allowed_actions = array(
   'all' => array(
     'CiviProxy' => array(
       'getpreferences' => array(
-        'hash' => 'string',
+        'checksum' => 'string',
         'contact_id' => 'int',
       ),
     ),
