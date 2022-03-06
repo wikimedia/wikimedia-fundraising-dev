@@ -20,8 +20,9 @@ Donate links:
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=rtbt_ideal&recurring=0&uselang=en&language=en&currency=EUR&amount=2&country=NL&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} iDEAL in NL, English, EUR]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=rtbt_ideal&recurring=1&uselang=en&language=en&currency=EUR&amount=2&country=NL&ffname=adyen&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring iDEAL in NL, English, EUR]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=apple&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&debug=true}} Apple Pay in US, English, USD]
-** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&debug=true}} Apple Pay in US, English, USD]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&debug=true}} Apple Pay in US (Recurring), English, USD]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=apple&recurring=0&uselang=en&language=en&currency=JPY&amount=150&country=JP&ffname=adyen&debug=true}} Apple Pay in JP, English, JPY]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=google&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen&debug=true}} Google Pay in US, English, USD]
 
 * Amazon
 ** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&ffname=amazon&debug=true}} In US, no language specified, USD]
