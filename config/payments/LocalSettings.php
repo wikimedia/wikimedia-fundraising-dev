@@ -450,14 +450,14 @@ $wgDonationInterfaceNotifyOnConvert = true;
 $wgDonationInterfaceVariantConfigurationDirectory =
 	'/var/www/html/extensions/DonationInterface/form_variants';
 
+# Directory for files to override shipped defaults in yaml config files.
+$wgDonationInterfaceLocalConfigurationDirectory = '/srv/config/exposed/payments/di-config';
+
 # ZOMG DIRE EMERGENCY aka shut down gracefully :p
 # $wgDonationInterfaceFundraiserMaintenance = true;
 
 # Monthly convert: uncomment and set this to test default country-based monthly convert
 # $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
-
-# TODO How should we set $wgDonationInterfaceLocalConfigurationDirectory?
-# On staging, it's set to '/srv/www/org/wikimedia/payments/di-config'.
 
 # These debug and log settings are scattered in various parts of staging LocalSettings.php.
 # Moving them to the bottom of this file for easier tweaking.
