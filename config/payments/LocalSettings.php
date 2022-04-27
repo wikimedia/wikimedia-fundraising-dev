@@ -37,10 +37,6 @@ $wgServer = WebRequest::detectServer();
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
 
-## The URL paths to the logo.  Make sure you change this from the default,
-## or else you'll overwrite your logo when you upgrade!
-$wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/wiki.png" ];
-
 ## UPO means: this is also a user preference option
 
 $wgEnableEmail = true;
@@ -166,6 +162,8 @@ function NoLoginLinkOnMainPage(&$personal_urls){
 	return true;
 }
 $wgHooks['PersonalUrls'][]='NoLoginLinkOnMainPage';
+$wgHooks['AlterPaymentFormData'][] = 'EndowmentHooks::onAlterPaymentFormData';
+$wgHooks['BeforePageDisplay'][] = 'EndowmentHooks::onBeforePageDisplay';
 
 ### (Profiling settings, below, are enabled on staging. Commenting them out for now.)
 # TODO Set up profiling in Docker?
@@ -289,11 +287,11 @@ $wgRawHtml = true;
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
 
-$wgLogo = "/images/e/eb/Wmf_logo.png";
-$wgLogoHD = array(
+$wgLogos = [
+	"1x" => "/images/e/eb/Wmf_logo.png",
 	"1.5x" => "/images/f/fc/Wmf_logo_1.5x.png",
 	"2x" => "/images/d/d1/Wmf_logo_2x.png"
-);
+];
 
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['edit'] = false;
@@ -385,19 +383,6 @@ $wgFundraisingEmailUnsubscribeQueueParameters = array(
 	'unsubscribe' => $fundraisingEmailUnsubscribeQueueDefaults,
 	'opt-in' => $fundraisingEmailUnsubscribeQueueDefaults,
 );
-
-# Endowment logo
-$wgDonationInterfaceLogoOverride = [
-	[
-		'variable' => 'utm_medium',
-		'value' => 'endowment',
-		'logo' => '/images/4/49/Wikimedia_Endowment.png',
-		'logoHD' => [
-			'1.5x' => '/images/4/49/Wikimedia_Endowment_1.5x.png',
-			'2x' => '/images/8/85/Wikimedia_Endowment_2x.png',
-		]
-	]
-];
 
 # Gateways
 $wgAdyenGatewayEnabled = true;
