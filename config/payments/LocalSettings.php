@@ -316,12 +316,9 @@ $wgWhitelistRead =  array (
 	"Special:OptIn",
 	"Special:EmailPreferences",
 	"Special:SystemStatus",
-	"Special:PaypalGateway",
 	"Special:PaypalExpressGateway",
 	"Special:PaypalExpressGatewayResult",
 	"Special:PaypalLegacyGateway",
-	"Special:AdyenGateway",
-	"Special:AdyenGatewayResult",
 	"Special:AdyenCheckoutGateway",
 	"Special:AdyenCheckoutGatewayResult",
 	"Special:AstroPayGateway",
@@ -385,13 +382,11 @@ $wgFundraisingEmailUnsubscribeQueueParameters = array(
 );
 
 # Gateways
-$wgAdyenGatewayEnabled = true;
 $wgAdyenCheckoutGatewayEnabled = true;
 $wgAmazonGatewayEnabled = true;
 $wgAstroPayGatewayEnabled = true;
 $wgGlobalCollectGatewayEnabled = true;
 $wgIngenicoGatewayEnabled = true;
-$wgPaypalGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
 
 # Components
@@ -456,8 +451,8 @@ $wgDonationInterfaceTestMode = false;
 # Note: Several other "Test" settings were set in the private 20-DI-accounts.php file, and
 # have been left private in config-private/payments/LocalSettings-private.php, just in case
 # they need to be there.
-# They are: $wgAstroPayGatewayTest, $wgPaypalGatewayTest and $wgGlobalCollectGatewayTest,
-# $wgAdyenGatewayTest, $wgAmazonGatewayTest (different from above). TODO Check this, and maybe
+# They are: $wgAstroPayGatewayTest, $wgGlobalCollectGatewayTest,
+# and $wgAmazonGatewayTest (different from above). TODO Check this, and maybe
 # move those settings here.
 
 # The following settings only appear in the mediawiki.org documentation.
