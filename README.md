@@ -300,11 +300,11 @@ ports, and enter the corresponding number when setup.sh asks for your proxy forw
 
 Note that the script assumes you have a setting in your .ssh/config like the following:
 
-Host payments.fr-tech-dev
-    User <your shell name>
-    Hostname %h.eqiad1.wikimedia.cloud
-    ProxyJump bastion.wmcloud.org:22
-    IdentityFile ~/.ssh/id_rsa
+    Host payments.fr-tech-dev
+        User <your shell name>
+        Hostname %h.eqiad1.wikimedia.cloud
+        ProxyJump bastion.wmcloud.org:22
+        IdentityFile ~/.ssh/id_rsa
 
 For more info, see [Help accessing Cloud VPS instances](https://wikitech.wikimedia.org/wiki/Help:Accessing_Cloud_VPS_instances).
 
