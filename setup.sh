@@ -6,6 +6,7 @@
 PAYMENTS_SRC_DIR="payments"
 CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
+CRM_DMASTER_SRC_DIR="civi-sites/dmaster"
 CIVIPROXY_SRC_DIR="civiproxy"
 TOOLS_SRC_DIR="tools"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
@@ -238,6 +239,18 @@ if [ $skip_reclone = false ]; then
 
 		cd src/${CRM_SRC_DIR}
 		git submodule update --init --recursive
+		cd "${script_dir}"
+
+		echo
+	fi
+
+	clone_crm_dmaster=$(ask_reclone "src/${CRM_DMASTER_SRC_DIR}" "CiviCRM dmaster repo (will be recloned in Civi setup)")
+
+	if [ $clone_crm_dmaster = true ]; then
+		echo "**** CiviCRM dmaster repo empty (or removed). To clone (or reclone), answer 'y' below when asked to run civibuild.)"
+
+		rm -rf src/${CRM_DMASTER_SRC_DIR}
+		mkdir -p src/civi-sites
 		cd "${script_dir}"
 
 		echo
