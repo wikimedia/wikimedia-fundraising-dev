@@ -69,9 +69,9 @@ Donate links:
 ** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=0&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=AMD&amount=1000&uselang=en&debug=true}} In US, English, AMD - currency conversion required.]
 
 * Gateway form chooser
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=cc&debug=true}} Credit card in US, English, USD]
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=EEK&country=US&amount=2500&payment_method=paypal&debug=true}} Paypal in US, English, EEK]
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=CAD&country=CA&amount=250&payment_method=amazon&debug=true}} Amazon in CA, English, CAD]
+** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=cc&debug=true}} Credit card in US, English, USD]
+** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=EEK&country=US&amount=2500&payment_method=paypal&debug=true}} Paypal in US, English, EEK]
+** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=CAD&country=CA&amount=250&payment_method=amazon&debug=true}} Amazon in CA, English, CAD]
 
 See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good use of a Special page, to build a payments query out of adjustable parameters.
 
@@ -80,12 +80,12 @@ See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good
 * [{{fullurl:Special:AmazonGateway|uselang=en&language=en&currency=USD&country=US&amount=992500&payment_method=amazon&debug=true}} Donation amount too high (Amazon)]
 * [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=0&uselang=en&language=en&currency=INR&country=US&amount=200.01&debug=true}} Correcting currency (PayPal)]
 * [{{fullurl:Special:PaypalExpressGateway|ffname=paypal&recurring=0&payment_method=paypal&utm_source=fr-redir.default%7Edefault%7Edefault%7Edefault%7Econtrol.paypal&utm_medium=spontaneous&utm_campaign=spontaneous&utm_key=&referrer=&language=en&country=US&returnto=Thank_You%2Fen&amountGiven=&currency=EEK&frequency=onetime&amount=30000000&uselang=en&debug=true}} Amount too high and currency correction (PayPal)]
-* [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=blarg&debug=true}} Nonsense payment method]
+* [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=blarg&debug=true}} Nonsense payment method]
 * [{{fullurl:Special:PaypalExpressGateway|ffname=badname&recurring=0&payment_method=paypal&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency=NKD&frequency=onetime&amount=3000&uselang=en&debug=true}} Bad form name (PayPal)]
 * [{{fullurl:Special:IngenicoGateway|ffname=badname&recurring=0&payment_method=aa&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency=ABC&frequency=onetime&amount=3000&uselang=en&debug=true}} Bad form name, method, and currency (Ingenico)]
 
 == Debugging ==
-* [{{fullurl:Special:GatewayFormChooser|testGetAll=1&debug=true}} Dump gateway form choices]
+* [{{fullurl:Special:GatewayChooser|testGetAll=1&debug=true}} Dump gateway form choices]
 * [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=0&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01&debug=true}} Payment form with message labels (Ingenico)]
 
 = Orphan slayer =

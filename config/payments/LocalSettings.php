@@ -308,7 +308,8 @@ $wgWhitelistRead =  array (
 	"MediaWiki:Print.css",
 	"MediaWiki:Vector.css",
 	"Donate-error",
-	"Special:GatewayFormChooser",
+	"Special:GatewayChooser",
+	"Special:GatewayFormChooser", // Legacy, but let's leave this here to mirror expected prod settings.
 	"Special:AmazonGateway",
 	"Special:FundraiserMaintenance",
 	"Special:FundraiserUnsubscribe",
@@ -398,7 +399,7 @@ $wgDonationInterfaceEnableConversionLog = true;
 # The setting below is enabled on staging, but it's best to leave it off for dev setup
 $wgDonationInterfaceEnableIPVelocityFilter = false;
 
-$wgDonationInterfaceEnableFormChooser = true;
+$wgDonationInterfaceEnableGatewayChooser = true;
 $wgDonationInterfaceEnableSessionVelocityFilter = false;
 $wgDonationInterfaceEnableSystemStatus = true;
 $wgDonationInterfaceEnableBannerHistoryLog = true;
