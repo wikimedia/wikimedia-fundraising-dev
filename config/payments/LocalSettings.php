@@ -317,6 +317,8 @@ $wgWhitelistRead =  array (
 	"Special:OptIn",
 	"Special:EmailPreferences",
 	"Special:SystemStatus",
+	"Special:BraintreeGateway",
+	"Special:BraintreeGatewayResult",
 	"Special:PaypalExpressGateway",
 	"Special:PaypalExpressGatewayResult",
 	"Special:PaypalLegacyGateway",
@@ -388,6 +390,7 @@ $wgAmazonGatewayEnabled = true;
 $wgAstroPayGatewayEnabled = true;
 $wgGlobalCollectGatewayEnabled = true;
 $wgIngenicoGatewayEnabled = true;
+$wgBraintreeGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
 
 # Components
