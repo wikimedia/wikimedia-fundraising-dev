@@ -438,8 +438,25 @@ $wgDonationInterfaceLocalConfigurationDirectory = '/srv/config/exposed/payments/
 # ZOMG DIRE EMERGENCY aka shut down gracefully :p
 # $wgDonationInterfaceFundraiserMaintenance = true;
 
-# Monthly convert: uncomment and set this to test default country-based monthly convert
-# $wgDonationInterfaceMonthlyConvertCountries = [ 'XX' ];
+# Always ask for monthly donation after one-time in these countries, even when
+# no variant is specified on the querystring.
+$wgDonationInterfaceMonthlyConvertCountries = [
+  'AT',
+  'AU',
+  'BE',
+  'CA',
+  'ES',
+  'FR',
+  'GB',
+  'IE',
+  'IT',
+  'JP',
+  'LU',
+  'NL',
+  'NZ',
+  'SE',
+  'US'
+];
 
 # These debug and log settings are scattered in various parts of staging LocalSettings.php.
 # Moving them to the bottom of this file for easier tweaking.
