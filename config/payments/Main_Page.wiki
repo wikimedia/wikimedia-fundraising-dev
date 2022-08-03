@@ -72,7 +72,8 @@ Donate links:
 ** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=0&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=AMD&amount=1000&uselang=en&debug=true}} In US, English, AMD - currency conversion required.]
 
 * Gateway form chooser
-** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=cc&debug=true}} Credit card in US, English, USD]
+** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=USD&amount=10&country=US&recurring=false&payment_method=cc&debug=true}} Credit card in US, English, USD]
+** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=USD&amount=1&country=US&recurring=true&payment_method=cc&debug=true}} Recurring credit card in US, English, USD]
 ** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=EEK&country=US&amount=2500&payment_method=paypal&debug=true}} Paypal in US, English, EEK]
 ** [{{fullurl:Special:GatewayChooser|uselang=en&language=en&currency=CAD&country=CA&amount=250&payment_method=amazon&debug=true}} Amazon in CA, English, CAD]
 
