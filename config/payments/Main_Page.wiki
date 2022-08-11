@@ -53,6 +53,10 @@ Donate links:
 
 * Braintree
 ** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Paypal in US, English, USD]
+** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=TWD&amount=130.8&country=US&debug=true}} Paypal in US, English, TWD will round down]
+** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=GBP&amount=10&country=UK&debug=true}} Paypal in UK, English, GBP]
+** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=CAD&amount=10&country=CA&debug=true}} Paypal in CA, English, CAD]
+** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Paypal recurring in US, English, USD]
 
 * Ingenico Connect
 ** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=35&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
