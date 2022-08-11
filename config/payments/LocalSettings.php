@@ -483,6 +483,7 @@ $wgDonationInterfaceLogCompleted = true;
 $wgDonationInterfaceLogDebug = true;
 $wgIngenicoGatewayCurlVerboseLog = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
+$wgDonationInterfaceEmployersListDataFileLocation = '/srv/config/private/payments/employerData.csv';
 
 ### Include private settings
 require( '/srv/config/private/payments/LocalSettings-private.php' );
