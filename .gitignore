@@ -31,6 +31,9 @@ config/civicrm/amp/log/
 # ignore backups of customized files everywhere
 **/*.bkup*
 
+# ignore LocalSettings-local.php
+**/LocalSettings-local.php
+
 # docker-compose.override.yml is for local-specific settings
 docker-compose.override.yml
 

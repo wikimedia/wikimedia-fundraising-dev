@@ -42,7 +42,7 @@ as follows (from the dev-images directory):
 
     docker-pkg -c dockerfiles/config.yaml build --no-pull \
         --select 'docker-registry.wikimedia.org/dev/fundraising*:*' dockerfiles/
-    
+
     docker-pkg -c dockerfiles/config.yaml build --no-pull \
         --select 'docker-registry.wikimedia.org/dev/buster-rsyslog*:*' dockerfiles/
 
@@ -158,15 +158,21 @@ and rsyslog. (See above on how to restart a container.)
 
 ### Tracking changes to files under `config`
 
-Most files under the `config` directory are tracked by git as part of the fundraising-dev repo. You can use
-git to see how your configuration differs from what others are using, or share your changes with
-the rest of the team. Or, you can use git to easily switch among different config settings.
+Most files under the `config` directory are tracked by git as part of the fundraising-dev repo.
+You can use git to share config changes with the rest of the team, and to keep your local config
+up-to-date.
 
-There are also a few files in `config` that are ignored by git. Some&mdash;specifically, xdebug
+There are a few files in `config` that are ignored by git. Some&mdash;specifically, xdebug
 settings&mdash;are ignored because it seems likely that they'll be unique to each
-developer's local setup, so tracking them with git probably wouldn't be useful. (Also
-ignored by this git repo are the private settings, described below. Changes to those settings can be tracked
-using the private git repo.)
+developer's local setup, so tracking them with git probably wouldn't be useful.
+
+For the Payments and E-mail Preference Center wikis, you can create a custom, untracked
+`LocalSettings-local.php` file (in `config/payments`/ and `config/email-pref-ctr`,
+respectively). This is the place to add temporary settings that you need for development without
+modifying git-tracked files.
+
+Also ignored by this git repo are the private settings, described below. Changes to those
+settings can be tracked using the private git repo.
 
 ### Container-internal config
 
@@ -264,7 +270,7 @@ TODO: Adapt this command for access to Civicrm and E-mail Preference Center, too
         {USER_ON_IDE_BOX}@{IP_OF_IDE_BOX}
 
 Depending on your IDE you may wish to set the environment variable PHP_IDE_CONFIG
-For phpstorm it should hold a value like "serverName=wmff" - where wmff is configured 
+For phpstorm it should hold a value like "serverName=wmff" - where wmff is configured
 as a deployment server in phpstorm. If you are using drush then the site alias will set
 this variable - e.g drush @wmff will run drush in the context of the wmff.localhost
 site, including the PHP_IDE_CONFIG.serverName key.

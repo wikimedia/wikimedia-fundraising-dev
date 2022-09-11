@@ -487,3 +487,7 @@ $wgDonationInterfaceEmployersListDataFileLocation = '/srv/config/private/payment
 
 ### Include private settings
 require( '/srv/config/private/payments/LocalSettings-private.php' );
+
+### Include optional settings not tracked by git
+if ( file_exists ( '/srv/config/exposed/payments/LocalSettings-local.php' ) )
+    require( '/srv/config/exposed/payments/LocalSettings-local.php' );
