@@ -95,3 +95,8 @@ sequence-generator:
           host: queues
           port: 6379
         sequence: contribution-tracking
+
+email:
+  smtp: true
+  smtp-host: mailcatcher
+  smtp-port: 1025
