@@ -1,5 +1,7 @@
-# Placehlder for mariadb configuration. These settings are added to the settings
-# in /etc/mysql/my.cnf inside the container.
+# Extra settings for mariadb configuration. This directory is shared as /etc/mysql/conf.d
+# inside the container, and included via /etc/mysql/my.cnf.
+
+[mysqld]
 # The number of seconds the server waits for activity on an interactive connection before closing it.
 interactive_timeout=86400
 # The number of seconds the server waits for activity on a noninteractive connection before closing it.
