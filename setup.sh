@@ -4,6 +4,7 @@
 
 # source directories (under src)
 PAYMENTS_SRC_DIR="payments"
+DONUT_SRC_DIR="donut"
 CIVICRM_BUILDKIT_SRC_DIR="civicrm-buildkit"
 CRM_SRC_DIR="civi-sites/wmff"
 CRM_DMASTER_SRC_DIR="civi-sites/dmaster"
@@ -26,6 +27,7 @@ DEFAULT_PROXY_FORWARD_ID=1
 DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_PAYMENTS_HTTP_PORT=9009
+DEFAULT_DONUT_PORT=9010
 DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
 DEFAULT_CIVIPROXY_PORT=9005
@@ -224,6 +226,60 @@ if [ $skip_reclone = false ]; then
 		echo
 	fi
 
+	clone_donut=$(ask_reclone "src/${DONUT_SRC_DIR}" "Donut wiki source")
+
+	if [ $clone_donut = true ]; then
+		echo "**** Cloning and setting up Donutwiki source code in src/${DONUT_SRC_DIR}"
+
+		rm -rf src/${DONUT_SRC_DIR}
+
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+			--depth=10 --no-single-branch \
+			src/${DONUT_SRC_DIR} && \
+			scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${DONUT_SRC_DIR}/.git/hooks/"
+
+		cat << EOF >> src/${DONUT_SRC_DIR}/composer.local.json
+{
+	"config": {
+		"platform": {
+			"php": "7.4.30"
+		}
+	},
+	"extra": {
+		"merge-plugin": {
+			"include": [
+				"extensions/*/composer.json",
+				"skins/*/composer.json"
+			]
+		}
+	}
+}
+EOF
+
+		# For FundraiserLandingPage and LandingCheck, we want to be on the master branch for
+		# development purposes.
+		# TODO: Other extensions should stay at the version indicated by the submodule
+		# pointer for latest mediawiki core tag deployed to donatewiki.
+		# Oh hey, donut even depends on DonationInterface for some i18n strings!
+		cd src/${DONUT_SRC_DIR}/extensions
+		for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
+		do
+			git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
+				--depth=10 --no-single-branch && \
+			scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"$i/.git/hooks/"
+		done
+		cd ../skins
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/Vector" \
+			--depth=10 --no-single-branch && \
+		scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"Vector/.git/hooks/"
+
+		cd "${script_dir}"
+		echo
+	fi
+
 	clone_buildkit=$(ask_reclone "src/${CIVICRM_BUILDKIT_SRC_DIR}" "Civicrm Buildkit source")
 
 	if [ $clone_buildkit = true ]; then
@@ -413,6 +469,9 @@ FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMEN
 read -p "Port for Payments http [$DEFAULT_PAYMENTS_HTTP_PORT]: " FR_DOCKER_PAYMENTS_HTTP_PORT
 FR_DOCKER_PAYMENTS_HTTP_PORT=$(validate_port $FR_DOCKER_PAYMENTS_HTTP_PORT $DEFAULT_PAYMENTS_HTTP_PORT)
 
+read -p "Port for Donut [$DEFAULT_DONUT_PORT]: " FR_DOCKER_DONUT_PORT
+FR_DOCKER_DONUT_PORT=$(validate_port $FR_DOCKER_DONUT_PORT $DEFAULT_DONUT_PORT)
+
 # select one of the six test hostnames to forward
 read -p "Which proxy forwarding ID would you like to use (1-6)? [$DEFAULT_PROXY_FORWARD_ID]: " FR_DOCKER_PROXY_FORWARD_ID
 FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID:-$DEFAULT_PROXY_FORWARD_ID}
@@ -472,6 +531,7 @@ cat << EOF > /tmp/.env
 COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_PAYMENTS_HTTP_PORT=${FR_DOCKER_PAYMENTS_HTTP_PORT}
+FR_DOCKER_DONUT_PORT=${FR_DOCKER_DONUT_PORT}
 FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
@@ -534,6 +594,8 @@ done
 declare -a xdebug3_config_files=(
 	"config/payments/xdebug-cli.ini"
 	"config/payments/xdebug-web.ini"
+	"config/donut/xdebug-cli.ini"
+	"config/donut/xdebug-web.ini"
 )
 
 for i in "${xdebug3_config_files[@]}"
@@ -565,6 +627,13 @@ if [ $skip_install_dependencies = false ]; then
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO put this in a separate script
 		docker-compose exec -w "/var/www/html/" payments composer install
+	fi
+	echo
+
+	read -p "Donut: run composer install? [Yn] " -r
+	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+		# TODO: need a composer.local.yaml to pull in the extension dependencies
+		docker-compose exec -w "/var/www/html/" donut composer install
 	fi
 	echo
 
@@ -672,6 +741,79 @@ echo "**** Update Payments wiki text"
 
 ./payments-update-text.sh
 echo
+
+echo "**** Donut: install.php, LocalSettings.php and update.php"
+
+donut_install=true
+localsettings_fn=src/${DONUT_SRC_DIR}/LocalSettings.php
+
+# Prepare customized LocalSettings.php
+	cat << EOF > /tmp/LocalSettings.php
+<?php
+require( '/srv/config/exposed/donut/LocalSettings.php');
+EOF
+
+if [[ -e $localsettings_fn || -L $localsettings_fn ]]; then
+	read -p \
+		"Run install.php and set up LocalSettings.php? [yN] " \
+		-r
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		# Back up LocalSettings.php if it's not the standard version
+		if ! cmp -s $localsettings_fn /tmp/LocalSettings.php; then
+			echo "LocalSettings.php contains customizations. Backing it up."
+			backup $localsettings_fn
+		fi
+		rm $localsettings_fn
+	else
+		donut_install=false
+	fi
+fi
+
+if [ $donut_install = true ]; then
+	echo "**** Running maintenance/install.php (cannot be run via run.php because LocalSettings is missing)"
+	docker-compose exec -w "/var/www/html/" donut php maintenance/install.php \
+		--server https://localhost:${FR_DOCKER_DONUT_PORT} \
+		--dbname=donut \
+		--dbuser=root \
+		--dbserver=database \
+		--lang=${MW_LANG} \
+		--scriptpath="" \
+		--pass=${MW_PASSWORD} Donut admin
+
+	echo "Writing $localsettings_fn"
+	mv /tmp/LocalSettings.php $localsettings_fn
+	echo
+
+	# Need to run update here to create all the tables for the extensions before importing the dump
+	docker-compose exec -w "/var/www/html/" donut php maintenance/run.php update --quick
+
+	echo "Importing dump from Donatewiki"
+	gunzip -c config/donut/Donate.xml.gz | sed -e "s/payments.wikimedia.org/localhost:$FR_DOCKER_PAYMENTS_PORT/g" > config/donut/Donate-replaced.xml
+	docker-compose exec -w "/var/www/html/" donut php maintenance/run.php importDump \
+		/srv/config/exposed/donut/Donate-replaced.xml
+	rm config/donut/Donate-replaced.xml
+	# Set the Mainpage to Special:FundraiserRedirector
+	docker-compose exec -T -w "/var/www/html/" \
+		donut php maintenance/run.php edit MediaWiki:Mainpage < config/donut/MediaWiki_Mainpage.wiki
+	# Add the admin user to the centralnoticeadmin group
+	docker-compose exec -T -w "/var/www/html/" \
+		donut php maintenance/run.php createAndPromote admin --force --custom-groups centralnoticeadmin
+fi
+
+# Ask about running update.php if we didn't run install.php
+if [ $donut_install = false ]; then
+  echo "**** maintenance/run.php update"
+	read -p "Run update.php? [yN] " -r
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		docker-compose exec -w "/var/www/html/" donut php maintenance/run.php update --quick
+	fi
+fi
+
+echo
+
+# TODO: Keep donatewiki content up to date via recentchanges API
 
 echo "**** Set up Civicrm"
 
@@ -803,6 +945,7 @@ cd "${start_dir}"
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
 echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
+echo "Donut URL: https://localhost:$FR_DOCKER_DONUT_PORT"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"

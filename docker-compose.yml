@@ -54,6 +54,32 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=payments
 
+  donut:
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    user: *user
+
+    ports:
+      - "${FR_DOCKER_DONUT_PORT:-9001}:9001"
+
+    volumes:
+      - ./src/donut/:/var/www/html/:cached
+      - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
+
+    environment:
+      - *logger-host
+      - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+
+      # Set FR_DOCKER_MW_PORT inside the container so LocalSettings.php can see it
+      - FR_DOCKER_MW_PORT=${FR_DOCKER_DONUT_PORT:-9001}
+
+      # Provide user id and group id for rsyslog to drop privileges
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+
+      # Provide the name of the service to find the right xdebug.ini files
+      - FR_DOCKER_SERVICE_NAME=donut
+
   privatebin:
     image: docker-registry.wikimedia.org/dev/fundraising-privatebin-buster-php73-apache2:0.0.1-1
     user: *user
