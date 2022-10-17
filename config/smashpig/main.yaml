@@ -96,7 +96,7 @@ sequence-generator:
           port: 6379
         sequence: contribution-tracking
 
-email:
+mail-backend:
   smtp: true
   smtp-host: mailcatcher
   smtp-port: 1025
