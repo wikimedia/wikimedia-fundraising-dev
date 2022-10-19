@@ -781,7 +781,7 @@ CREATE DATABASE IF NOT EXISTS smashpig;
 use smashpig;
 EOF
 
-	cat src/smashpig/Schema/mysql/00[12]*.sql >> /tmp/smashpig_setup.sql
+	cat src/smashpig/Schema/mysql/00[127]*.sql >> /tmp/smashpig_setup.sql
 
 	cat << EOF >> /tmp/smashpig_setup.sql
 CREATE USER IF NOT EXISTS 'smashpig'@'localhost' IDENTIFIED BY '$SMASHPIG_DB_USER_PASSWORD';
