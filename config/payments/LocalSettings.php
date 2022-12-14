@@ -96,7 +96,6 @@ $wgShellLocale = "C.UTF-8";
 $wgLanguageCode = "en";
 
 $wgSecretKey = "90bbdcbb8c8340c02e73eecfe1decedd597a7764193c67f4914424ac976d0930";
-
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
@@ -328,9 +327,12 @@ $wgWhitelistRead =  array (
 	"Special:AstroPayGatewayResult",
 	"Special:IngenicoGatewayResult",
 	"Special:IngenicoGateway",
+	"Special:DlocalGateway",
+	"Special:DlocalGatewayResult",
 	"Main_Page",
 	"Donate-thanks"
 );
+
 $wgBlockDisablesLogin = true;
 
 $wgAllowUserCss = false;
@@ -388,6 +390,7 @@ $wgFundraisingEmailUnsubscribeQueueParameters = array(
 $wgAdyenCheckoutGatewayEnabled = true;
 $wgAmazonGatewayEnabled = true;
 $wgAstroPayGatewayEnabled = true;
+$wgDlocalGatewayEnabled = true;
 $wgGlobalCollectGatewayEnabled = true;
 $wgIngenicoGatewayEnabled = true;
 $wgBraintreeGatewayEnabled = true;
