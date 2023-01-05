@@ -152,15 +152,11 @@ $wgCacheDirectory = '/tmp/'; # Different value from staging
 $wgLocalisationUpdateDirectory = "{$wgCacheDirectory}/l10n";
 
 # NoLogin
-function NoLoginLinkOnMainPage(&$personal_urls){
-	unset($personal_urls['anonlogin']);
-	unset($personal_urls['login']);
-	unset($personal_urls['login-private']);
-	unset($personal_urls['anonuserpage']);
-	unset($personal_urls['anontalk']);
-	return true;
+function NoLoginLinkOnMainPage($skinTemplate, &$links){
+	unset($links['user-menu']['login-private']);
+	$skinTemplate->userpageUrlDetails = [];
 }
-$wgHooks['PersonalUrls'][]='NoLoginLinkOnMainPage';
+$wgHooks['SkinTemplateNavigation::Universal'][]='NoLoginLinkOnMainPage';
 $wgHooks['AlterPaymentFormData'][] = 'EndowmentHooks::onAlterPaymentFormData';
 $wgHooks['BeforePageDisplay'][] = 'EndowmentHooks::onBeforePageDisplay';
 
@@ -297,7 +293,7 @@ $wgGroupPermissions['*']['edit'] = false;
 $wgGroupPermissions['*']['read'] = false;
 $wgGroupPermissions['user']['edit'] = false;
 $wgGroupPermissions['sysop']['edit'] = false;
-$wgGroupPermissions['sysop']['edit'] = 1;
+$wgGroupPermissions['sysop']['edit'] = true;
 $wgWhitelistRead =  array (
 	"Special:GlobalCollectGatewayResult",
 	"Special:GlobalCollectGateway",
