@@ -26,7 +26,7 @@ x-civicrm-site-key:
 
 services:
   payments:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.0
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0 # Allow non-root user to listen on the privileged 443 port.
     user: *user
