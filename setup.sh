@@ -37,6 +37,8 @@ DEFAULT_PRIVATEBIN_RW_PORT=9008
 DEFAULT_MARIADB_PORT=3306
 DEFAULT_SMTP_PORT=1025
 DEFAULT_MAILCATCHER_PORT=1080
+# Newer versions of SCP will default to using SFTP, which fails with gerrit.
+EXTRA_SCP_OPTION=$([[ `ssh -V 2>&1 | grep -E -o OpenSSH_[0-9]+ | sed -e 's/OpenSSH_//'` -gt 8 ]] && echo '-O')
 
 skip_install_dependencies=false
 skip_reclone=false
@@ -207,7 +209,7 @@ if [ $skip_reclone = false ]; then
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 			--depth=10 --no-single-branch \
 			src/${PAYMENTS_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${PAYMENTS_SRC_DIR}/.git/hooks/"
 
 		cd src/${PAYMENTS_SRC_DIR}
@@ -236,7 +238,7 @@ if [ $skip_reclone = false ]; then
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 			--depth=10 --no-single-branch \
 			src/${DONUT_SRC_DIR} && \
-			scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${DONUT_SRC_DIR}/.git/hooks/"
 
 		cat << EOF >> src/${DONUT_SRC_DIR}/composer.local.json
@@ -267,13 +269,13 @@ EOF
 		do
 			git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
 				--depth=10 --no-single-branch && \
-			scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"$i/.git/hooks/"
 		done
 		cd ../skins
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/Vector" \
 			--depth=10 --no-single-branch && \
-		scp -O -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+		scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"Vector/.git/hooks/"
 
 		cd "${script_dir}"
@@ -302,7 +304,7 @@ EOF
 
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
 			src/${CRM_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${CRM_SRC_DIR}/.git/hooks/"
 
 		cd src/${CRM_SRC_DIR}
@@ -333,7 +335,7 @@ EOF
 
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \
 			src/${CIVIPROXY_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${CIVIPROXY_SRC_DIR}/.git/hooks/"
 
 		echo
@@ -349,7 +351,7 @@ EOF
 
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
 			src/${TOOLS_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${TOOLS_SRC_DIR}/.git/hooks/"
 
 		echo
@@ -365,7 +367,7 @@ EOF
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
 			--depth=10 --no-single-branch \
 			src/${EMAIL_PREF_CTR_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${EMAIL_PREF_CTR_SRC_DIR}/.git/hooks/"
 
 		cd src/${EMAIL_PREF_CTR_SRC_DIR}
@@ -392,7 +394,7 @@ EOF
 
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
 			src/${SMASHPIG_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${SMASHPIG_SRC_DIR}/.git/hooks/"
 
 		echo
@@ -407,7 +409,7 @@ EOF
 
 		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/privatebin" \
 			src/${PRIVATEBIN_SRC_DIR} && \
-			scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${PRIVATEBIN_SRC_DIR}/.git/hooks/"
 
 		echo
