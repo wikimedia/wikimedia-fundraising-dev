@@ -59,8 +59,28 @@ Donate links:
 ** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Paypal recurring in US, English, USD]
 
 * Dlocal
-** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Dlocal in US, English, USD]
-** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=GBP&amount=10&country=UK&debug=true}} Dlocal recurring in UK, English, GBP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&fiscal_number=999.999.999-00&email=jwales%40example.com&debug=true}} Credit card in BR, English, BRL]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&fiscal_number=999.999.999-00&email=jwales%40example.com&debug=true}} Cash (Boletos) in BR, English, BRL]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&fiscal_number=999.999.999-00&email=jwales%40example.com&debug=true}} Bank transfer in BR, English, BRL]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=MXN&amount=100&country=MX&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in MX, Spanish, MXN]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=es&language=es&currency=MXN&amount=100&country=MX&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Cash in MX, Spanish, MXN]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=ARS&amount=100&country=AR&first_name=Jimmy&last_name=Wales&fiscal_number=99.999.99&email=jwales%40example.com&debug=true}} Credit card in AR, Spanish, ARS]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=es&language=es&currency=ARS&amount=100&country=AR&debug=true}} Bank Transfer in AR, Spanish, ARS]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=es&language=es&currency=ARS&amount=100&country=AR&first_name=Jimmy&last_name=Wales&fiscal_number=99.999.99&email=jwales%40example.com&debug=true}} Cash in AR, Spanish, ARS]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=CLP&amount=5000&country=CL&first_name=Jimmy&last_name=Wales&fiscal_number=99999999-9&email=jwales%40example.com&debug=true}} Credit card in CL, Spanish, CLP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=es&language=es&currency=CLP&amount=5000&country=CL&first_name=Jimmy&last_name=Wales&fiscal_number=99999999-9&email=jwales%40example.com&debug=true}} Bank Transfer in CL, Spanish, CLP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=COP&amount=5000&country=CO&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999.999&email=jwales%40example.com&debug=true}} Credit card in CO, Spanish, COP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=es&language=es&currency=COP&amount=5000&country=CO&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999.999&email=jwales%40example.com&debug=true}} Bank transfer in CO, Spanish, COP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=es&language=es&currency=COP&amount=5000&country=CO&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999.999&email=jwales%40example.com&debug=true}} Cash in CO, Spanish, COP]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=INR&amount=500&country=IN&first_name=Jimmy&last_name=Wales&fiscal_number=AAAAA9999C&email=jwales%40example.com&debug=true}} Credit card in IN, English, INR]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=en&language=en&currency=INR&amount=500&country=IN&first_name=Jimmy&last_name=Wales&fiscal_number=AAAAA9999C&email=jwales%40example.com&debug=true}} Bank transfer in IN, English, INR]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=PEN&amount=15&country=PE&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in PE, Spanish, PEN]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=es&language=es&currency=PEN&amount=15&country=PE&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Bank transfer in PE, Spanish, PEN]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=es&language=es&currency=PEN&amount=15&country=PE&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Cash in PE, Spanish, PEN]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=es&language=es&currency=UYU&amount=5000&country=UY&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999-9&email=jwales%40example.com&debug=true}} Credit Card in UY, Spanish, UYU]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cash&recurring=0&uselang=es&language=es&currency=UYU&amount=5000&country=UY&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999-9&email=jwales%40example.com&debug=true}} Cash in UY, Spanish, UYU]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=en&language=en&currency=ZAR&amount=500&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=AAAAA9999C&email=jwales%40example.com&debug=true}} Bank transfer in ZA, English, ZAR]
+** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=ZAR&amount=500&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=9.999.999-9&email=jwales%40example.com&debug=true}} Credit card in ZA, English, ZAR]
 
 * Ingenico Connect
 ** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=35&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
@@ -97,7 +117,6 @@ See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good
 * [{{fullurl:Special:IngenicoGateway|ffname=badname&recurring=0&payment_method=aa&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency=ABC&frequency=onetime&amount=3000&uselang=en&debug=true}} Bad form name, method, and currency (Ingenico)]
 
 == Debugging ==
-* [{{fullurl:Special:GatewayChooser|testGetAll=1&debug=true}} Dump gateway form choices]
 * [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&recurring=0&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01&debug=true}} Payment form with message labels (Ingenico)]
 
 = Orphan slayer =
