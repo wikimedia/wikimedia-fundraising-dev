@@ -15,7 +15,7 @@ SMASHPIG_SRC_DIR="smashpig"
 PRIVATEBIN_SRC_DIR="privatebin"
 
 # various settings
-FR_MW_CORE_BRANCH="fundraising/REL1_35"
+FR_MW_CORE_BRANCH="fundraising/REL1_39"
 MW_LANG="en"
 MW_PASSWORD="dockerpass"
 CIVI_ADMIN_PASS="admin"
