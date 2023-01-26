@@ -10,6 +10,7 @@ CRM_SRC_DIR="civi-sites/wmff"
 CRM_DMASTER_SRC_DIR="civi-sites/dmaster"
 CIVIPROXY_SRC_DIR="civiproxy"
 TOOLS_SRC_DIR="tools"
+PROCESS_CONTROL_SRC_DIR="process-control"
 EMAIL_PREF_CTR_SRC_DIR="email-pref-ctr"
 SMASHPIG_SRC_DIR="smashpig"
 PRIVATEBIN_SRC_DIR="privatebin"
@@ -354,6 +355,22 @@ EOF
 			src/${TOOLS_SRC_DIR} && \
 			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"src/${TOOLS_SRC_DIR}/.git/hooks/"
+
+		echo
+	fi
+
+	clone_process_control=$(ask_reclone "src/${PROCESS_CONTROL_SRC_DIR}" "Process control")
+
+	if [ $clone_process_control = true ]; then
+		echo "**** Cloning and setting up WMF process control repo in src/${PROCESS_CONTROL_SRC_DIR}"
+
+		rm -rf src/${PROCESS_CONTROL_SRC_DIR}
+		mkdir -p src/
+
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/process-control" \
+			src/${PROCESS_CONTROL_SRC_DIR} && \
+			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"src/${PROCESS_CONTROL_SRC_DIR}/.git/hooks/"
 
 		echo
 	fi
@@ -949,6 +966,13 @@ fi
 # go back to whatever directory we were in to start
 cd "${start_dir}"
 
+echo "**** fresh setup"
+if $([[ "`which fresh-node`" == "" ]]); then
+  echo "Get fresh install"
+  curl -fsS 'https://gerrit.wikimedia.org/g/fresh/+/22.11.1/bin/fresh-install?format=TEXT' | base64 --decode | python3
+else
+  echo "Already have fresh"
+fi
 
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
