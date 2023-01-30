@@ -300,8 +300,10 @@ $wgNoticeUseTranslateExtension = true;
 $wgNoticeNumberOfControllerBuckets = 2;
 # Don't try to do client-side GeoIP location
 $wgCentralNoticeGeoIPBackgroundLookupModule = false;
-$wgCentralNoticeImpressionEventSampleRate = 1;
 $wgCentralNoticeContentSecurityPolicy = "default-src data: blob: 'unsafe-inline' 'unsafe-eval' 'self';";
+
+# Enable running QUnit JavaScript tests via Special:JavaScriptTest
+$wgEnableJavaScriptTest = true;
 
 wfLoadExtensions( [
 	'CentralNotice',
