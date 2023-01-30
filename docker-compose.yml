@@ -62,13 +62,13 @@ services:
       - "${FR_DOCKER_DONUT_PORT:-9001}:9001"
 
     volumes:
-      - ./src/donut/:/var/www/html/:cached
+      - ./src/donut/:/var/www/html/w:cached
       - ./config/:/srv/config/exposed/
       - ./config-private/:/srv/config/private/
 
     environment:
       - *logger-host
-      - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+      - COMPOSER_CACHE_DIR=/var/www/html/w/cache/composer
 
       # Set FR_DOCKER_MW_PORT inside the container so LocalSettings.php can see it
       - FR_DOCKER_MW_PORT=${FR_DOCKER_DONUT_PORT:-9001}
@@ -79,6 +79,7 @@ services:
 
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=donut
+
 
   privatebin:
     image: docker-registry.wikimedia.org/dev/fundraising-privatebin-buster-php73-apache2:0.0.1-1
@@ -261,7 +262,7 @@ services:
     image: memcached
     user: *user
 
-    
+
   mailcatcher:
     image: schickling/mailcatcher
 

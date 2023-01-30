@@ -635,7 +635,7 @@ if [ $skip_install_dependencies = false ]; then
 	read -p "Donut: run composer install? [Yn] " -r
 	if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
 		# TODO: need a composer.local.yaml to pull in the extension dependencies
-		docker-compose exec -w "/var/www/html/" donut composer install
+		docker-compose exec -w "/var/www/html/w/" donut composer install
 	fi
 	echo
 
@@ -774,7 +774,7 @@ fi
 
 if [ $donut_install = true ]; then
 	echo "**** Running maintenance/install.php (cannot be run via run.php because LocalSettings is missing)"
-	docker-compose exec -w "/var/www/html/" donut php maintenance/install.php \
+	docker-compose exec -w "/var/www/html/w/" donut php maintenance/install.php \
 		--server https://localhost:${FR_DOCKER_DONUT_PORT} \
 		--dbname=donut \
 		--dbuser=root \
@@ -788,18 +788,18 @@ if [ $donut_install = true ]; then
 	echo
 
 	# Need to run update here to create all the tables for the extensions before importing the dump
-	docker-compose exec -w "/var/www/html/" donut php maintenance/run.php update --quick
+	docker-compose exec -w "/var/www/html/w/" donut php maintenance/run.php update --quick
 
 	echo "Importing dump from Donatewiki"
 	gunzip -c config/donut/Donate.xml.gz | sed -e "s/payments.wikimedia.org/localhost:$FR_DOCKER_PAYMENTS_PORT/g" > config/donut/Donate-replaced.xml
-	docker-compose exec -w "/var/www/html/" donut php maintenance/run.php importDump \
+	docker-compose exec -w "/var/www/html/w/" donut php maintenance/run.php importDump \
 		/srv/config/exposed/donut/Donate-replaced.xml
 	rm config/donut/Donate-replaced.xml
 	# Set the Mainpage to Special:FundraiserRedirector
-	docker-compose exec -T -w "/var/www/html/" \
+	docker-compose exec -T -w "/var/www/html/w/" \
 		donut php maintenance/run.php edit MediaWiki:Mainpage < config/donut/MediaWiki_Mainpage.wiki
 	# Add the admin user to the centralnoticeadmin group
-	docker-compose exec -T -w "/var/www/html/" \
+	docker-compose exec -T -w "/var/www/html/w/" \
 		donut php maintenance/run.php createAndPromote admin --force --custom-groups centralnoticeadmin
 fi
 
@@ -809,7 +809,7 @@ if [ $donut_install = false ]; then
 	read -p "Run update.php? [yN] " -r
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		docker-compose exec -w "/var/www/html/" donut php maintenance/run.php update --quick
+		docker-compose exec -w "/var/www/html/w/" donut php maintenance/run.php update --quick
 	fi
 fi
 
@@ -947,7 +947,7 @@ cd "${start_dir}"
 echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
 echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
-echo "Donut URL: https://localhost:$FR_DOCKER_DONUT_PORT/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
+echo "Donut URL: https://localhost:$FR_DOCKER_DONUT_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"
