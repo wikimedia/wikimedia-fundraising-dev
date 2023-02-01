@@ -28,6 +28,7 @@ DEFAULT_XDEBUG_PORT=9000
 DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_PAYMENTS_HTTP_PORT=9009
 DEFAULT_DONUT_PORT=9010
+DEFAULT_DONUT_HTTP_PORT=9011
 DEFAULT_EMAIL_PREF_CTR_PORT=9002
 DEFAULT_CIVICRM_PORT=32353
 DEFAULT_CIVIPROXY_PORT=9005
@@ -474,6 +475,10 @@ FR_DOCKER_PAYMENTS_HTTP_PORT=$(validate_port $FR_DOCKER_PAYMENTS_HTTP_PORT $DEFA
 read -p "Port for Donut [$DEFAULT_DONUT_PORT]: " FR_DOCKER_DONUT_PORT
 FR_DOCKER_DONUT_PORT=$(validate_port $FR_DOCKER_DONUT_PORT $DEFAULT_DONUT_PORT)
 
+# allow setting of custom port for non-SSL (used for qunit tests with a headless browser)
+read -p "Port for Donut http [$DEFAULT_DONUT_HTTP_PORT]: " FR_DOCKER_DONUT_HTTP_PORT
+FR_DOCKER_DONUT_HTTP_PORT=$(validate_port $FR_DOCKER_DONUT_HTTP_PORT $DEFAULT_DONUT_HTTP_PORT)
+
 # select one of the six test hostnames to forward
 read -p "Which proxy forwarding ID would you like to use (1-6)? [$DEFAULT_PROXY_FORWARD_ID]: " FR_DOCKER_PROXY_FORWARD_ID
 FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID:-$DEFAULT_PROXY_FORWARD_ID}
@@ -534,6 +539,7 @@ COMPOSE_PROJECT_NAME=$compose_project_name
 FR_DOCKER_PAYMENTS_PORT=${FR_DOCKER_PAYMENTS_PORT}
 FR_DOCKER_PAYMENTS_HTTP_PORT=${FR_DOCKER_PAYMENTS_HTTP_PORT}
 FR_DOCKER_DONUT_PORT=${FR_DOCKER_DONUT_PORT}
+FR_DOCKER_DONUT_HTTP_PORT=${FR_DOCKER_DONUT_HTTP_PORT}
 FR_DOCKER_PROXY_FORWARD_ID=${FR_DOCKER_PROXY_FORWARD_ID}
 FR_DOCKER_CIVICRM_PORT=${FR_DOCKER_CIVICRM_PORT}
 FR_DOCKER_CIVIPROXY_PORT=${FR_DOCKER_CIVIPROXY_PORT}
@@ -948,6 +954,7 @@ echo "Payments URL: https://localhost:$FR_DOCKER_PAYMENTS_PORT"
 echo "Payments http URL: http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT"
 echo "Payments test routable URL: https://paymentstest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org (see README.md)"
 echo "Donut URL: https://localhost:$FR_DOCKER_DONUT_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
+echo "Donut http URL: http://localhost:$FR_DOCKER_DONUT_HTTP_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
 echo "WMF CiviCRM install URL: https://wmff.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Generic CiviCRM install (based on upstream master) URL: https://dmaster.localhost:$FR_DOCKER_CIVICRM_PORT/civicrm"
 echo "Civicrm user/password: admin/$CIVI_ADMIN_PASS"

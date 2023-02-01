@@ -59,7 +59,9 @@ services:
     user: *user
 
     ports:
-      - "${FR_DOCKER_DONUT_PORT:-9001}:9001"
+      - "${FR_DOCKER_DONUT_PORT:-9010}:9001"
+      # Plain HTTP port is for running qunit tests on a headless browser via npm
+      - "${FR_DOCKER_DONUT_HTTP_PORT:-9011}:9002"
 
     volumes:
       - ./src/donut/:/var/www/html/w:cached
