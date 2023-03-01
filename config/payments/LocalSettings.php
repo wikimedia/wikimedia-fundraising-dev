@@ -103,6 +103,9 @@ $wgAuthenticationTokenVersion = "1";
 # web installer while LocalSettings.php is in place
 $wgUpgradeKey = "20f659bc4f801f3e";
 
+$wgCookieSameSite = "none";
+$wgCookieSecure = true;
+
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
 ## License and Creative Commons licenses are supported so far.
