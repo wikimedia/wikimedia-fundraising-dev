@@ -45,6 +45,9 @@ data-store:
   jobs-amazon:
     <<: *REDIS
 
+  jobs-dlocal:
+    <<: *REDIS
+
   jobs-ingenico:
     <<: *REDIS
 
@@ -73,6 +76,9 @@ data-store:
     <<: *REDIS
 
   unsubscribe:
+    <<: *REDIS
+
+  upi-donations:
     <<: *REDIS
 
   email-preferences:
