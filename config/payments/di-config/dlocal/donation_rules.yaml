@@ -1,0 +1,9 @@
+default:
+    currency: USD
+    min: 1
+    max: 3000
+IN:
+    currency: INR
+    recurring: true
+    min: 10
+    max: 5000
