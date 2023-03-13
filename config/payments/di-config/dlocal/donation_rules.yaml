@@ -1,9 +1,19 @@
-default:
-    currency: USD
-    min: 1
-    max: 3000
-IN:
-    currency: INR
+-
+  conditions:
+    country: IN
+    recurring: false
+  currency: INR
+  min: 10
+  max: 225000
+-
+  conditions:
+    country: IN
     recurring: true
-    min: 10
-    max: 5000
+    payment_method: bt
+  currency: INR
+  min: 10
+  max: 5000
+-
+  currency: USD
+  min: 1
+  max: 12000
