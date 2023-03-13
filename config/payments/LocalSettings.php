@@ -447,6 +447,7 @@ $wgDonationInterfaceMonthlyConvertCountries = [
   'AU',
   'BE',
   'CA',
+  'CZ',
   'ES',
   'FR',
   'GB',
