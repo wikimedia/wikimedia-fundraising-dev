@@ -84,7 +84,7 @@ services:
 
 
   privatebin:
-    image: docker-registry.wikimedia.org/dev/fundraising-privatebin-buster-php73-apache2:0.0.1-1
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
 
     ports:
