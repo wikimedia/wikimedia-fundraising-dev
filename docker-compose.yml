@@ -109,7 +109,7 @@ services:
 
 
   email-pref-ctr:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-buster-php73-apache2:0.0.2-1
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
 
     ports:
