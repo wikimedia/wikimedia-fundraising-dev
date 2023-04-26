@@ -31,7 +31,12 @@ $wgSitename = "Payments";
 ## https://www.mediawiki.org/wiki/Manual:Short_URL
 $wgScriptPath = "";
 
-if ( substr( $_SERVER['SERVER_NAME'], 0, 12) === 'paymentstest' ) {
+# Force MW (specifically ResourceLoader) to see the request as
+# https when it comes in via the wmcloud proxy.
+if (
+	isset( $_SERVER['SERVER_NAME'] ) &&
+	substr( $_SERVER['SERVER_NAME'], 0, 12) === 'paymentstest'
+) {
 	$_SERVER['REQUEST_SCHEME'] = 'https';
 	$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 }
