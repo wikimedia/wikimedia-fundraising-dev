@@ -31,6 +31,10 @@ $wgSitename = "Payments";
 ## https://www.mediawiki.org/wiki/Manual:Short_URL
 $wgScriptPath = "";
 
+if ( substr( $_SERVER['SERVER_NAME'], 0, 12) === 'paymentstest' ) {
+	$_SERVER['REQUEST_SCHEME'] = 'https';
+	$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+}
 ## The protocol and server name to use in fully-qualified URLs
 $wgServer = WebRequest::detectServer();
 
