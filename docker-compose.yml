@@ -211,6 +211,7 @@ services:
       - 9005:9001
 
     volumes:
+      - ./config/:/srv/config/exposed/
       - ./config/civiproxy/config.php:/var/www/html/proxy/config.php
       - ./config/civiproxy/proxy.php:/var/www/html/proxy/proxy.php
       - ./src/civiproxy:/var/www/html/
@@ -225,7 +226,7 @@ services:
       - FR_DOCKER_GID
 
       # Provide the name of the service to find the right xdebug.ini files
-      - FR_DOCKER_SERVICE_NAME=civicrm
+      - FR_DOCKER_SERVICE_NAME=civiproxy
 
 
   database:
