@@ -22,7 +22,7 @@
 $proxy_base     = 'https://localhost:9005/';
 
 // this should point to the target CiviCRM system
-$target_civicrm = 'https://wmff.civicrm:9001/';
+$target_civicrm = 'https://wmff.civicrm:9001';
 
 
 /****************************************************************
@@ -33,16 +33,12 @@ $target_civicrm = 'https://wmff.civicrm:9001/';
 
 // default paths, override if you want. Set to NULL to disable
 $target_rest      = $target_civicrm . '/sites/all/modules/civicrm/extern/rest.php';
+$target_rest4     = $target_civicrm . '/civicrm/ajax/api4/';
 $target_file      = $target_civicrm . '/sites/default/files/civicrm/persist/';
 $target_mosaico   = NULL; // (disabled by default): $target_civicrm . '/civicrm/mosaico/img?src=';
 $target_mail_view = $target_civicrm . '/civicrm/mailing/view';
 $target_url       = $target_civicrm . '/civicrm/mailing/url';
 $target_open      = $target_civicrm . '/civicrm/mailing/open';
-
-// CAUTION: use the following for CiviCRM < 5.27
-$target_url       = $target_civicrm . '/sites/all/modules/civicrm/extern/url.php';
-$target_open      = $target_civicrm . '/sites/all/modules/civicrm/extern/open.php';
-
 
 /****************************************************************
  **                    GENERAL OPTIONS                         **
@@ -117,6 +113,12 @@ $rest_allowed_actions = array(
         'contact_id' => 'int',
       ),
     ),
+    'ContributionRecur' => [
+      'getUpgradableRecur' => [
+        'checksum' => 'string',
+        'contact_id' => 'int',
+      ]
+    ]
   ),
 );
 

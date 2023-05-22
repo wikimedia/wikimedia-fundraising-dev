@@ -2,7 +2,7 @@
 /*--------------------------------------------------------+
 | SYSTOPIA CiviProxy                                      |
 |  a simple proxy solution for external access to CiviCRM |
-| Copyright (C) 2015 SYSTOPIA                             |
+| Copyright (C) 2015-2021 SYSTOPIA                        |
 | Author: B. Endres (endres -at- systopia.de)             |
 | http://www.systopia.de/                                 |
 +---------------------------------------------------------*/
@@ -91,6 +91,81 @@ function civiproxy_redirect($url_requested, $parameters) {
   curl_close ($curlSession);
 }
 
+/**
+ * this will redirect the request to an API4 URL,
+ *  i.e. will pass the reply on to this request
+ *
+ * @see losely based on https://code.google.com/p/php-proxy/
+ *
+ * @param $url_requested string the URL to which the request should be sent
+ * @param $parameters array
+ */
+function civiproxy_redirect4($url_requested, $parameters, $api_key) {
+  global $target_interface;
+  $url = $url_requested;
+  $curlSession = curl_init();
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    // POST requests should be passed on as POST
+    curl_setopt($curlSession, CURLOPT_POST, 1);
+    $urlparams = 'params=' . urlencode(json_encode($parameters));
+    curl_setopt($curlSession, CURLOPT_POSTFIELDS, $urlparams);
+  } else {
+    // GET requests will get the parameters as url params
+    if (!empty($parameters)) {
+      $url .= '?params=' . urlencode(json_encode($parameters)) . "&api_key=$api_key";
+    }
+  }
+
+  curl_setopt($curlSession, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/x-www-form-urlencoded',
+    "X-Civi-Auth: Bearer $api_key"
+  ]);
+  curl_setopt($curlSession, CURLOPT_URL, $url);
+  curl_setopt($curlSession, CURLOPT_HEADER, 1);
+  curl_setopt($curlSession, CURLOPT_RETURNTRANSFER,1);
+  curl_setopt($curlSession, CURLOPT_TIMEOUT, 30);
+  curl_setopt($curlSession, CURLOPT_SSL_VERIFYHOST, 0);
+  curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, 0);
+  if (!empty($target_interface)) {
+    curl_setopt($curlSession, CURLOPT_INTERFACE, $target_interface);
+  }
+  if (file_exists(dirname(__FILE__).'/target.pem')) {
+    curl_setopt($curlSession, CURLOPT_CAINFO, dirname(__FILE__).'/target.pem');
+  }
+
+  //Send the request and store the result in an array
+  $response = curl_exec($curlSession);
+
+  // Check that a connection was made
+  if (curl_error($curlSession)){
+    civiproxy_http_error(curl_error($curlSession), curl_errno($curlSession));
+  } else {
+    //clean duplicate header that seems to appear on fastcgi with output buffer on some servers!!
+    $response = str_replace("HTTP/1.1 100 Continue\r\n\r\n","",$response);
+
+    // split header / content
+    $content = explode("\r\n\r\n", $response, 2);
+    $header = $content[0];
+    $body = $content[1];
+
+    // handle headers - simply re-outputing them
+    $header_ar = explode(chr(10), $header);
+    foreach ($header_ar as $header_line){
+      if (!preg_match("/^Transfer-Encoding/", $header_line)){
+        civiproxy_mend_URLs($header_line);
+        header(trim($header_line));
+      }
+    }
+
+    //rewrite all hard coded urls to ensure the links still work!
+    civiproxy_mend_URLs($body);
+
+    print $body;
+  }
+
+  curl_close($curlSession);
+}
 
 /**
  * Will mend all the URLs in the string that point to the target,
