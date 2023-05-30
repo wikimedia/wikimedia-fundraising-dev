@@ -212,9 +212,10 @@ services:
 
     volumes:
       - ./config/:/srv/config/exposed/
+      - ./src/civiproxy:/var/www/html/
       - ./config/civiproxy/config.php:/var/www/html/proxy/config.php
       - ./config/civiproxy/proxy.php:/var/www/html/proxy/proxy.php
-      - ./src/civiproxy:/var/www/html/
+
 
     environment:
       - *logger-host
