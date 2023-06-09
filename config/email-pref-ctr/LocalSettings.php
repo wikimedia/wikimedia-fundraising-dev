@@ -297,6 +297,7 @@ $wgWhitelistRead =  array (
 	"MediaWiki:Print.css",
 	"MediaWiki:Vector.css",
 	"Special:EmailPreferences",
+	"Special:RecurUpgrade",
 	"Special:SystemStatus",
 );
 $wgBlockDisablesLogin = true;
