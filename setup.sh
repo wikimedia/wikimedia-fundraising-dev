@@ -433,37 +433,24 @@ EOF
 		echo
 	fi
 
-fi
+	echo "**** Set up private config repo"
 
-echo "**** Set up private config repo"
-
-# Migrate old private repo location
-if [ -d "config/private" ]; then
-	read -p "Old private repo location exists (config/private). Migrate to new location and update? [Yn] " -r
-	if ! [[ $REPLY =~ ^[Nn]$ ]]; then
-		mv config/private config-private
-		cd config-private
-		git checkout master
-		git pull
-		cd "${script_dir}"
-	fi
-	echo
-else
 	clone_private=$(ask_reclone "config-private" "private config repo")
 
 	if [ $clone_private = true ]; then
 		rm -rf config-private
 
 		echo "See https://phabricator.wikimedia.org/T266093 for remote for private config repo."
-		read -p "Please enter remote for private config repo: " private_remote
+		read -p "Please enter remote for private config repo (or leave blank to create an empty stub directory): " private_remote
 
-		while [[ -z $private_remote ]]; do
-			read -p "Please enter remote for private config repo (can't be empty): " private_remote
-		done
-		echo
+		if [[ -z $private_remote ]]; then
+			echo "**** Creating empty stub director config-private"
+			mkdir config-private
+		else
+			echo "**** Cloning private config repo in config-private"
+			git clone $private_remote config-private
+		fi
 
-		echo "**** Cloning private config repo in config-private"
-		git clone $private_remote config-private
 		echo
 	fi
 fi

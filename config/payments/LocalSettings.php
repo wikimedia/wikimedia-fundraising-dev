@@ -528,8 +528,9 @@ $wgIngenicoGatewayCurlVerboseLog = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
 $wgDonationInterfaceEmployersListDataFileLocation = '/srv/config/private/payments/employerData.csv';
 
-### Include private settings
-require( '/srv/config/private/payments/LocalSettings-private.php' );
+### Include private settings, if present
+if ( file_exists ( '/srv/config/private/payments/LocalSettings-private.php' ) )
+	require( '/srv/config/private/payments/LocalSettings-private.php' );
 
 ### Include optional settings not tracked by git
 if ( file_exists ( '/srv/config/exposed/payments/LocalSettings-local.php' ) )
