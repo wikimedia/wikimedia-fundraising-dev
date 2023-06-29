@@ -267,7 +267,7 @@ EOF
 		# pointer for latest mediawiki core tag deployed to donatewiki.
 		# Oh hey, donut even depends on DonationInterface for some i18n strings!
 		cd src/${DONUT_SRC_DIR}/extensions
-		for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
+		for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
 		do
 			git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
 				--depth=10 --no-single-branch && \
@@ -279,6 +279,11 @@ EOF
 			--depth=10 --no-single-branch && \
 		scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"Vector/.git/hooks/"
+
+		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/MinervaNeue" \
+			--depth=10 --no-single-branch && \
+		scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+			"MinervaNeue/.git/hooks/"
 
 		cd "${script_dir}"
 		echo

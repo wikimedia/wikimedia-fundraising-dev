@@ -121,9 +121,13 @@ $wgDiff3 = "/usr/bin/diff3";
 ## names, ie 'vector', 'monobook':
 $wgDefaultSkin = "vector";
 
+# Default skin for mobile view. To manually switch, use the URL parameter useformat=mobile
+$wgDefaultMobileSkin = 'minerva';
+
 # Enabled skins.
 # The following skins were automatically enabled:
 wfLoadSkin( 'Vector' );
+wfLoadSkin( 'MinervaNeue' );
 
 # End of automatically generated settings.
 # Add more configuration options below.
@@ -317,6 +321,7 @@ wfLoadExtensions( [
 	'FundraisingTranslateWorkflow',
 	'LandingCheck',
 	'Linter',
+	'MobileFrontend',
 	'ParserFunctions',
 	'Scribunto',
 	'TemplateSandbox',
