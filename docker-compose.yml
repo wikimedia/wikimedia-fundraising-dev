@@ -229,6 +229,13 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civiproxy
 
+  tools:
+    image: docker-registry.wikimedia.org/dev/fundraising-tools-bullseye:1.0.0
+    user: *user
+    tty: true
+
+    volumes:
+      - ./src/tools/:/srv/tools/
 
   database:
     image: mariadb:10.4

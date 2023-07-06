@@ -343,22 +343,6 @@ EOF
 		echo
 	fi
 
-	clone_tools=$(ask_reclone "src/${TOOLS_SRC_DIR}" "Tools")
-
-	if [ $clone_tools = true ]; then
-		echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
-
-		rm -rf src/${TOOLS_SRC_DIR}
-		mkdir -p src/
-
-		git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
-			src/${TOOLS_SRC_DIR} && \
-			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-			"src/${TOOLS_SRC_DIR}/.git/hooks/"
-
-		echo
-	fi
-
 	clone_process_control=$(ask_reclone "src/${PROCESS_CONTROL_SRC_DIR}" "Process control")
 
 	if [ $clone_process_control = true ]; then
@@ -950,6 +934,13 @@ EOF
 	echo
 fi
 
+# app install scripts (one for now!)
+TOOLS_INSTALLER="config/tools/install.sh"
+if [ -f "${TOOLS_INSTALLER}" ]; then
+  source ${TOOLS_INSTALLER}
+else
+  echo "tools install skipped. ${TOOLS_INSTALLER} does not exist."
+fi
 
 # go back to whatever directory we were in to start
 cd "${start_dir}"
