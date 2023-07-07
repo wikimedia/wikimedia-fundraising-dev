@@ -830,10 +830,10 @@ echo
 
 echo "**** Set up Civicrm"
 
-read -p "Set up config and run civibuild create to create wmff & dmaster sites? [Yn] " -r
+read -p "Set up config and run civibuild create to create wmff & dmaster sites? [yN] " -r
 echo
 
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 	echo "Clean up any untracked files that may remain from previous builds."
 	rm -f src/civi-sites/wmff.sh
