@@ -925,10 +925,10 @@ fi
 
 echo "**** Smashpig setup"
 
-read -p "Create Smashpig database and db user? [Yn] " -r
+read -p "Create Smashpig database and db user? [yN] " -r
 echo
 
-if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 	# Create SQL script
 	cat << EOF > /tmp/smashpig_setup.sql
