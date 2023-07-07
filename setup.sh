@@ -749,9 +749,10 @@ if [ $payments_update = true ]; then
 fi
 echo
 
-echo "**** Update Payments wiki text"
-
-./payments-update-text.sh
+read -p "Update Payments wiki text? [yN] " -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  ./payments-update-text.sh
+fi
 echo
 
 echo "**** Donut: install.php, LocalSettings.php and update.php"
