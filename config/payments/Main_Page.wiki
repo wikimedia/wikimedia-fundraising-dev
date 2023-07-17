@@ -53,6 +53,7 @@ Donate links:
 ** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=ZAR&amount=500&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=0109116567086&email=jwales%40example.com&debug=true}} Credit card in ZA, English, ZAR]
 
 * Braintree
+** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=venmo&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Venmo in US, English, USD]
 ** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Paypal in US, English, USD]
 ** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=TWD&amount=130.8&country=US&debug=true}} Paypal in US, English, TWD will round down]
 ** [{{fullurl:Special:BraintreeGateway|appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=GBP&amount=10&country=UK&debug=true}} Paypal in UK, English, GBP]
