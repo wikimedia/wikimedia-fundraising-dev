@@ -1,0 +1,9 @@
+These scripts are intended to be run from the main project root e.g.
+
+- /fundraising-dev
+
+using the convention:
+
+`./scripts/scriptname.sh`
+
+The scripts are mostly wrappers for `docker-compose exec` commands which should be run from the project root.
