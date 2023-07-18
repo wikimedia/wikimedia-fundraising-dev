@@ -1,8 +1,11 @@
 #!/bin/bash
 # Outputs the contents of all queue messages
 
+# get the full path to the directory containing this script
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # get an array of Redis keys containing values
-keys=($(./queues-redis-cli.sh keys "*" | grep -o '\".*\"' | tr -d '"' | tr '\n' ' '))
+keys=$("${script_dir}/queues-redis-cli.sh" keys "*" | grep -o '\".*\"' | tr -d '"' | tr '\n' ' ')
 
 for key in ${keys[@]}
 do
@@ -11,13 +14,13 @@ do
 
 	if [[ $key =~ 'sequence' ]]; then
 		# sequence is of string type, so we use GET
-		./queues-redis-cli.sh GET $key
+		"${script_dir}/queues-redis-cli.sh" GET $key
 		echo
 	else
 		# We need an array of messages to loop over.
 		# It seems just swapping out spaces seems is the easiest cross-shell to way to
 		# put the messaages into an array.
-		all_msgs_x=($(./queues-redis-cli.sh LRANGE $key 0 -1 | sed 's/ /---NOT-A-SPACE---/g'))
+		all_msgs_x=$("${script_dir}/queues-redis-cli.sh" LRANGE $key 0 -1 | sed 's/ /---NOT-A-SPACE---/g')
 
 		for msg_x in ${all_msgs_x[@]}
 		do
