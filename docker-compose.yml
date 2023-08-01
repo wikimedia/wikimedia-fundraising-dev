@@ -148,7 +148,7 @@ services:
 
 
   civicrm:
-    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-buster-php73-apache2:0.0.1-1-s2
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bullseye-php74-apache2:1.0.0
     user: *user
 
     ports:

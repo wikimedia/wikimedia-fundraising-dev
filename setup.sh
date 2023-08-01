@@ -570,8 +570,6 @@ xdebug.start_with_request=no
 EOF
 
 declare -a xdebug2_config_files=(
-	"config/civicrm/xdebug-cli.ini"
-	"config/civicrm/xdebug-web.ini"
 	"config/civiproxy/xdebug-cli.ini"
 	"config/civiproxy/xdebug-web.ini"
 	"config/privatebin/xdebug-cli.ini"
@@ -584,6 +582,8 @@ do
 done
 
 declare -a xdebug3_config_files=(
+	"config/civicrm/xdebug-cli.ini"
+	"config/civicrm/xdebug-web.ini"
 	"config/payments/xdebug-cli.ini"
 	"config/payments/xdebug-web.ini"
 	"config/email-pref-ctr/xdebug-cli.ini"
