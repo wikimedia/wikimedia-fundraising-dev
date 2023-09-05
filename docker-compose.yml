@@ -30,6 +30,7 @@ services:
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0 # Allow non-root user to listen on the privileged 443 port.
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_PAYMENTS_PORT:-9001}:9001"
@@ -57,6 +58,7 @@ services:
   donut:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_DONUT_PORT:-9010}:9001"
@@ -86,6 +88,7 @@ services:
   privatebin:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_PRIVATEBIN_RO_PORT:-9007}:9001"
@@ -111,6 +114,7 @@ services:
   email-pref-ctr:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_EMAIL_PREF_CTR_PORT:-9002}:9001"
@@ -150,6 +154,7 @@ services:
   civicrm:
     image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bullseye-php74-apache2:1.0.0
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_CIVICRM_PORT:-32353}:9001"
@@ -184,6 +189,7 @@ services:
   smashpig:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     user: *user
+    platform: linux/amd64
 
     ports:
       - "${FR_DOCKER_SMASHPIG_PORT:-9001}:9001"
@@ -206,7 +212,7 @@ services:
 
   civiproxy:
     image: docker-registry.wikimedia.org/dev/fundraising-civiproxy-buster-php73-apache2:0.0.1-1-s4
-
+    platform: linux/amd64
     ports:
       - 9005:9001
 
@@ -233,6 +239,7 @@ services:
     image: docker-registry.wikimedia.org/dev/fundraising-tools-bullseye:1.0.0
     user: *user
     tty: true
+    platform: linux/amd64
 
     volumes:
       - ./src/tools/:/srv/tools/
@@ -254,6 +261,7 @@ services:
   logger:
     image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s1
     user: *user
+    platform: linux/amd64
 
     volumes:
       - ./config/:/srv/config/exposed/
@@ -276,7 +284,7 @@ services:
 
   mailcatcher:
     image: schickling/mailcatcher
-
+    platform: linux/amd64
     ports:
       - "${FR_DOCKER_SMTP_PORT:-1025}:1025"
       - "${FR_DOCKER_MAILCATCHER_PORT:-1080}:1080"
