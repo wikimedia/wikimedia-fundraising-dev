@@ -252,10 +252,9 @@ $wgRawHtml = true;
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
 
-$wgGroupPermissions['*']['createaccount'] = false;
-$wgGroupPermissions['*']['edit'] = false;
-$wgGroupPermissions['user']['edit'] = false;
-$wgGroupPermissions['sysop']['edit'] = false;
+$wgGroupPermissions['*']['createaccount'] = true;
+$wgGroupPermissions['user']['edit'] = true;
+$wgGroupPermissions['sysop']['edit'] = true;
 $wgGroupPermissions['adminstrator']['translate'] = true;
 $wgGroupPermissions['adminstrator']['translate-manage'] = true;
 $wgGroupPermissions['translateadmin']['translate-groupreview'] = true;
@@ -266,6 +265,14 @@ $wgGroupPermissions['centralnoticeadmin']['editinterface'] = true;
 $wgGroupPermissions['centralnoticeadmin']['translate'] = true;
 
 $wgBlockDisablesLogin = true;
+$wgAutoCreateTempUser = [
+	'enabled' => true,
+	'actions' => [ 'edit' ],
+    'genPattern' => '*Unregistered $1*',
+    'matchPattern' => '*$1',
+    'serialProvider' => [ 'type' => 'local' ],
+    'serialMapping' => [ 'type' => 'plain-numeric' ],
+];
 
 $wgAllowUserCss = false;
 
