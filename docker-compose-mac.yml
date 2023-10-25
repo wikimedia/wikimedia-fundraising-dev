@@ -1,0 +1,276 @@
+version: '3.7'
+
+# This prevents the containers from running and creating files as root (which causes issues later on).
+x-user:
+    user: &user "${FR_DOCKER_UID:-invalid-user}:${FR_DOCKER_GID:-invalid-user}"
+
+# This environment variable tells containers where to send logs.
+x-logger: &logger-host
+              "FR_DOCKER_LOGGER_HOST=logger"
+
+# Civi user api key and site key, needed in civiproxy and civicrm containers
+x-civicrm-api-key: &civicrm-api-key
+                       "FR_DOCKER_CIVI_API_KEY=docker_api_key"
+
+x-civicrm-site-key: &civicrm-site-key
+                        "FR_DOCKER_CIVI_SITE_KEY=docker_site_key"
+
+# Most apps build from this generic image
+x-common-settings: &common-settings
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
+    user: *user
+    platform: linux/amd64
+
+services:
+    payments:
+        <<: *common-settings
+        depends_on:
+            - database
+            - queues
+            - logger
+            - memcached
+            - mailcatcher
+        sysctls:
+            - net.ipv4.ip_unprivileged_port_start=0 # Allow non-root user to listen on the privileged 443 port.
+        ports:
+            - "${PAYMENTS_PORT:-9001}:9001"
+            - "${PAYMENTS_HTTP_PORT:-9009}:9002"
+        networks: [ "default" ]
+        volumes:
+            - ./src/payments/:/var/www/html/:cached
+            - ./config/:/srv/config/exposed/
+            - ./config-private/:/srv/config/private/
+        environment:
+            - *logger-host
+            - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+            # Set MW_PORT inside the container so LocalSettings.php can see it
+            - FR_DOCKER_MW_PORT=${PAYMENTS_PORT:-9001}
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=payments
+
+    donut:
+        <<: *common-settings
+        depends_on:
+            - database
+            - logger
+            - payments
+        ports:
+            - "${DONUT_PORT:-9010}:9001"
+            # Plain HTTP port is for running qunit tests on a headless browser via npm
+            - "${DONUT_HTTP_PORT:-9011}:9002"
+        networks: [ "donut" ]
+        volumes:
+            - ./src/donut/:/var/www/html/w:cached
+            - ./config/:/srv/config/exposed/
+            - ./config-private/:/srv/config/private/
+        environment:
+            - *logger-host
+            - COMPOSER_CACHE_DIR=/var/www/html/w/cache/composer
+            # Set FR_DOCKER_MW_PORT inside the container so LocalSettings.php can see it
+            - FR_DOCKER_MW_PORT=${DONUT_PORT:-9001}
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=donut
+
+
+    privatebin:
+        <<: *common-settings
+        ports:
+            - "${PRIVATEBIN_RO_PORT:-9007}:9001"
+            - "${PRIVATEBIN_RW_PORT:-9008}:9002"
+        networks: [ "donorprefs" ]
+        volumes:
+            - ./src/privatebin/:/var/www/html/:cached
+            - ./config/:/srv/config/exposed/
+            - pbdata:/srv/privatebin_data
+        environment:
+            - *logger-host
+            - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=privatebin
+
+    email-pref-ctr:
+        <<: *common-settings
+        depends_on:
+            - database
+            - queues
+            - logger
+            - civiproxy
+
+        ports:
+            - "${EMAIL_PREF_CTR_PORT:-9002}:9001"
+        networks: [ "donorprefs" ]
+        volumes:
+            - ./src/email-pref-ctr/:/var/www/html/:cached
+            - ./config/:/srv/config/exposed/
+            - ./config-private/:/srv/config/private/
+        environment:
+            - *logger-host
+            - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+            # TODO Check and fix setup for MW logs
+            - MW_LOG_DIR=/var/www/html/cache
+            # Set FR_DOCKER_MW_PORT  inside the container so LocalSettings.php can see it
+            - FR_DOCKER_MW_PORT=${EMAIL_PREF_CTR_PORT:-9001}
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=email-pref-ctr
+            # Use a non-default SmashPig configuration, like on production
+            # This is relative to the config directory (on the host)
+            - FR_DOCKER_SMASHPIG_CONFIG_DIR=email-pref-ctr/smashpig
+            # Provide host and port for connection to Civiproxy
+            # Note: Here we use the port the civiproxy service exposes on the Docker network,
+            # not on the host.
+            - FR_DOCKER_CIVIPROXY_URL_BASE=https://civiproxy:9001
+
+
+    civicrm:
+        image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bullseye-php74-apache2:1.0.0
+        depends_on:
+            - database
+            - queues
+            - logger
+            - mailcatcher
+        user: *user
+        platform: linux/amd64
+        ports:
+            - "${CIVICRM_PORT:-32353}:9001"
+        networks:
+            default:
+                aliases:
+                    - wmff.civicrm
+            donorprefs:
+                aliases:
+                    - wmff.civicrm
+        environment:
+            - *logger-host
+            - *civicrm-api-key
+            - *civicrm-site-key
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            - FR_DOCKER_EMAIL_PREF_CTR_PORT=${EMAIL_PREF_CTR_PORT:-9002}
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=civicrm
+
+    smashpig:
+        <<: *common-settings
+        depends_on:
+            - database
+        ports:
+            - "${SMASHPIG_PORT:-9001}:9001"
+        networks: [ "default" ]
+        volumes:
+            - ./src/smashpig/:/srv/smashpig/
+            - ./config/:/srv/config/exposed/
+            - ./config-private/:/srv/config/private/
+        environment:
+            - *logger-host
+            # Provide user id and group id for rsyslog to drop privileges
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=smashpig
+
+    civiproxy:
+        image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
+        platform: linux/amd64
+        ports:
+            - 9005:9001
+        networks: [ "donorprefs" ]
+        volumes:
+            - ./config/:/srv/config/exposed/
+            - ./src/civiproxy:/var/www/html/
+            - ./config/civiproxy/config.php:/var/www/html/proxy/config.php
+            - ./config/civiproxy/proxy.php:/var/www/html/proxy/proxy.php
+        environment:
+            - *logger-host
+            - *civicrm-api-key
+            - *civicrm-site-key
+            # Provide user id and group id for rsyslog to drop privileges?
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            # Provide the name of the service to find the right xdebug.ini files
+            - FR_DOCKER_SERVICE_NAME=civiproxy
+
+    tools:
+        image: docker-registry.wikimedia.org/dev/fundraising-tools-bullseye:1.0.0
+        depends_on:
+            - database
+        user: *user
+        tty: true
+        platform: linux/amd64
+        networks: [ "default" ]
+        volumes:
+            - ./src/tools/:/srv/tools/
+        environment:
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+
+    database:
+        image: mariadb:10.4
+        ports:
+            - "${MARIADB_PORT:-3306}:3306"
+        networks: [ "default", "donorprefs", "donut" ]
+        volumes:
+            - dbdata:/var/lib/mysql/
+            - ./config/database:/etc/mysql/conf.d
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+    logger:
+        image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s1
+        user: *user
+        platform: linux/amd64
+        networks: [ "default", "donorprefs", "donut" ]
+        volumes:
+            - ./config/:/srv/config/exposed/
+            - ./logs/:/logs/
+
+
+    queues:
+        image: redis:5.0-buster
+        networks: [ "default" ]
+        volumes:
+            - qdata:/data
+        command: [ "redis-server", "--appendonly", "yes" ]
+
+    donorprefsqueues:
+        image: redis:5.0-buster
+        networks: [ "donorprefs" ]
+        volumes:
+            - dpqdata:/data
+        command: [ "redis-server", "--appendonly", "yes" ]
+
+    memcached:
+        image: memcached
+        user: *user
+        networks: [ "default", "donorprefs", "donut" ]
+
+    mailcatcher:
+        image: schickling/mailcatcher
+        platform: linux/amd64
+        ports:
+            - "${SMTP_PORT:-1025}:1025"
+            - "${MAILCATCHER_PORT:-1080}:1080"
+        networks: [ "default", "donorprefs", "donut" ]
+
+volumes:
+    dbdata:
+    qdata:
+    dpqdata:
+    pbdata:
+
+networks:
+    default:
+    donorprefs:
+    donut:

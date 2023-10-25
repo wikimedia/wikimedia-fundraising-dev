@@ -51,6 +51,6 @@ format() {
 	done
 }
 
-# here we call docker-compose directly instead of using queues-redis-cli.sh because we
-# need an extra flag (-T) on docker-compose
-docker-compose exec -T queues redis-cli MONITOR | format
+# here we call docker compose directly instead of using queues-redis-cli.sh because we
+# need an extra flag (-T) on docker compose
+docker compose exec -T queues redis-cli MONITOR | format

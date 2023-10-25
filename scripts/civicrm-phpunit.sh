@@ -7,5 +7,5 @@ if [[ -z $civisite ]]; then
 	exit 1
 fi
 
-docker-compose exec -w "/srv/civi-sites/$civisite" \
+docker compose exec -w "/srv/civi-sites/$civisite" \
 	civicrm vendor/phpunit/phpunit/phpunit $@
