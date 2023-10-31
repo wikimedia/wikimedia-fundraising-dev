@@ -64,9 +64,8 @@ $debug                      = NULL; //'LUXFbiaoz4dVWuAHEcuBAe7YQ4YP96rN4MCDmKj89
 $target_interface           = NULL;
 
 /****************************************************************
- **                   File Caching Options                     **
+ **                 Authentication Options                     **
  ****************************************************************/
-
 // API and SITE keys
 $api_key_map = array('API_KEY' => getenv('FR_DOCKER_CIVI_API_KEY'));
 $sys_key_map = array('SITE_KEY' => getenv('FR_DOCKER_CIVI_SITE_KEY'));
@@ -75,6 +74,22 @@ if (file_exists(dirname(__FILE__)."/secrets.php")) {
   // keys can also be stored in 'secrets.php'
   require "secrets.php";
 }
+
+// CiviCRM's API4 can authenticate with different flows
+// https://docs.civicrm.org/dev/en/latest/framework/authx/#flows
+// Must be one of 'header', 'xheader', 'legacyrest', or 'param'.
+// authx_internal_flow controls how CiviProxy sends credentials to CiviCRM, and
+// authx_external_flow where CiviProxy looks for credentials on incoming requests.
+// The internal setting needs to have a single scalar value, but the
+// external setting can be an array of accepted flows.
+// There is no standard header for site key, so in both header and xheader
+// flows it uses X-Civi-Key
+$authx_internal_flow = 'header';
+$authx_external_flow = ['legacyrest'];
+
+/****************************************************************
+ **                   File Caching Options                     **
+ ****************************************************************/
 
 // define file cache options, see http://pear.php.net/manual/en/package.caching.cache-lite.cache-lite.cache-lite.php
 $file_cache_options = array(
