@@ -211,7 +211,7 @@ services:
 
 
   civiproxy:
-    image: docker-registry.wikimedia.org/dev/fundraising-civiproxy-buster-php73-apache2:0.0.1-1-s4
+    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
     platform: linux/amd64
     ports:
       - 9005:9001
