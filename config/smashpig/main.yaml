@@ -85,7 +85,13 @@ data-store:
     <<: *REDIS
 
 cache:
-    class: SmashPig\Core\Cache\HashCache
+  class: SmashPig\Core\Cache\PredisCache
+  constructor-parameters:
+    -
+      servers:
+        scheme: tcp
+        host: queues
+        port: 6379
 
 # This is where the host directory config-private/smashpig appears in the container
 # (Production equivalent comes from localsettings/local-config.)
