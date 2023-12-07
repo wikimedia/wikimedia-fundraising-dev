@@ -36,6 +36,8 @@ services:
       - "${FR_DOCKER_PAYMENTS_PORT:-9001}:9001"
       - "${FR_DOCKER_PAYMENTS_HTTP_PORT:-9009}:9002"
 
+    networks: [ "default" ]
+
     volumes:
       - ./src/payments/:/var/www/html/:cached
       - ./config/:/srv/config/exposed/
@@ -64,6 +66,8 @@ services:
       - "${FR_DOCKER_DONUT_PORT:-9010}:9001"
       # Plain HTTP port is for running qunit tests on a headless browser via npm
       - "${FR_DOCKER_DONUT_HTTP_PORT:-9011}:9002"
+
+    networks: [ "donut" ]
 
     volumes:
       - ./src/donut/:/var/www/html/w:cached
@@ -94,6 +98,8 @@ services:
       - "${FR_DOCKER_PRIVATEBIN_RO_PORT:-9007}:9001"
       - "${FR_DOCKER_PRIVATEBIN_RW_PORT:-9008}:9002"
 
+    networks: [ "donorprefs" ]
+
     volumes:
       - ./src/privatebin/:/var/www/html/:cached
       - ./config/:/srv/config/exposed/
@@ -118,6 +124,8 @@ services:
 
     ports:
       - "${FR_DOCKER_EMAIL_PREF_CTR_PORT:-9002}:9001"
+
+    networks: [ "donorprefs" ]
 
     volumes:
       - ./src/email-pref-ctr/:/var/www/html/:cached
@@ -159,6 +167,14 @@ services:
     ports:
       - "${FR_DOCKER_CIVICRM_PORT:-32353}:9001"
 
+    networks:
+      default:
+        aliases:
+          - wmff.civicrm
+      donorprefs:
+        aliases:
+          - wmff.civicrm
+
     volumes:
       - ./src/civi-sites:/srv/civi-sites
       - ./src/civicrm-buildkit/:/srv/civicrm-buildkit/
@@ -180,11 +196,6 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civicrm
 
-    networks:
-      default:
-        aliases:
-          - wmff.civicrm
-
 
   smashpig:
     image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
@@ -193,6 +204,8 @@ services:
 
     ports:
       - "${FR_DOCKER_SMASHPIG_PORT:-9001}:9001"
+
+    networks: [ "default" ]
 
     volumes:
       - ./src/smashpig/:/srv/smashpig/
@@ -215,6 +228,8 @@ services:
     platform: linux/amd64
     ports:
       - 9005:9001
+
+    networks: [ "donorprefs" ]
 
     volumes:
       - ./config/:/srv/config/exposed/
@@ -241,6 +256,8 @@ services:
     tty: true
     platform: linux/amd64
 
+    networks: [ "default" ]
+
     volumes:
       - ./src/tools/:/srv/tools/
 
@@ -249,6 +266,8 @@ services:
 
     ports:
       - "${FR_DOCKER_MARIADB_PORT:-3306}:3306"
+
+    networks: [ "default", "donorprefs", "donut" ]
 
     volumes:
       - dbdata:/var/lib/mysql/
@@ -263,6 +282,8 @@ services:
     user: *user
     platform: linux/amd64
 
+    networks: [ "default", "donorprefs", "donut" ]
+
     volumes:
       - ./config/:/srv/config/exposed/
       - ./logs/:/logs/
@@ -270,6 +291,8 @@ services:
 
   queues:
     image: redis:5.0-buster
+
+    networks: [ "default" ]
 
     volumes:
       - qdata:/data
@@ -279,6 +302,8 @@ services:
   donorprefsqueues:
     image: redis:5.0-buster
 
+    networks: [ "donorprefs" ]
+
     volumes:
       - dpqdata:/data
 
@@ -287,6 +312,7 @@ services:
   memcached:
     image: memcached
     user: *user
+    networks: [ "default", "donorprefs", "donut" ]
 
 
   mailcatcher:
@@ -295,9 +321,15 @@ services:
     ports:
       - "${FR_DOCKER_SMTP_PORT:-1025}:1025"
       - "${FR_DOCKER_MAILCATCHER_PORT:-1080}:1080"
+    networks: [ "default", "donorprefs", "donut" ]
 
 volumes:
   dbdata:
   qdata:
   dpqdata:
   pbdata:
+
+networks:
+  default:
+  donorprefs:
+  donut:
