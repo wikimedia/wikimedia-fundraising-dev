@@ -276,6 +276,13 @@ services:
 
     command: [ "redis-server", "--appendonly", "yes" ]
 
+  donorprefsqueues:
+    image: redis:5.0-buster
+
+    volumes:
+      - dpqdata:/data
+
+    command: [ "redis-server", "--appendonly", "yes" ]
 
   memcached:
     image: memcached
@@ -292,4 +299,5 @@ services:
 volumes:
   dbdata:
   qdata:
+  dpqdata:
   pbdata:

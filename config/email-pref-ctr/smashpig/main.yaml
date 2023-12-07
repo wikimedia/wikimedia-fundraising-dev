@@ -13,6 +13,14 @@ data-store:
           host: queues
           port: 6379
 
+  donorprefsredis: &DPREDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      - servers:
+          scheme: tcp
+          host: donorprefsqueues
+          port: 6379
+
   mysql: &MYSQL
     class: PDO
     constructor-parameters:
@@ -74,7 +82,10 @@ data-store:
     <<: *REDIS
 
   email-preferences:
-    <<: *REDIS
+    <<: *DPREDIS
+
+  recurring-upgrade:
+    <<: *DPREDIS
 
 cache:
     class: LocalClusterPsr6Cache
