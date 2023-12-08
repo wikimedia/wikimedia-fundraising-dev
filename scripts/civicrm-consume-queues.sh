@@ -28,6 +28,8 @@ echo -e "${BLUE}Running refunds queue consumer${NC}"
 docker-compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv rfdqc
 echo -e "${BLUE}Running recurring queue consumer${NC}"
 docker-compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv rqc
+echo -e "${BLUE}Running recurring-upgrade queue consumer${NC}"
+docker-compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv rqc --queue=recurring-upgrade
 echo -e "${BLUE}Running upi-donations queue consumer${NC}"
 docker-compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv cvapi UpiDonationsQueue.consume version=4
 echo -e "${BLUE}Running preferences queue consumer${NC}"
