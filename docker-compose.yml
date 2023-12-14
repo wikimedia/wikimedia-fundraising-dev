@@ -26,7 +26,7 @@ x-civicrm-site-key:
 
 services:
   payments:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0 # Allow non-root user to listen on the privileged 443 port.
     user: *user
@@ -58,7 +58,7 @@ services:
       - FR_DOCKER_SERVICE_NAME=payments
 
   donut:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     user: *user
     platform: linux/amd64
 
@@ -90,7 +90,7 @@ services:
 
 
   privatebin:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     user: *user
     platform: linux/amd64
 
@@ -118,7 +118,7 @@ services:
 
 
   email-pref-ctr:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     user: *user
     platform: linux/amd64
 
@@ -198,7 +198,7 @@ services:
 
 
   smashpig:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     user: *user
     platform: linux/amd64
 
@@ -224,7 +224,7 @@ services:
 
 
   civiproxy:
-    image: docker-registry.wikimedia.org/dev/fundraising-mediawiki-bullseye-php74-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
     platform: linux/amd64
     ports:
       - 9005:9001
