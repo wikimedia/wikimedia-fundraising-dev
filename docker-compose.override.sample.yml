@@ -5,3 +5,4 @@ services:
     environment:
       # IDE call back (works for CLI with wmff, needs altering for dmaster)
       - PHP_IDE_CONFIG="serverName=wmff"
+      - PATH=/srv/civicrm-buildkit/bin/civix/bin:/srv/civi-sites/wmff/vendor/phpunit/phpunit:/srv/civicrm-buildkit/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
