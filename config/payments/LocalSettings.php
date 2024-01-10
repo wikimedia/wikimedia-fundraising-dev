@@ -470,37 +470,6 @@ $wgDonationInterfaceMonthlyConvertCountries = [
   'US'
 ];
 
-$wgDonationInterfaceMonthlyConvertAmounts = [
-	"BRL" => [
-		[ 15, 0 ],
-		[ 25000, 10 ]
-	],
-	"MXN" => [
-		[ 30, 0 ],
-		[ 25000, 20 ]
-	],
-	"ARS" => [
-		[ 190, 0 ],
-		[ 25000, 185 ]
-	],
-	"CLP" => [
-		[ 900, 0 ],
-		[ 25000, 850 ]
-	],
-	"COP" => [
-		[ 5000, 0 ],
-		[ 25000, 4900 ]
-	],
-	"PEN" => [
-		[ 15, 0 ],
-		[ 25000, 10 ]
-	],
-	"UYU" => [
-		[ 49, 0 ],
-		[ 25000, 40 ]
-	]
-];
-
 # These debug and log settings are scattered in various parts of staging LocalSettings.php.
 # Moving them to the bottom of this file for easier tweaking.
 
