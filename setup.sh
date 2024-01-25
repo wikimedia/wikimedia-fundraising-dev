@@ -26,6 +26,7 @@ DEFAULT_PROXY_FORWARD_ID=1
 
 # default ports exposed to host
 DEFAULT_XDEBUG_PORT=9000
+DEFAULT_XDEBUG3_PORT=9003
 DEFAULT_PAYMENTS_PORT=9001
 DEFAULT_PAYMENTS_HTTP_PORT=9009
 DEFAULT_DONUT_PORT=9010
@@ -458,6 +459,9 @@ fi
 read -p "Port for XDebug [$DEFAULT_XDEBUG_PORT]: " xdebug_port
 xdebug_port=$(validate_port $xdebug_port $DEFAULT_XDEBUG_PORT)
 
+read -p "Port for XDebug3 [$DEFAULT_XDEBUG3_PORT]: " xdebug3_port
+xdebug3_port=$(validate_port $xdebug3_port $DEFAULT_XDEBUG3_PORT)
+
 read -p "Port for Payments https [$DEFAULT_PAYMENTS_PORT]: " FR_DOCKER_PAYMENTS_PORT
 FR_DOCKER_PAYMENTS_PORT=$(validate_port $FR_DOCKER_PAYMENTS_PORT $DEFAULT_PAYMENTS_PORT)
 
@@ -559,7 +563,7 @@ cat << EOF > /tmp/default-xdebug3.ini
 #### Note: client_host, log and mode settings are set inside the container
 #### from /srv/config/internal/xdebug-common.ini. However, they can be overriden here.
 
-xdebug.client_port=$xdebug_port
+xdebug.client_port=$xdebug3_port
 xdebug.start_with_request=no
 EOF
 
