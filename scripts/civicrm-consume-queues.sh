@@ -33,3 +33,9 @@ echo -e "${BLUE}Running ${GREEN}upi-donations${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv cvapi UpiDonationsQueue.consume version=4
 echo -e "${BLUE}Running ${GREEN}preferences${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv cvapi Preferencesqueue.consume version=3
+echo -e "${BLUE}Running ${GREEN}opt-in${BLUE} queue consumer${NC}"
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv oqc
+echo -e "${BLUE}Running ${GREEN}unsubscribe${BLUE} queue consumer${NC}"
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv unsubqc
+echo -e "${BLUE}Running ${GREEN}banner history${BLUE} queue consumer${NC}"
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv bhqc

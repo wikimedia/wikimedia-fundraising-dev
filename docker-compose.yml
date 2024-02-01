@@ -172,7 +172,7 @@ services:
     depends_on:
       - database
     ports:
-      - "${SMASHPIG_PORT:-9001}:9001"
+      - "${SMASHPIG_PORT:-9006}:9001"
     networks: [ "default" ]
     volumes:
       - ./src/smashpig/:/srv/smashpig/
