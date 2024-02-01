@@ -6,6 +6,7 @@ DOCKER_COMPOSE_FILE="docker-compose.yml"
 MAC_SCRIPTS_DIR="./scripts/mac"
 MAC_DOCKER_COMPOSE_FILE="docker-compose-mac.yml"
 USE_MAC_CONFIG="false"
+SKIP_RECLONE="false"
 
 display_help() {
   echo "Usage: $0 [OPTION]... [COMMAND]"
@@ -15,6 +16,9 @@ display_help() {
   echo
   echo "========================= Setup Options ========================="
   echo "  --mac                    Use Mac-friendly Docker config (speed things up!)"
+  echo "  --skip-reclone           Do not ask to reclone any repos"
+  echo "  note: the above two options must be specified BEFORE other setup options"
+  echo
   echo "  --full                   Set up everything!"
   echo "  --civicrm                Set up CiviCRM WMFF (our version)"
   echo "  --civicrm-core           Set up CiviCRM Core (for upstream testing)"
@@ -136,6 +140,9 @@ for arg in "$@"; do
   --mac)
     USE_MAC_CONFIG="true"
     DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+    ;;
+  --skip-reclone)
+    SKIP_RECLONE="true"
     ;;
   --civicrm)
     init

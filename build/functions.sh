@@ -4,17 +4,21 @@
 # $1 is the directory to check, $2 is a friendly name for the repository.
 ask_reclone() {
     local reclone=true
-    if [ -d $1 ]; then
-        read -p "$1 exists. Remove and re-clone $2? [yN] " -r
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            read -p "Are you sure? This will delete $1, including local branches. [yN] " -r
-            if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [ -d $1/.git ]; then
+        if [ SKIP_RECLONE ]; then
+            reclone=false
+        else
+            read -p "$1 exists. Remove and re-clone $2? [yN] " -r
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                read -p "Are you sure? This will delete $1, including local branches. [yN] " -r
+                if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+                    reclone=false
+                fi
+            else
                 reclone=false
             fi
-        else
-            reclone=false
+            echo >&2
         fi
-        echo >&2
     fi
     echo $reclone
 }
