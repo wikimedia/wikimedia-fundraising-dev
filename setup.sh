@@ -17,8 +17,6 @@ display_help() {
   echo "========================= Setup Options ========================="
   echo "  --mac                    Use Mac-friendly Docker config (speed things up!)"
   echo "  --skip-reclone           Do not ask to reclone any repos"
-  echo "  note: the above two options must be specified BEFORE other setup options"
-  echo
   echo "  --full                   Set up everything!"
   echo "  --civicrm                Set up CiviCRM WMFF (our version)"
   echo "  --civicrm-core           Set up CiviCRM Core (for upstream testing)"
@@ -131,20 +129,26 @@ drop() {
   source "$SETUP_DIR/drop.sh"
 }
 
+# Check for --mac and --skip-reclone flags before executing other build scripts
+for arg in "$@"; do
+  case $arg in
+    --mac)
+      USE_MAC_CONFIG="true"
+      DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+      ;;
+    --skip-reclone)
+      SKIP_RECLONE="true"
+      ;;
+  esac
+done
+
 for arg in "$@"; do
   case $arg in
   -h | --help)
     display_help
     exit 0
     ;;
-  ## Setup flags
-  --mac)
-    USE_MAC_CONFIG="true"
-    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
-    ;;
-  --skip-reclone)
-    SKIP_RECLONE="true"
-    ;;
+  ## Build flags
   --civicrm)
     init
     announce_install "CiviCRM Buildkit" "CiviCRM WMFF"
