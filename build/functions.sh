@@ -5,7 +5,7 @@
 ask_reclone() {
     local reclone=true
     if [ -d $1/.git ]; then
-        if [ SKIP_RECLONE ]; then
+        if [ $SKIP_RECLONE == "true" ]; then
             reclone=false
         else
             read -p "$1 exists. Remove and re-clone $2? [yN] " -r
