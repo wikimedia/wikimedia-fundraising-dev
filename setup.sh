@@ -68,6 +68,7 @@ init_env
 # run before app setup scripts
 init() {
   source "$SETUP_DIR/gerrit.sh"
+  source "$SETUP_DIR/bind-mount-dirs.sh"
   source "$SETUP_DIR/xdebug.sh"
   source "$SETUP_DIR/functions.sh"
   source "$SETUP_DIR/config-private.sh"
