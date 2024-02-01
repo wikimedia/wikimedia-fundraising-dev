@@ -41,6 +41,7 @@ display_help() {
   echo "========================= Other Commands =========================="
   echo "  env                      Show .env vars (ports, gerrit user)"
   echo "  urls                     Show App URLs"
+  echo "  destroy                  Reset your environment. Removes ./src/, .env, config-private, containers and volumes including db and redis."
   echo
   echo "=========================== Custom Builds ========================="
   echo "  You can chain options and commands."
@@ -257,6 +258,10 @@ for arg in "$@"; do
     ;;
   drop)
     drop
+    ;;
+  destroy)
+    source "$SETUP_DIR/functions.sh"
+    destroy $DOCKER_COMPOSE_FILE
     ;;
   *)
     echo "Unknown flag: $arg"

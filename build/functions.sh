@@ -71,3 +71,16 @@ docker_compose_up() {
 
   docker compose -f "$docker_compose_file" up --force-recreate  -d "$service_name"
 }
+
+destroy() {
+  local docker_compose_file="$1"
+
+  read -p "Are you sure? This will delete ./src/*, ./config-private, .env and remove all containers & volumes including the db and redis [yN] " -r
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    docker compose -f "$docker_compose_file" down -v
+    rm -rf ./src/*
+    rm -rf ./config-private
+    rm -f .env
+    echo "R.I.P environment. It's no longer with us. ./setup.sh --full to bring it back!"
+  fi
+}
