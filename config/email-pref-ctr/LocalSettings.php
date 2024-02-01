@@ -52,7 +52,7 @@ $wgEmailAuthentication = true;
 ## Database settings
 $wgDBtype = "mysql";
 $wgDBserver = "database";
-$wgDBname = "payments";
+$wgDBname = "email-pref-ctr";
 $wgDBuser = "root";
 $wgDBpassword = "";
 
