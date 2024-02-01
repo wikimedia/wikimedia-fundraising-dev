@@ -218,7 +218,6 @@ for arg in "$@"; do
     )
     init
     announce_install "${apps[@]}"
-    docker compose -f $DOCKER_COMPOSE_FILE up -d
     create_xdebug_ini_all
     time (
       setup_payments
