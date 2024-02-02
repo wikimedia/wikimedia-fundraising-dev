@@ -6,14 +6,14 @@ x-user:
 
 # This environment variable tells containers where to send logs.
 x-logger: &logger-host
-              "FR_DOCKER_LOGGER_HOST=logger"
+    "FR_DOCKER_LOGGER_HOST=logger"
 
 # Civi user api key and site key, needed in civiproxy and civicrm containers
 x-civicrm-api-key: &civicrm-api-key
-                       "FR_DOCKER_CIVI_API_KEY=docker_api_key"
+    "FR_DOCKER_CIVI_API_KEY=docker_api_key"
 
 x-civicrm-site-key: &civicrm-site-key
-                        "FR_DOCKER_CIVI_SITE_KEY=docker_site_key"
+    "FR_DOCKER_CIVI_SITE_KEY=docker_site_key"
 
 # Most apps build from this generic image
 x-common-settings: &common-settings
@@ -101,7 +101,7 @@ services:
         <<: *common-settings
         depends_on:
             - database
-            - queues
+            - donorprefsqueues
             - logger
             - civiproxy
 
@@ -166,6 +166,7 @@ services:
         <<: *common-settings
         depends_on:
             - database
+            - queues
         ports:
             - "${SMASHPIG_PORT:-9001}:9001"
         networks: [ "default" ]
