@@ -72,6 +72,12 @@ docker_compose_up() {
   docker compose -f "$docker_compose_file" up -d "$service_name"
 }
 
+docker_compose_restart() {
+  local docker_compose_file="$1"
+
+  docker compose -f "$docker_compose_file" restart
+}
+
 destroy() {
   local docker_compose_file="$1"
 

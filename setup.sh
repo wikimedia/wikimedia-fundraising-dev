@@ -7,6 +7,7 @@ MAC_SCRIPTS_DIR="./scripts/mac"
 MAC_DOCKER_COMPOSE_FILE="docker-compose-mac.yml"
 USE_MAC_CONFIG="false"
 SKIP_RECLONE="false"
+CONFIG_PRIVATE_CALLED_DIRECTLY="false"
 
 display_help() {
   echo "Usage: $0 [OPTION]... [COMMAND]"
@@ -27,6 +28,7 @@ display_help() {
   echo "  --smashpig               Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)"
   echo "  --privatebin             Set up PrivateBin"
+  echo "  --config-private         Set up config-private repo"
   echo
   echo "========================= Docker Commands ========================="
   echo "  up                       Start up Docker containers"
@@ -132,6 +134,14 @@ drop() {
   source "$SETUP_DIR/drop.sh"
 }
 
+setup_config_private() {
+    CONFIG_PRIVATE_CALLED_DIRECTLY="true"
+    source "$SETUP_DIR/functions.sh"
+    source "$SETUP_DIR/config-private.sh"
+    # needed to remount the config-private dir
+    docker_compose_restart "$DOCKER_COMPOSE_FILE"
+}
+
 # Check for --mac and --skip-reclone flags before executing other build scripts
 for arg in "$@"; do
   case $arg in
@@ -205,6 +215,9 @@ for arg in "$@"; do
     announce_install "PrivateBin"
     create_xdebug_ini "privatebin"
     setup_privatebin
+    ;;
+  --config-private)
+    setup_config_private
     ;;
   --full)
     apps=(

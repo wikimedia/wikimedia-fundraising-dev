@@ -1,7 +1,7 @@
 # config-private setup
 CONFIG_PRIVATE_DIR="./config-private"
 
-if [[ ! -e ${CONFIG_PRIVATE_DIR:?} ]]; then
+if [[ ! -e ${CONFIG_PRIVATE_DIR:?} || $CONFIG_PRIVATE_CALLED_DIRECTLY = "true" ]]; then
   echo
   echo "**** Set up config-private"
   read -rp "Would you like to clone config-private? (needed for some apps to run!) [y/N]: "
