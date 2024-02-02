@@ -10,6 +10,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   rm -rf ${CIVICRM_SRC_CORE_DIR}
   mkdir -p src/civi-sites
 
+  if [ "$USE_MAC_CONFIG" = "true" ]; then
+    echo
+    echo "**** MacOS Setup: sync local config to container"
+    echo
+    source "$MAC_SCRIPTS_DIR/sync-push-civicrm-config.sh"
+  fi
+
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
 	docker compose exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
@@ -17,6 +24,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   docker compose exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
 		dmaster --admin-pass $CIVI_ADMIN_PASS
   echo
+
+  docker compose restart "$CIVICRM_SERVICE_NAME"
 
   if [ "$USE_MAC_CONFIG" = "true" ]; then
     echo

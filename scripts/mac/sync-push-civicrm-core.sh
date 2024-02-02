@@ -1,32 +1,20 @@
 #!/bin/bash
 CONTAINER_ID=$(docker compose ps -q civicrm)
-CIVICRM_SERVICE_NAME="civicrm"
-
-
-# loop through each folder in the ./config/* and copy to /srv/config/exposed/
-for config_dir in ./config/*; do
-  if [ -d "$config_dir" ]; then
-    app_name=$(basename "$config_dir")
-    docker compose exec "$CIVICRM_SERVICE_NAME" rm -rf /srv/config/exposed/$app_name
-    docker cp -q $config_dir "$CONTAINER_ID:/srv/config/exposed/$app_name"
-  fi
-done
-echo "sync complete - ./config/*:/srv/config/exposed/"
-
-# loop through each folder in the ./config-private/* and copy to /srv/config/private/
-for config_private_dir in ./config-private/*; do
-  if [ -d "$config_private_dir" ]; then
-    app_private_name=$(basename "$config_private_dir")
-    docker compose exec "$CIVICRM_SERVICE_NAME" rm -rf /srv/config/private/$app_private_name
-    docker cp -q $config_private_dir "$CONTAINER_ID:/srv/config/private/$app_private_name"
-  fi
-done
-echo "sync complete - ./config-private/*:/srv/config/private/"
 
 # copy local civicrm-core source to container
-docker cp -q "./src/civi-sites/dmaster" "${CONTAINER_ID}:/srv/civi-sites/dmaster"
-docker cp -q "./src/civi-sites/dmaster.sh" "${CONTAINER_ID}:/srv/civi-sites/dmaster".sh
-echo "local => container: sync complete - ./src/civi-sites/dmaster:/srv/civi-sites/dmaster"
-echo "local => container: sync complete - ./src/civi-sites/dmaster.sh:/srv/civi-sites/dmaster.sh"
+if [ -f "./src/civi-sites/dmaster.sh" ]; then
+  docker cp -q "./src/civi-sites/dmaster.sh" "${CONTAINER_ID}:/srv/civi-sites/dmaster.sh"
+  docker exec "${CONTAINER_ID}" chown "${FR_DOCKER_UID}":"${FR_DOCKER_GID}" /srv/civi-sites/dmaster.sh
+  echo "local => container: sync complete - ./src/civi-sites/dmaster.sh:/srv/civi-sites/dmaster.sh"
+fi
 
-
+if [ -d "./src/civi-sites/dmaster" ]; then
+  docker cp -q "./src/civi-sites/dmaster" "${CONTAINER_ID}:/tmp/dmaster"
+  docker exec -u0 "${CONTAINER_ID}" mkdir -p /srv/civi-sites/dmaster
+  docker exec -u0 "${CONTAINER_ID}" chown -R "${FR_DOCKER_UID}":"${FR_DOCKER_GID}" /tmp/dmaster /srv/civi-sites/dmaster
+  docker exec "${CONTAINER_ID}" cp -rf /tmp/dmaster/. /srv/civi-sites/dmaster/
+  docker exec "${CONTAINER_ID}" rm -rf /tmp/dmaster
+  echo "local => container: sync complete - ./src/civi-sites/dmaster:/srv/civi-sites/dmaster"
+else
+  echo "Directory not found: ./src/civi-sites/dmaster"
+fi

@@ -69,7 +69,7 @@ docker_compose_up() {
   local docker_compose_file="$1"
   local service_name="$2"
 
-  docker compose -f "$docker_compose_file" up --force-recreate  -d "$service_name"
+  docker compose -f "$docker_compose_file" up -d "$service_name"
 }
 
 destroy() {

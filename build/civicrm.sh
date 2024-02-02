@@ -23,16 +23,17 @@ if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMFF (our version)"); then
   echo
 fi
 
-if [ "$USE_MAC_CONFIG" = "true" ]; then
-  echo
-  echo "**** MacOS Setup: sync local source code and config to container"
-  echo
-  source "$MAC_SCRIPTS_DIR/sync-push-civicrm.sh"
-fi
-
 read -p "Install CiviCRM WMFF (our version) [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+  if [ "$USE_MAC_CONFIG" = "true" ]; then
+    echo
+    echo "**** MacOS Setup: sync local source code and config to container"
+    echo
+    source "$MAC_SCRIPTS_DIR/sync-push-civicrm-config.sh"
+    source "$MAC_SCRIPTS_DIR/sync-push-civicrm.sh"
+  fi
 
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
 	docker compose exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
