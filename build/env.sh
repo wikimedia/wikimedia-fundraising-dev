@@ -4,9 +4,10 @@ init_env() {
   if [[ -e .env ]]; then
     source .env
   else
-    cat "$SETUP_DIR/ports.sh" >> .env
+    echo "DOCKER_HOST_OS=$(uname)" >> .env
     echo "FR_DOCKER_UID=$(id -u)" >> .env
     echo "FR_DOCKER_GID=$(id -g)" >> .env
+    cat "$SETUP_DIR/ports.sh" >> .env
     source .env
     echo ".env file created with defaults."
   fi

@@ -16,7 +16,6 @@ display_help() {
   echo "  -h, --help               Display this help and exit"
   echo
   echo "========================= Setup Options ========================="
-  echo "  --mac                    Use Mac-friendly Docker config (speed things up!)"
   echo "  --skip-reclone           Do not ask to reclone any repos"
   echo "  --full                   Set up everything!"
   echo "  --civicrm                Set up CiviCRM WMFF (our version)"
@@ -48,9 +47,9 @@ display_help() {
   echo "=========================== Custom Builds ========================="
   echo "  You can chain options and commands."
   echo
-  echo "  Example: $0 --mac --civicrm --smashpig"
+  echo "  Example: $0 --civicrm --smashpig --tools"
   echo
-  echo "  This will enable the Mac-friendly Docker config and then install for CiviCRM and Smashpig"
+  echo "  This will install CiviCRM, Smashpig and Fundraising-tools"
   echo
 }
 
@@ -68,6 +67,11 @@ init_env
 
 # run before app setup scripts
 init() {
+  if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
+    echo "**** MacOS Detected: using optimised docker-compose-mac.yml config "
+    USE_MAC_CONFIG="true"
+    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+  fi
   source "$SETUP_DIR/gerrit.sh"
   source "$SETUP_DIR/project-name.sh"
   source "$SETUP_DIR/bind-mount-dirs.sh"
@@ -142,13 +146,9 @@ setup_config_private() {
     docker_compose_restart "$DOCKER_COMPOSE_FILE"
 }
 
-# Check for --mac and --skip-reclone flags before executing other build scripts
+# Check for --skip-reclone flags before executing other build scripts
 for arg in "$@"; do
   case $arg in
-    --mac)
-      USE_MAC_CONFIG="true"
-      DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
-      ;;
     --skip-reclone)
       SKIP_RECLONE="true"
       ;;
@@ -160,6 +160,9 @@ for arg in "$@"; do
   -h | --help)
     display_help
     exit 0
+    ;;
+    # ignore --skip-reclone due to being handled in the first block
+  --skip-reclone)
     ;;
   ## Build flags
   --civicrm)

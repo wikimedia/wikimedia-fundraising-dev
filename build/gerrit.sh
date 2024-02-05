@@ -1,8 +1,10 @@
 if [ -z "${GIT_REVIEW_USER}" ]; then
+    echo
     echo "**** Set up Gerrit user"
     read -rp "Gerrit user: " GIT_REVIEW_USER
     update_env "GIT_REVIEW_USER" "${GIT_REVIEW_USER}"
 else
+    echo
     echo "**** Gerrit user is currently set to: ${GIT_REVIEW_USER}"
     read -rp "Would you like to update it? [y/N]: "
     if [[ $REPLY =~ ^[Yy]$ ]]; then
