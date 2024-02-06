@@ -8,6 +8,8 @@ $aliases['wmff'] = [
     // wmff in phpstorm this will connect to it
     // when using drush.
     'PHP_IDE_CONFIG' => 'serverName=wmff',
+    // Short-circuit some drush code that would otherwise throw an error
+    'USER' => 'nobody',
   ],
 ];
 $aliases['dmaster'] = [
@@ -18,5 +20,7 @@ $aliases['dmaster'] = [
     // dmaster in phpstorm this will connect to it
     // when using drush.
     'PHP_IDE_CONFIG' => 'serverName=dmaster',
+    // Short-circuit some drush code that would otherwise throw an error
+    'USER' => 'nobody',
   ],
 ];
