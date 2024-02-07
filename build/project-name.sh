@@ -8,12 +8,4 @@ if [ -z "${COMPOSE_PROJECT_NAME}" ]; then
     else
       update_env "COMPOSE_PROJECT_NAME" "fundraising-dev"
     fi
-else
-    echo
-    echo "**** Docker Compose project name is currently set to: ${COMPOSE_PROJECT_NAME}"
-    read -rp "Would you like to update it? [y/N]: "
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        read -rp "Enter Custom Docker Compose project name: " COMPOSE_PROJECT_NAME
-        update_env "COMPOSE_PROJECT_NAME" "${COMPOSE_PROJECT_NAME}"
-    fi
 fi
