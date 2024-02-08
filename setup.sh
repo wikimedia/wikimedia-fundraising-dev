@@ -66,6 +66,14 @@ fi
 source "$SETUP_DIR/env.sh"
 init_env
 
+# mac os optimisations
+if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
+  echo "**** MacOS Detected: using optimised docker-compose-mac.yml config "
+  echo
+  USE_MAC_CONFIG="true"
+  DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+fi
+
 # run before app setup scripts
 init() {
   source "$SETUP_DIR/gerrit.sh"
