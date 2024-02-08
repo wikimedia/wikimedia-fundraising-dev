@@ -151,6 +151,11 @@ services:
             donorprefs:
                 aliases:
                     - wmff.civicrm
+        volumes:
+            - civi-sites:/srv/civi-sites
+            - civicrm-buildkit:/srv/civicrm-buildkit/
+            - civi-config:/srv/config/exposed/
+            - civi-config-private:/srv/config/private/
         environment:
             - *logger-host
             - *civicrm-api-key
@@ -270,6 +275,10 @@ volumes:
     qdata:
     dpqdata:
     pbdata:
+    civi-sites:
+    civicrm-buildkit:
+    civi-config:
+    civi-config-private:
 
 networks:
     default:
