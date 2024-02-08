@@ -101,7 +101,7 @@ services:
     <<: *common-settings
     depends_on:
         - database
-        - queues
+        - donorprefsqueues
         - logger
         - civiproxy
 
@@ -171,6 +171,7 @@ services:
     <<: *common-settings
     depends_on:
       - database
+      - queues
     ports:
       - "${SMASHPIG_PORT:-9006}:9001"
     networks: [ "default" ]
