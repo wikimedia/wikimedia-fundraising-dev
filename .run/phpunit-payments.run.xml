@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="phpunit-payments" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/src/payments/tests/phpunit/phpunit.php" scriptParameters="--group DonationInterface --ignore-dependencies">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="payments" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
+    <method v="2" />
+  </configuration>
+</component>

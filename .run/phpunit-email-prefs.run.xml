@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="phpunit-email-prefs" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/src/email-pref-ctr/tests/phpunit/phpunit.php" scriptParameters="--group EmailPreferences --ignore-dependencies">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="email-prefs" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
+    <method v="2" />
+  </configuration>
+</component>
