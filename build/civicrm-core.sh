@@ -37,5 +37,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "CiviCRM Core Installed!"
 fi
 
+if [ -f "$HOME/.gitconfig" ]; then
+  echo
+  echo "**** git config: copying local ~/.gitconfig to container. Makes life easier for folks who commit from the container!"
+  docker compose cp ~/.gitconfig civicrm:/home/docker/
+  echo
+fi
+
 echo "CiviCRM Core URL: https://dmaster.localhost:$CIVICRM_PORT/civicrm"
 echo "Civicrm Core user/password: admin/$CIVI_ADMIN_PASS"
