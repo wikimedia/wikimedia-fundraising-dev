@@ -17,7 +17,7 @@ x-civicrm-site-key: &civicrm-site-key
 
 # Most apps build from this generic image
 x-common-settings: &common-settings
-    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.3
     user: *user
     platform: linux/amd64
 
@@ -134,7 +134,7 @@ services:
 
 
   civicrm:
-    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bullseye-php74-apache2:1.0.0
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bullseye-php74-apache2:1.0.1
     depends_on:
       - database
       - queues
@@ -188,7 +188,7 @@ services:
       - FR_DOCKER_SERVICE_NAME=smashpig
 
   civiproxy:
-    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.2
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-php74-apache2:1.0.3
     platform: linux/amd64
     ports:
       - 9005:9001
