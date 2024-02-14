@@ -53,6 +53,19 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   echo
   echo "CiviCRM WMFF Installed!"
+  echo
+  echo "**** Backing up CiviCRM WMFF databases"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civicrm > ./.backup/sql/wmff_civicrm_backup.sql
+  echo "wmff_civicrm_backup.sql added to .backup/sql"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot drupal > ./.backup/sql/wmff_drupal_backup.sql
+  echo "wmff_drupal_backup.sql added to .backup/sql"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot wmff_test > ./.backup/sql/wmff_test_backup.sql
+  echo "wmff_test_backup.sql added to .backup/sql"
+  echo
+  echo "**** CiviCRM WMFF databases backed up! Restore them anytime with ./scripts/db/restore-civicrm.sh"
+  echo
+
+
 fi
 
 echo "CiviCRM WMFF URL: https://wmff.localhost:$CIVICRM_PORT/civicrm"

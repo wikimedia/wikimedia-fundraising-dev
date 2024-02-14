@@ -31,6 +31,7 @@ config/civicrm/amp/nginx.d/
 config/civicrm/amp/log/
 
 # ignore backups of customized files everywhere
+.backup/sql/*.sql
 **/*.bkup*
 
 # ignore LocalSettings-local.php

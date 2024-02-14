@@ -27,6 +27,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   docker compose restart "$CIVICRM_SERVICE_NAME"
 
+
   if [ "$USE_MAC_CONFIG" = "true" ]; then
     echo
     echo "**** MacOS Setup: sync container source code to local to retain generated build config"
@@ -35,11 +36,23 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
   echo "CiviCRM Core Installed!"
+
+  echo
+  echo "**** Backing up CiviCRM Core databases"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercivicrm > ./.backup/sql/core_civicrm_backup.sql
+  echo "core_civicrm_backup.sql added to .backup/sql"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercms > ./.backup/sql/core_drupal_backup.sql
+  echo "core_drupal_backup.sql added to .backup/sql"
+  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastertest > ./.backup/sql/core_test_backup.sql
+  echo "core_test_backup.sql added to .backup/sql"
+  echo
+  echo "**** CiviCRM Core databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-core.sh"
+  echo
 fi
 
+
 if [ -f "$HOME/.gitconfig" ]; then
-  echo
-  echo "**** git config: copying local ~/.gitconfig to container. Makes life easier for folks who commit from the container!"
+  echo "**** Git Config Copy: copying local .gitconfig to container. Makes life easier for folks who commit from the container!"
   docker compose cp ~/.gitconfig civicrm:/home/docker/
   echo
 fi
