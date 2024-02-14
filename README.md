@@ -1,143 +1,74 @@
-# fundraising-dev
+# Fundraising-dev
 
-A Docker-based environment for developing and maintaining tools used by the
-Wikimedia Foundation for fundraising.
+A Docker-based local development environment for developing and maintaining tools used by the Wikimedia Foundation Fundraising Technology team
 
-*FIXME Reorganize, putting more important stuff higher up*
+## Getting started
 
-## Building the base images
+First, clone this repository. Then run `./setup.sh`
 
-*FIXME Update now that images are in WMF registry*
+```shell
+Usage: ./setup.sh [OPTION]... [COMMAND]
+Fundraising-dev setup script.
 
-(Only necessary for developing on the images themselves.)
+  -h, --help               Display this help and exit
 
-For the following commands, you can set the `GIT_REVIEW_USER` environment variable, then just
-copy and paste the command as-is onto the command line. (Note: the same environment variable is also
-used by `setup.sh`.)
+========================= Setup Options =========================
+  --skip-reclone           Do not ask to reclone any repos
+  --full                   Set up everything!
+  --civicrm                Set up CiviCRM WMFF (our version)
+  --civicrm-core           Set up CiviCRM Core (for upstream testing)
+  --payments               Set up PaymentsWiki
+  --donut                  Set up Donate/Donut Wiki
+  --email-prefs            Set up Email-Preference Centre Wiki
+  --civiproxy              Set up CiviProxy (Email-Preference Centre Wiki)
+  --smashpig               Set up Smashpig Listeners (IPN testing)
+  --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)
+  --privatebin             Set up PrivateBin
+  --config-private         Set up config-private repo
 
-Install [docker-pkg](https://doc.wikimedia.org/docker-pkg/):
+========================= Docker Commands =========================
+  up                       Create and start up Docker containers
+  down                     Stop and remove Docker containers
+  start                    Start up any stopped Docker containers
+  stop                     Stop any running Docker containers
+  restart                  Restart all Docker containers
+  status                   Show status of installed apps and bound ports
+  drop                     Remove containers AND volume mounts (MySQL, Redis, Mac-specific mounts) 
 
-    git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/operations/docker-images/docker-pkg" && \
-        scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-        "docker-pkg/.git/hooks/"
-    cd docker-pkg
-    pip3 install -e .
+========================= Mac Commands ==========================
+  sync                     Sync local CiviCRM files to containers
 
-After installing, check that the `docker-pkg` executable is in your `PATH`. If it's not, you may need to
-add `~/.local/bin/` to your `PATH`.
+========================= Other Commands ==========================
+  env                      Show .env vars (ports, gerrit user)
+  urls                     Show App URLs
+  destroy                  Reset your environment. Removes ./src/, .env, config-private, containers and volumes including db and redis.
 
-If you've previously installed docker-pkg, you may wish to pull the latest master via git.
-(An important fix was recently merged into the master branch for that tool.)
+=========================== Custom Builds =========================
+  You can pass multiple options to install only what you need
 
-Clone the dev-images repository and check out the gerrit changes with the setup
-for the fundraising-dev images:
+  Example: ./setup.sh --civicrm --smashpig --tools
 
-    git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/releng/dev-images" && \
-        scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-        "dev-images/.git/hooks/"
-    cd dev-images
+  This will install CiviCRM, Smashpig and Fundraising-tools
+```
+## Setting up the stack
+To install a full stack, run `./setup.sh --full` and grab a coffee as it might take a while first time around. 
 
-You should then be able to build the images for payments, civicrm and the centralized logger,
-as follows (from the dev-images directory):
+### Working with the Docker containers
 
-    docker-pkg -c dockerfiles/config.yaml build --no-pull \
-        --select 'docker-registry.wikimedia.org/dev/fundraising*:*' dockerfiles/
+./setup.sh provides OS-specific wrappers for a lot of common `docker compose` commands
 
-    docker-pkg -c dockerfiles/config.yaml build --no-pull \
-        --select 'docker-registry.wikimedia.org/dev/buster-rsyslog*:*' dockerfiles/
-
-Command to check that the new images were created:
-
-    docker image ls
-
-If there's an image appears in the list with no repository or tag, it means an image creation
-failed. Check docker-pkg-build.log for details.
-
-If you update the unmerged Gerrit changes and wish to rebuild an image, you may need to remove the
-previous build manually:
-
-    docker image rm {image id} -f
-
-(You can find the image id using `docker image ls`.)
-
-Once the [fundraising config](https://gerrit.wikimedia.org/r/c/releng/dev-images/+/632173) has been merged
-into the dev-images code repository, and the image has been uploaded to the Docker image repository,
-these steps will no longer be necessary. However, these tools will be needed to update the image.
-
-For more information about docker-pkg see the [documentation](https://doc.wikimedia.org/docker-pkg/)
-and [instructions for using it for CI images](https://www.mediawiki.org/wiki/Continuous_integration/Docker).
-
-If you haven't run `setup.sh` yet, do so before starting the application.
+    ./setup.sh start
+    ./setup.sh stop
+    ./setup.sh restart
+    ./setup.sh up
+    ./setup.sh down
+    ./setup.sh drop 
 
 
-## Creating the environment
+### Rebuilding stuff
 
-First, clone this repository. Optionally, set the `GIT_REVIEW_USER` environment variable (as above).
-Then, cd into the root directory of the repository and run `setup.sh`.
-
-Note that normally `setup.sh` *only needs to run once* for each dev environment you set up. It
-does *not* need to be run again if you destroy your Docker containers (see below), because it
-doesn't change anything inside the containers, just on the host (so the containers are
-[ephemeral](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#create-ephemeral-containers)).
-
-What *does* `setup.sh` do? In a nutshell, it downloads source code for Fundraising projects
-and runs some setup, all of which creates stuff under the directory of this repository.
-It also creates an `.env` file in the root directory of the repository, where we store some
-configurable details of your local setup (i.e., the ports you choose for services exposed
-to the host, and the user to run the containers as).
-
-If `setup.sh` completes successfully, your dev environment should be up and running! You
-should be able to visit your local Payments wiki at
-[https://localhost:9001](https://localhost:9001) (unless you chose a different port
-for Payments). Civicrm should be at [https://wmff.localhost:32353](https://wmff.localhost:32353).
-
-See the next section for how to stop, start and rebuild the environment.
-
-## Starting, stopping and rebuilding
-
-Warning: Do not modify `docker-compose.yml` or update this repository without
-destroying the containers first.
-
-Warning: Run `setup.sh` before starting services.
-
-### Stopping and starting without destorying and recreating containers
-
-Start, restart or stop all services, without deleting the containers or their internal persistant
-storage, like this:
-
-    docker-compose start
-    docker-compose restart
-    docker-compose stop
-
-Just stopping containers, using the last command, above, is the most lightweight way to turn
-things off. All of the above commands can also be executed for any of the individual
-services specified in `docker-compose.yml`, just by adding the name of the service to the
-end of the command. The restart option can be useful to force some programs (apache,
-rsyslogd) to reload their configuration.
-
-### Stopping and stopping with destruction and recreation of containers
-
-Here is how to stop all services and destroy the containers and internal storage. (Database,
-queue and log contents will persist, since they are stored on the host. Nothing of
-importance is stored inside the containers, so doing this won't impact your setup at all.
-No need to re-run `setup.sh` afterwards, either.)
-*Do this before updating this repository.*
-
-    docker-compose down
-
-Create containers and start all services. Again, *don't* do this before running `setup.sh` for
-the first time.
-
-    docker-compose up -d
-
-### Rebuilding stuff with `setup.sh`
-
-To partly or completely rebuild the environment, run `setup.sh` again. Whenever it makes
-sense to do so, the script asks for confirmation before performing an action. So,
-for example, you can re-run `setup.sh`, skip the step about checking out the source code
-to leave the current source code intact, but still reset the database to a fresh state
-and re-run `install.php` on Payments. Just answer the corresponding prompts to perform
-or skip actions as desired.
+You can reinstall services at any time using `./setup.sh --$service_name`
+If you'd like to rebuild everything from scratch, run `./setup.sh destroy` followed by `./setup.sh --full`
 
 ## Config
 
@@ -146,7 +77,6 @@ the `config` directory, for ease of access.
 
 All files under the `config` directory are shared live between the host and the Docker containers. Changes
 made to these files on the host are visible immediately to the services running in the containers.
-(That is, there's no intermediate "provisioning" or copying step, as there was with Vagrant.)
 
 For example, to modify settings for Payments wiki, just save your changes to
 `config/payments/LocalSettings.php` or `config/smashpig/main.yaml`, and reload the page in your browser.
@@ -179,7 +109,7 @@ settings can be tracked using the private git repo.
 Not all configuration is visible outside the containers. A lot of config is baked into the images
 or created dynamically by scripts when the containers start up. It is expected that, for the most part,
 developers won't need to modify these internal settings. In any case, all config files,
-both exposed and container-internal, can be accessed at interal container locations by opening a shell
+both exposed and container-internal, can be accessed at internal container locations by opening a shell
 in a container. (See "Opening a shell", below.) Also note that config that is not exposed outside
 the containers is stored on the containers' internal filesystems, so it will be reset when the containers
 are re-created. (However, it is also not expected that such container-internal config will
@@ -205,7 +135,7 @@ repository. Enter the remote when prompted by `setup.sh`. All private config is 
 ## Logs
 
 Logs should appear magically in the `logs` directory. Filenames should be self-explanatory. If the logs don't
-show up as expected, try `docker-comppose ps` to check that the logger container is running.
+show up as expected, try `./setup.sh status` to check that the logger container is running.
 
 Logs are not yet rotated. If they start getting too big, you can just delete them.
 
@@ -286,11 +216,11 @@ at a per process level).
 Here's how to get a shell in a container (provided it's running). Substitute {service} for any
 of the services defined in docker-compose.yml (i.e., payments, civicrm, logger or database).
 
-    docker-compose exec {service} bash
+    docker compose exec {service} bash
 
 For a root shell, use this command:
 
-    docker-compose exec -u 0 {service} bash
+    docker compose exec -u 0 {service} bash
 
 ## Serving payments and smashpig services via routable URLs
 
@@ -347,12 +277,77 @@ After that, you should be able to start and stop the tunnels with the following 
 
 ## Docker troubleshooting
 
-Here are some commands for debugging problems with this Docker appliaction.
+Here are some commands for debugging problems with this Docker application.
 
 Check the status of all containers in the application:
 
-    docker-compose ps
+    ./setup.sh status
 
 Output the logs for all containers in the application:
 
-    docker-compose logs
+    docker compose logs
+
+## Building the base images
+
+*FIXME Update now that images are in WMF registry*
+
+(Only necessary for developing on the images themselves.)
+
+For the following commands, you can set the `GIT_REVIEW_USER` environment variable, then just
+copy and paste the command as-is onto the command line. (Note: the same environment variable is also
+used by `setup.sh`.)
+
+Install [docker-pkg](https://doc.wikimedia.org/docker-pkg/):
+
+    git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/operations/docker-images/docker-pkg" && \
+        scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+        "docker-pkg/.git/hooks/"
+    cd docker-pkg
+    pip3 install -e .
+
+After installing, check that the `docker-pkg` executable is in your `PATH`. If it's not, you may need to
+add `~/.local/bin/` to your `PATH`.
+
+If you've previously installed docker-pkg, you may wish to pull the latest master via git.
+(An important fix was recently merged into the master branch for that tool.)
+
+Clone the dev-images repository and check out the gerrit changes with the setup
+for the fundraising-dev images:
+
+    git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/releng/dev-images" && \
+        scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
+        "dev-images/.git/hooks/"
+    cd dev-images
+
+You should then be able to build the images for payments, civicrm and the centralized logger,
+as follows (from the dev-images directory):
+
+    docker-pkg -c dockerfiles/config.yaml build --no-pull \
+        --select 'docker-registry.wikimedia.org/dev/fundraising*:*' dockerfiles/
+
+    docker-pkg -c dockerfiles/config.yaml build --no-pull \
+        --select 'docker-registry.wikimedia.org/dev/buster-rsyslog*:*' dockerfiles/
+
+Command to check that the new images were created:
+
+    docker image ls
+
+If there's an image appears in the list with no repository or tag, it means an image creation
+failed. Check docker-pkg-build.log for details.
+
+If you update the unmerged Gerrit changes and wish to rebuild an image, you may need to remove the
+previous build manually:
+
+    docker image rm {image id} -f
+
+(You can find the image id using `docker image ls`.)
+
+Once the [fundraising config](https://gerrit.wikimedia.org/r/c/releng/dev-images/+/632173) has been merged
+into the dev-images code repository, and the image has been uploaded to the Docker image repository,
+these steps will no longer be necessary. However, these tools will be needed to update the image.
+
+For more information about docker-pkg see the [documentation](https://doc.wikimedia.org/docker-pkg/)
+and [instructions for using it for CI images](https://www.mediawiki.org/wiki/Continuous_integration/Docker).
+
+If you haven't run `setup.sh` yet, do so before starting the application.
+

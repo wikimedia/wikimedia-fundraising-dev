@@ -30,11 +30,13 @@ display_help() {
   echo "  --config-private         Set up config-private repo"
   echo
   echo "========================= Docker Commands ========================="
-  echo "  up                       Start up Docker containers"
+  echo "  up                       Create and start up Docker containers"
   echo "  down                     Stop and remove Docker containers"
-  echo "  restart                  Restart Docker containers"
+  echo "  start                    Start up any stopped Docker containers"
+  echo "  stop                     Stop any running Docker containers"
+  echo "  restart                  Restart all Docker containers"
   echo "  status                   Show status of installed apps and bound ports"
-  echo "  drop                     Remove containers and volume mounts (MySQL, Redis) "
+  echo "  drop                     Remove containers AND volume mounts (MySQL, Redis, Mac-specific mounts) "
   echo
   echo "========================= Mac Commands =========================="
   echo "  sync                     Sync local CiviCRM files to containers"
@@ -45,7 +47,7 @@ display_help() {
   echo "  destroy                  Reset your environment. Removes ./src/, .env, config-private, containers and volumes including db and redis."
   echo
   echo "=========================== Custom Builds ========================="
-  echo "  You can chain options and commands."
+  echo "  You can pass multiple options to install only what you need"
   echo
   echo "  Example: $0 --civicrm --smashpig --tools"
   echo
@@ -270,6 +272,12 @@ for arg in "$@"; do
     ;;
   down)
     docker compose -f $DOCKER_COMPOSE_FILE down
+    ;;
+  start)
+    docker compose -f $DOCKER_COMPOSE_FILE start
+    ;;
+  stop)
+    docker compose -f $DOCKER_COMPOSE_FILE stop
     ;;
   restart)
     docker compose -f $DOCKER_COMPOSE_FILE restart
