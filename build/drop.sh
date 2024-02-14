@@ -3,6 +3,6 @@ read -p "Please confirm you also want to drop volume mounts? (MySQL, Redis, Priv
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   docker compose -f $DOCKER_COMPOSE_FILE down -v
 else
-  docker compose -f $DOCKER_COMPOSE_FILE down
+  docker compose -f "$DOCKER_COMPOSE_FILE" down
 fi
 echo
