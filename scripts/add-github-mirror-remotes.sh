@@ -1,21 +1,34 @@
 #!/bin/bash
 
-# Adding the github mirrors makes it easier to share links in PHPStorm via
-# right clicking a line in the code and selecting Open In... github
+# Adding the GitHub mirrors makes it easier to share links in PHPStorm via
+# right-clicking a line in the code and selecting Open In... GitHub
 
-declare -A repos=(
-    ["."]="https://github.com/wikimedia/wikimedia-fundraising-dev"
-    ["src/payments/extensions/DonationInterface"]="https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
-    ["src/donut/extensions/DonationInterface"]="https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
-    ["src/email-pref-ctr/extensions/DonationInterface"]="https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
-    ["src/smashpig/"]="https://github.com/wikimedia/wikimedia-fundraising-SmashPig"
-    ["src/civi-sites/wmff"]="https://github.com/wikimedia/wikimedia-fundraising-crm"
-    ["src/tools"]="https://github.com/wikimedia/wikimedia-fundraising-tools"
+# Note: we're using two indexed bash array to support MacOS bash v3.2 :(
+
+paths=(
+    "."
+    "src/payments/extensions/DonationInterface"
+    "src/donut/extensions/DonationInterface"
+    "src/email-pref-ctr/extensions/DonationInterface"
+    "src/smashpig/"
+    "src/civi-sites/wmff"
+    "src/tools"
 )
 
-# Loop through local directory => repo
-for path in "${!repos[@]}"; do
-    url="${repos[$path]}"
+urls=(
+    "https://github.com/wikimedia/wikimedia-fundraising-dev"
+    "https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
+    "https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
+    "https://github.com/wikimedia/mediawiki-extensions-DonationInterface"
+    "https://github.com/wikimedia/wikimedia-fundraising-SmashPig"
+    "https://github.com/wikimedia/wikimedia-fundraising-crm"
+    "https://github.com/wikimedia/wikimedia-fundraising-tools"
+)
+
+# Loop through the directories
+for i in "${!paths[@]}"; do
+    path="${paths[$i]}"
+    url="${urls[$i]}"
 
     # Check if the local directory exists
     if [ ! -d "$path" ]; then
@@ -23,11 +36,11 @@ for path in "${!repos[@]}"; do
         continue
     fi
 
-    # Check if .git is a directory (regular repo) or a file (submodule)
+    # Determine the .git directory or file
+    git_dir=""
     if [ -d "$path/.git" ]; then
         git_dir="$path/.git"
     elif [ -f "$path/.git" ]; then
-        # For submodules, .git is a file. Extract the git directory path.
         git_dir=$(grep "gitdir" "$path/.git" | cut -d ' ' -f 2)
         if [[ -n $git_dir ]]; then
             git_dir="${path}/${git_dir}"
@@ -44,7 +57,7 @@ for path in "${!repos[@]}"; do
     # Navigate to the directory
     pushd "$path" > /dev/null || exit
 
-    # Check if the remote already exists
+    # Check if the remote 'github' already exists
     if git remote get-url github > /dev/null 2>&1; then
         echo "Remote 'github' already exists in $path. Skipping."
     else
