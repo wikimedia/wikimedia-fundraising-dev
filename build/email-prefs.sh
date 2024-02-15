@@ -45,7 +45,7 @@ echo "**** Install E-mail Preference Center wiki "
 # Composer install
 read -p "Run E-mail Preference Center wiki Composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${EMAIL_PREF_CTR_CONTAINER_DIR} ${EMAIL_PREF_CTR_SERVICE_NAME} composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${EMAIL_PREF_CTR_CONTAINER_DIR} ${EMAIL_PREF_CTR_SERVICE_NAME} composer install
 fi
 echo
 
@@ -75,7 +75,7 @@ fi
 read -p "Run E-mail Preference Center wiki maintenance/install.php [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${EMAIL_PREF_CTR_CONTAINER_DIR} ${EMAIL_PREF_CTR_SERVICE_NAME} php maintenance/install.php \
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${EMAIL_PREF_CTR_CONTAINER_DIR} ${EMAIL_PREF_CTR_SERVICE_NAME} php maintenance/install.php \
     --server https://localhost:${EMAIL_PREF_CTR_PORT} \
     --dbname=email-pref-ctr \
     --dbuser=root \
@@ -101,7 +101,7 @@ if [ $email_pref_ctr_install = false ]; then
 fi
 
 if [ $email_pref_ctr_update = true ]; then
-  docker compose exec -w "/var/www/html/" ${EMAIL_PREF_CTR_SERVICE_NAME} php maintenance/update.php --quick
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/var/www/html/" ${EMAIL_PREF_CTR_SERVICE_NAME} php maintenance/update.php --quick
 fi
 echo
 

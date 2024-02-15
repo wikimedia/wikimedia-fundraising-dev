@@ -50,7 +50,7 @@ echo "**** Install Payments-wiki "
 # Composer install
 read -p "Run Payments-wiki Composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${PAYMENTS_CONTAINER_DIR} ${PAYMENTS_SERVICE_NAME} composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${PAYMENTS_CONTAINER_DIR} ${PAYMENTS_SERVICE_NAME} composer install
 fi
 echo
 
@@ -80,7 +80,7 @@ fi
 read -p "Run Payments-wiki maintenance/install.php [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${PAYMENTS_CONTAINER_DIR} ${PAYMENTS_SERVICE_NAME} php maintenance/install.php \
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${PAYMENTS_CONTAINER_DIR} ${PAYMENTS_SERVICE_NAME} php maintenance/install.php \
     --server https://localhost:${PAYMENTS_PORT} \
     --dbname=payments \
     --dbuser=root \
@@ -106,7 +106,7 @@ if [ $payments_install = false ]; then
 fi
 
 if [ $payments_update = true ]; then
-  docker compose exec -w "/var/www/html/" payments php maintenance/update.php --quick
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/var/www/html/" payments php maintenance/update.php --quick
 fi
 echo
 

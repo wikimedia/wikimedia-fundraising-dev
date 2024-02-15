@@ -32,7 +32,7 @@ echo "**** Install Smashpig"
 # Composer install
 read -p "Run Smashpig Composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${SMASHPIG_CONTAINER_DIR} ${SMASHPIG_SERVICE_NAME} composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${SMASHPIG_CONTAINER_DIR} ${SMASHPIG_SERVICE_NAME} composer install
 fi
 echo
 
@@ -58,7 +58,7 @@ GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'localhost';
 GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'%';
 EOF
 
-  docker compose exec -T ${DATABASE_SERVICE_NAME} mysql </tmp/smashpig_setup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mysql </tmp/smashpig_setup.sql
 
   echo
 fi

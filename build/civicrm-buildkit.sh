@@ -24,14 +24,14 @@ echo
 read -p "CiviCRM Buildkit: run composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   # TODO put this in a separate script
-  docker compose exec -w "/srv/civicrm-buildkit" civicrm composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civicrm-buildkit" civicrm composer install
 fi
 echo
 
 read -p "CiviCRM Buildkit: run npm install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   # TODO put this in a separate script
-  docker compose exec -w "/srv/civicrm-buildkit" civicrm npm install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civicrm-buildkit" civicrm npm install
 fi
 echo
 

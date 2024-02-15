@@ -18,14 +18,14 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
-	docker compose exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
+	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
-  docker compose exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
 		dmaster --admin-pass $CIVI_ADMIN_PASS
   echo
 
-  docker compose restart "$CIVICRM_SERVICE_NAME"
+  $DOCKER_COMPOSE_COMMAND_BASE restart "$CIVICRM_SERVICE_NAME"
 
 
   if [ "$USE_MAC_CONFIG" = "true" ]; then
@@ -39,11 +39,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   echo
   echo "**** Backing up CiviCRM Core databases"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercivicrm > ./.backup/sql/core_civicrm_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercivicrm > ./.backup/sql/core_civicrm_backup.sql
   echo "core_civicrm_backup.sql added to .backup/sql"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercms > ./.backup/sql/core_drupal_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercms > ./.backup/sql/core_drupal_backup.sql
   echo "core_drupal_backup.sql added to .backup/sql"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastertest > ./.backup/sql/core_test_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastertest > ./.backup/sql/core_test_backup.sql
   echo "core_test_backup.sql added to .backup/sql"
   echo
   echo "**** CiviCRM Core databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-core.sh"
@@ -53,7 +53,7 @@ fi
 
 if [ -f "$HOME/.gitconfig" ]; then
   echo "**** Git Config Copy: copying local .gitconfig to container. Makes life easier for folks who commit from the container!"
-  docker compose cp ~/.gitconfig civicrm:/home/docker/
+  $DOCKER_COMPOSE_COMMAND_BASE cp ~/.gitconfig civicrm:/home/docker/
   echo
 fi
 

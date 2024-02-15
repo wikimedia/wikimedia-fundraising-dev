@@ -34,7 +34,7 @@ CREATE USER IF NOT EXISTS 'test'@'%';
 GRANT ALL PRIVILEGES ON test.* TO 'test'@'%';
 CREATE DATABASE IF NOT EXISTS silverpop;
 EOF
-  docker compose exec -T ${DB_SERVICE_NAME} mysql < /tmp/tools_setup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql < /tmp/tools_setup.sql
 fi
 echo
 echo "**** Fundraising Tools (Silverpop Export) setup complete"

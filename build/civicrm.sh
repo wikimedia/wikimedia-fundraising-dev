@@ -36,13 +36,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
-	docker compose exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
+	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
-	docker compose exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
+	$DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
 		wmff --admin-pass $CIVI_ADMIN_PASS
 
-  docker compose restart "$CIVICRM_SERVICE_NAME"
+  $DOCKER_COMPOSE_COMMAND_BASE restart "$CIVICRM_SERVICE_NAME"
 
   if [ "$USE_MAC_CONFIG" = "true" ]; then
     echo
@@ -55,11 +55,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "CiviCRM WMFF Installed!"
   echo
   echo "**** Backing up CiviCRM WMFF databases"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civicrm > ./.backup/sql/wmff_civicrm_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civicrm > ./.backup/sql/wmff_civicrm_backup.sql
   echo "wmff_civicrm_backup.sql added to .backup/sql"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot drupal > ./.backup/sql/wmff_drupal_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot drupal > ./.backup/sql/wmff_drupal_backup.sql
   echo "wmff_drupal_backup.sql added to .backup/sql"
-  docker compose exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot wmff_test > ./.backup/sql/wmff_test_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot wmff_test > ./.backup/sql/wmff_test_backup.sql
   echo "wmff_test_backup.sql added to .backup/sql"
   echo
   echo "**** CiviCRM WMFF databases backed up! Restore them anytime with ./scripts/db/restore-civicrm.sh"

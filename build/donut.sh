@@ -101,7 +101,7 @@ echo "**** Install Donut wiki "
 # Composer install
 read -p "Run Donut wiki Composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${DONUT_CONTAINER_DIR} ${DONUT_SERVICE_NAME} composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${DONUT_CONTAINER_DIR} ${DONUT_SERVICE_NAME} composer install
 fi
 echo
 
@@ -131,7 +131,7 @@ fi
 read -p "Run Donut wiki maintenance/install.php [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${DONUT_CONTAINER_DIR} ${DONUT_SERVICE_NAME} php maintenance/install.php \
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${DONUT_CONTAINER_DIR} ${DONUT_SERVICE_NAME} php maintenance/install.php \
     --server https://localhost:${DONUT_PORT} \
     --dbname=donut \
     --dbuser=root \
@@ -157,20 +157,20 @@ if [ $donut_install = false ]; then
 fi
 
 if [ $donut_update = true ]; then
-  docker compose exec -w ${DONUT_CONTAINER_DIR} donut php maintenance/update.php --quick
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${DONUT_CONTAINER_DIR} donut php maintenance/update.php --quick
 fi
 echo
 
 echo "Importing dump from Donatewiki"
 gunzip -c config/donut/Donate.xml.gz | sed -e "s/payments.wikimedia.org/localhost:$PAYMENTS_PORT/g" > config/donut/Donate-replaced.xml
-docker compose exec -w "/var/www/html/w/" donut php maintenance/run.php importDump \
+$DOCKER_COMPOSE_COMMAND_BASE exec -w "/var/www/html/w/" donut php maintenance/run.php importDump \
   /srv/config/exposed/donut/Donate-replaced.xml
 rm config/donut/Donate-replaced.xml
 # Set the Mainpage to Special:FundraiserRedirector
-docker compose exec -T -w "/var/www/html/w/" \
+$DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
   donut php maintenance/run.php edit MediaWiki:Mainpage < config/donut/MediaWiki_Mainpage.wiki
 # Add the admin user to the centralnoticeadmin group
-docker compose exec -T -w "/var/www/html/w/" \
+$DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
   donut php maintenance/run.php createAndPromote admin --force --custom-groups centralnoticeadmin
 
 echo "Donate/Donut Wiki URL: https://localhost:$DONUT_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"

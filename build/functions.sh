@@ -69,13 +69,13 @@ docker_compose_up() {
   local docker_compose_file="$1"
   local service_name="$2"
 
-  docker compose -f "$docker_compose_file" up -d "$service_name"
+  $DOCKER_COMPOSE_COMMAND_BASE up -d "$service_name"
 }
 
 docker_compose_restart() {
   local docker_compose_file="$1"
 
-  docker compose -f "$docker_compose_file" restart
+  $DOCKER_COMPOSE_COMMAND_BASE restart
 }
 
 destroy() {
@@ -83,7 +83,7 @@ destroy() {
 
   read -p "Are you sure? This will delete ./src/*, ./config-private, .env and remove all containers & volumes including the db and redis [yN] " -r
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    docker compose -f "$docker_compose_file" down -v
+    $DOCKER_COMPOSE_COMMAND_BASE down -v
     rm -rf ./src/*
     rm -rf ./config-private
     rm -f .env

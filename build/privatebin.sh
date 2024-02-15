@@ -28,7 +28,7 @@ docker_compose_up "$DOCKER_COMPOSE_FILE" "$PRIVATEBIN_SERVICE_NAME"
 # Composer install
 read -p "Run PrivateBin Composer install? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  docker compose exec -w ${PRIVATEBIN_CONTAINER_DIR} ${PRIVATEBIN_SERVICE_NAME} composer install
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w ${PRIVATEBIN_CONTAINER_DIR} ${PRIVATEBIN_SERVICE_NAME} composer install
 fi
 echo
 

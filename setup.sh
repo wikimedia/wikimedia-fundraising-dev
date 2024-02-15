@@ -75,6 +75,11 @@ if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
   DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
 fi
 
+DOCKER_COMPOSE_COMMAND_BASE="docker compose -f $DOCKER_COMPOSE_FILE"
+if [ -f docker-compose.override.yml ]; then
+  DOCKER_COMPOSE_COMMAND_BASE="$DOCKER_COMPOSE_COMMAND_BASE -f docker-compose.override.yml"
+fi
+
 # run before app setup scripts
 init() {
   source "$SETUP_DIR/gerrit.sh"
@@ -268,29 +273,29 @@ for arg in "$@"; do
     show_urls
     ;;
   up)
-    docker compose -f $DOCKER_COMPOSE_FILE up -d
+    $DOCKER_COMPOSE_COMMAND_BASE up -d
     ;;
   down)
-    docker compose -f $DOCKER_COMPOSE_FILE down
+    $DOCKER_COMPOSE_COMMAND_BASE down
     ;;
   start)
-    docker compose -f $DOCKER_COMPOSE_FILE start
+    $DOCKER_COMPOSE_COMMAND_BASE start
     ;;
   stop)
-    docker compose -f $DOCKER_COMPOSE_FILE stop
+    $DOCKER_COMPOSE_COMMAND_BASE stop
     ;;
   restart)
-    docker compose -f $DOCKER_COMPOSE_FILE restart
+    $DOCKER_COMPOSE_COMMAND_BASE restart
     ;;
   status)
-    docker compose -f $DOCKER_COMPOSE_FILE ps
+    $DOCKER_COMPOSE_COMMAND_BASE ps
     ;;
   drop)
     drop
     ;;
   destroy)
     source "$SETUP_DIR/functions.sh"
-    destroy $DOCKER_COMPOSE_FILE
+    destroy
     ;;
   *)
     echo "Unknown flag: $arg"
