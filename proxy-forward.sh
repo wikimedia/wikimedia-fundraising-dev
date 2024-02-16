@@ -3,9 +3,9 @@
 # Script to set up fundraising development environment
 source .env
 
-if [ -z "$FR_DOCKER_PROXY_FORWARD_ID" ] || \
-	[ -z "$FR_DOCKER_PAYMENTS_HTTP_PORT" ] || \
-	[ -z "$FR_DOCKER_SMASHPIG_PORT" ]; then
+if [ -z "$PROXY_FORWARD_ID" ] || \
+	[ -z "$PAYMENTS_HTTP_PORT" ] || \
+	[ -z "$SMASHPIG_PORT" ]; then
 	echo "Please run setup.sh to choose a proxy forwarding ID, a payments HTTP port"\
 		"and a SmashPig port."
 	exit 1
@@ -28,21 +28,21 @@ else
 	use_autossh=false
 fi
 
-payments_remote_port=$((8000 + FR_DOCKER_PROXY_FORWARD_ID))
-ipn_remote_port=$((8100 + FR_DOCKER_PROXY_FORWARD_ID))
+payments_remote_port=$((8000 + PROXY_FORWARD_ID))
+ipn_remote_port=$((8100 + PROXY_FORWARD_ID))
 
 ssh_args="
  -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes
- -R $payments_remote_port:localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT\
- -R $ipn_remote_port:localhost:$FR_DOCKER_SMASHPIG_PORT\
+ -R $payments_remote_port:localhost:$PAYMENTS_HTTP_PORT\
+ -R $ipn_remote_port:localhost:$SMASHPIG_PORT\
  payments.fr-tech-dev
 "
 
 output_msg="
-https://paymentstest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org should forward\
- to http://localhost:$FR_DOCKER_PAYMENTS_HTTP_PORT\n\
-https://paymentsipntest$FR_DOCKER_PROXY_FORWARD_ID.wmcloud.org should forward
- to http://localhost:$FR_DOCKER_SMASHPIG_PORT
+https://paymentstest$PROXY_FORWARD_ID.wmcloud.org should forward\
+ to http://localhost:$PAYMENTS_HTTP_PORT\n\
+https://paymentsipntest$PROXY_FORWARD_ID.wmcloud.org should forward
+ to http://localhost:$SMASHPIG_PORT
 "
 
 if [ $use_autossh = true ]; then
