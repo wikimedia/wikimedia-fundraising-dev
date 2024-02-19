@@ -299,9 +299,7 @@ used by `setup.sh`.)
 
 Install [docker-pkg](https://doc.wikimedia.org/docker-pkg/):
 
-    git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/operations/docker-images/docker-pkg" && \
-        scp -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
-        "docker-pkg/.git/hooks/"
+    git clone "https://gerrit.wikimedia.org/r/operations/docker-images/docker-pkg"
     cd docker-pkg
     pip3 install -e .
 
