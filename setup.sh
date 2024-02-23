@@ -26,6 +26,7 @@ display_help() {
   echo "  --civiproxy              Set up CiviProxy (Email-Preference Centre Wiki)"
   echo "  --smashpig               Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)"
+  echo "  --django                 Set up DjangoBannerStats"
   echo "  --privatebin             Set up PrivateBin"
   echo "  --config-private         Set up config-private repo"
   echo
@@ -129,6 +130,10 @@ setup_tools() {
   time source "$SETUP_DIR/tools.sh"
 }
 
+setup_djangobannerstats() {
+  time source "$SETUP_DIR/django-banner-stats.sh"
+}
+
 setup_privatebin() {
   time source "$SETUP_DIR/privatebin.sh"
 }
@@ -222,6 +227,11 @@ for arg in "$@"; do
     init
     announce_install "Fundraising Tools"
     setup_tools
+    ;;
+  --django)
+    init
+    announce_install "DjangoBannerStats"
+    setup_djangobannerstats
     ;;
   --privatebin)
     init

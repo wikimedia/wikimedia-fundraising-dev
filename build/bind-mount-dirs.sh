@@ -12,4 +12,6 @@ mkdir -p ./src/civicrm-buildkit/
 mkdir -p ./src/smashpig/
 mkdir -p ./src/civiproxy/
 mkdir -p ./src/tools/
+mkdir -p ./src/django-banner-stats/
+mkdir -p ./sample_data/log_files_for_testing/
 mkdir -p ./logs/

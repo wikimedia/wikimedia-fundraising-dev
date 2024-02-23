@@ -13,6 +13,7 @@ paths=(
     "src/smashpig/"
     "src/civi-sites/wmff"
     "src/tools"
+    "src/django-banner-stats"
 )
 
 urls=(
@@ -23,6 +24,7 @@ urls=(
     "https://github.com/wikimedia/wikimedia-fundraising-SmashPig"
     "https://github.com/wikimedia/wikimedia-fundraising-crm"
     "https://github.com/wikimedia/wikimedia-fundraising-tools"
+    "https://github.com/wikimedia/wikimedia-fundraising-tools-DjangoBannerStats"
 )
 
 # Loop through the directories

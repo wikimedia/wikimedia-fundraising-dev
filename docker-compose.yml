@@ -217,10 +217,28 @@ services:
     platform: linux/amd64
     networks: [ "default" ]
     volumes:
-     - ./src/tools/:/srv/tools/
+        - ./src/tools/:/srv/tools/
     environment:
      - FR_DOCKER_UID
      - FR_DOCKER_GID
+
+  djangobannerstats:
+    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-python:1.0.0
+    depends_on:
+      - database
+    user: *user
+    tty: true
+    platform: linux/amd64
+    networks: [ "default" ]
+    volumes:
+     - ./config/:/srv/config/exposed/
+     - ./config-private/:/srv/config/private/
+     - ./src/django-banner-stats/:/srv/django-banner-stats/
+     - ./config/django-banner-stats/sample_data/log_files_for_testing/:/srv/log_files_for_testing/
+    environment:
+     - FR_DOCKER_UID
+     - FR_DOCKER_GID
+     - PYTHONPATH=/etc/fundraising:/srv/django-banner-stats/packages
 
   database:
     image: mariadb:10.4

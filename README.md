@@ -23,6 +23,7 @@ Fundraising-dev setup script.
   --civiproxy              Set up CiviProxy (Email-Preference Centre Wiki)
   --smashpig               Set up Smashpig Listeners (IPN testing)
   --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)
+  --django                 Set up DjangoBannerStats
   --privatebin             Set up PrivateBin
   --config-private         Set up config-private repo
 
