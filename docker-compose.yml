@@ -234,6 +234,7 @@ services:
      - ./config/:/srv/config/exposed/
      - ./config-private/:/srv/config/private/
      - ./src/django-banner-stats/:/srv/django-banner-stats/
+     - ./config/django-banner-stats/django_settings.py:/etc/fundraising/django_settings.py
      - ./config/django-banner-stats/sample_data/log_files_for_testing/:/srv/log_files_for_testing/
     environment:
      - FR_DOCKER_UID

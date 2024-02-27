@@ -49,6 +49,8 @@ fi
 echo
 echo "**** DjangoBannerStats setup complete"
 echo
-echo "You can test it by connecting into the container and running:"
+echo "You can test it by connecting into the container with ./scripts/django-banner-stats.sh"
+echo
+echo "and then run one of the following:"
 echo "python3 /srv/django-banner-stats/manage.py LoadLPImpressions --verbose --recent"
 echo "python3 /srv/django-banner-stats/manage.py LoadBannerImpressions2Aggregate --verbose --top --recent"
