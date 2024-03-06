@@ -25,6 +25,7 @@ Donate links:
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=google&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&debug=true}} Google Pay in US, English, USD]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=en&language=en&currency=CZK&amount=100&country=CZ&debug=true}} Bank Transfer in CZ, English, CZK]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ach&recurring=0&uselang=en&language=en&currency=USD&amount=85&country=US&debug=true}} ACH Direct Debit in US, English, USD]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ach&recurring=1&uselang=en&language=en&currency=USD&amount=15&country=US&debug=true}} ACH Direct Debit in US (Recurring), English, USD]
 
 * Amazon
 ** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&debug=true}} In US, no language specified, USD]
