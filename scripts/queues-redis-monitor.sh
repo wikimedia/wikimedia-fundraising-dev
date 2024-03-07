@@ -51,6 +51,12 @@ format() {
 	done
 }
 
-# here we call docker compose directly instead of using queues-redis-cli.sh because we
-# need an extra flag (-T) on docker compose
-docker compose exec -T queues redis-cli MONITOR | format
+tempfile=$(mktemp)
+trap 'rm -f $tempfile' EXIT
+
+# Run both redis queue monitor commands in the background and push their outputs to the tempfile
+docker compose exec -T queues redis-cli MONITOR >> $tempfile &
+docker compose exec -T donorprefsqueues redis-cli MONITOR >> $tempfile &
+
+# tail -f the tempfile and pipe its contents our format func
+tail -f $tempfile | format
