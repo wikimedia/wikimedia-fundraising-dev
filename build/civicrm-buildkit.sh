@@ -5,7 +5,8 @@ CIVICRM_BUILDKIT_SRC_DIR="src/civicrm-buildkit"
 echo
 echo "**** Clone CiviCRM Buildkit"
 if $(ask_reclone "${CIVICRM_BUILDKIT_SRC_DIR}" "CiviCRM Buildkit repo"); then
-    rm -rf ${CIVICRM_BUILDKIT_SRC_DIR}
+    rm -rf "${CIVICRM_BUILDKIT_SRC_DIR:?}"/*
+    find "${CIVICRM_BUILDKIT_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
     git clone "https://github.com/civicrm/civicrm-buildkit.git" ${CIVICRM_BUILDKIT_SRC_DIR}
     echo
 fi

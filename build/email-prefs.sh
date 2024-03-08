@@ -12,8 +12,9 @@ echo
 echo "**** Clone E-mail Preference Center wiki"
 # clone and configure git repos
 if $(ask_reclone $EMAIL_PREF_CTR_SRC_DIR "E-mail Preference Center wiki repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $EMAIL_PREF_CTR_SRC_DIR
+  
+  rm -rf "${EMAIL_PREF_CTR_SRC_DIR:?}"/*
+  find "${EMAIL_PREF_CTR_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone email-pref-ctr with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \

@@ -7,8 +7,9 @@ echo
 echo "**** Clone PrivateBin"
 # clone and configure git repos
 if $(ask_reclone $PRIVATEBIN_SRC_DIR "Privatebin repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $PRIVATEBIN_SRC_DIR
+
+  rm -rf "${PRIVATEBIN_SRC_DIR:?}"/*
+  find "${PRIVATEBIN_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone PrivateBin with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/privatebin" \

@@ -13,8 +13,8 @@ echo
 echo "**** Clone Payments-wiki"
 # clone and configure git repos
 if $(ask_reclone $PAYMENTS_SRC_DIR "Payments wiki repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $PAYMENTS_SRC_DIR
+    rm -rf "${PAYMENTS_SRC_DIR:?}"/*
+    find "${PAYMENTS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone payments with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \

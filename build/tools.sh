@@ -9,8 +9,8 @@ clone_tools=$(ask_reclone "${TOOLS_SRC_DIR}" "Fundraising Tools repo")
 if [ $clone_tools = true ]; then
   echo "**** Cloning and setting up WMF tools repo in src/${TOOLS_SRC_DIR}"
 
-  rm -rf ${TOOLS_SRC_DIR:?}
-  mkdir -p src/
+  rm -rf "${TOOLS_SRC_DIR:?}"/*
+  find "${TOOLS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
     ${TOOLS_SRC_DIR} && \

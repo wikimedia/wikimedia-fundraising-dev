@@ -7,7 +7,8 @@ read -p "Install CiviCRM Core (for upstream testing)  [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 
-  rm -rf ${CIVICRM_SRC_CORE_DIR}
+  rm -rf "${CIVICRM_SRC_CORE_DIR:?}"/*
+  find "${CIVICRM_SRC_CORE_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
   mkdir -p src/civi-sites
 
   if [ "$USE_MAC_CONFIG" = "true" ]; then

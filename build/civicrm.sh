@@ -5,7 +5,9 @@ CIVI_ADMIN_PASS="admin"
 
 echo "**** Clone CiviCRM"
 if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMFF (our version)"); then
-  rm -rf ${CIVICRM_SRC_DIR}
+
+  rm -rf "${CIVICRM_SRC_DIR:?}"/*
+  find "${CIVICRM_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
   mkdir -p src/civi-sites
 
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \

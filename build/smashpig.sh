@@ -9,8 +9,9 @@ echo
 echo "**** Clone Smashpig"
 # clone and configure git repos
 if $(ask_reclone $SMASHPIG_SRC_DIR "Smashpig repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $SMASHPIG_SRC_DIR
+
+  rm -rf "${SMASHPIG_SRC_DIR:?}"/*
+  find "${SMASHPIG_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone Smashpig with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \

@@ -6,8 +6,9 @@ echo
 echo "**** Clone Civiproxy"
 # clone and configure git repos
 if $(ask_reclone $CIVIPROXY_SRC_DIR "Civiproxy wiki repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $CIVIPROXY_SRC_DIR
+
+  rm -rf "${CIVIPROXY_SRC_DIR:?}"/*
+  find "${CIVIPROXY_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone Civiproxy with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm/civiproxy" \

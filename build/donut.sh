@@ -13,8 +13,9 @@ echo
 echo "**** Clone Donut wiki"
 # clone and configure git repos
 if $(ask_reclone $DONUT_SRC_DIR "Donut wiki repo"); then
-  #    check for .idea file to preserve phpstorm config and xdebug setup
-  rm -rf $DONUT_SRC_DIR
+
+  rm -rf "${DONUT_SRC_DIR:?}"/*
+  find "${DONUT_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone donut with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \

@@ -7,8 +7,8 @@ clone_stats=$(ask_reclone "${DJANGO_BANNER_STATS_SRC_DIR}" "DjangoBannerStats re
 if [ $clone_stats = true ]; then
   echo "**** Cloning and setting up DjangoBannerStats repo in ${DJANGO_BANNER_STATS_SRC_DIR}"
 
-  rm -rf ${DJANGO_BANNER_STATS_SRC_DIR:?}
-  mkdir -p src/
+  rm -rf "${DJANGO_BANNER_STATS_SRC_DIR:?}"/*
+  find "${DJANGO_BANNER_STATS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools/DjangoBannerStats" \
     ${DJANGO_BANNER_STATS_SRC_DIR} && \
