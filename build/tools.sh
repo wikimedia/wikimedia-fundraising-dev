@@ -21,6 +21,13 @@ if [ $clone_tools = true ]; then
     chmod +x `git rev-parse --git-dir`/hooks/commit-msg)
 fi
 
+echo
+echo "**** Set up default Silverpop config"
+pushd src/tools/silverpop_export
+cp silverpop_export.yaml.example  silverpop_export.yaml
+popd
+echo
+
 # spin up the docker container
 docker_compose_up "$DOCKER_COMPOSE_FILE" "$TOOLS_SERVICE_NAME"
 
