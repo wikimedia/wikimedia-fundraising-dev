@@ -339,6 +339,8 @@ $wgDonationInterfaceMessageSourceType = 'emailpreferences';
 $wgDonationInterfaceVariantConfigurationDirectory =
 	'/var/www/html/extensions/DonationInterface/form_variants';
 
+$wgDonationInterfaceThankYouPage = 'https://thankyou.wikipedia.org/wiki/Thank_You';
+
 # ZOMG DIRE EMERGENCY aka shut down gracefully :p
 # $wgDonationInterfaceFundraiserMaintenance = true;
 
