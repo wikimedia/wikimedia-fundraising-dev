@@ -37,5 +37,4 @@ echo -e "${BLUE}Running ${GREEN}unsubscribe${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv unsubqc 2>&1 | tail -n +23
 
 echo -e "${BLUE}Running ${GREEN}banner history${BLUE} queue consumer${NC}"
-docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv bhqc 2>&1 | tail -n +23
-
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=BannerHistory queueName=banner-history 2>&1 | tail -n +18
