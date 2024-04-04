@@ -7,7 +7,7 @@ echo -e "${BLUE}Running ${GREEN}anti fraud${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv afqc 2>&1 | tail -n +23
 
 echo -e "${BLUE}Running ${GREEN}payment init${BLUE} queue consumer${NC}"
-docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv piqc 2>&1 | tail -n +23
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=PaymentsInit queueName=payments-init 2>&1 | tail -n +18
 
 echo -e "${BLUE}Running ${GREEN}donations${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=Donation queueName=donations 2>&1 | tail -n +18
