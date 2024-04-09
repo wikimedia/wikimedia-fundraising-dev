@@ -25,7 +25,7 @@ echo -e "${BLUE}Running ${GREEN}recurring-upgrade${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=RecurringModifyAmount queueName=recurring-upgrade 2>&1 | tail -n +18
 
 echo -e "${BLUE}Running ${GREEN}upi-donations${BLUE} queue consumer${NC}"
-docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm drush @wmff -vv cvapi UpiDonationsQueue.consume version=4 2>&1 | tail -n +23
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=UpiDonations queueName=upi-donations 2>&1 | tail -n +18
 
 echo -e "${BLUE}Running ${GREEN}preferences${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=EmailPreferences queueName=email-preferences 2>&1 | tail -n +18
