@@ -92,7 +92,7 @@ data-store:
   email-preferences:
     <<: *DPREDIS
 
-  recurring-upgrade:
+  recurring-modify:
     <<: *DPREDIS
 
 cache:
