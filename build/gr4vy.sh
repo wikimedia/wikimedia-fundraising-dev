@@ -25,6 +25,7 @@ echo
 echo
 echo "**** GR4VY POC Repo setup complete"
 echo
-echo "GR4VY Sandbox console URL: https://sandbox.partners.gr4vy.app/sign-in"
+echo "GR4VY Sandbox console URL: https://sandbox.wikimedia.gr4vy.app/"
 echo
-echo "GR4VY local embedded form URL: http://localhost:$GR4VY_PORT/embed.php"
+echo "GR4VY local embedded checkout URL: http://localhost:$GR4VY_PORT/embedded-checkout.php"
+echo "GR4VY Embed docs: https://docs.gr4vy.com/guides/payments/embed/quick-start/overview"

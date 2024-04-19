@@ -24,6 +24,7 @@ Fundraising-dev setup script.
   --smashpig               Set up Smashpig Listeners (IPN testing)
   --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)
   --django                 Set up DjangoBannerStats
+  --gr4vy                  Set up Gr4vy POC repo
   --privatebin             Set up PrivateBin
   --config-private         Set up config-private repo
 
