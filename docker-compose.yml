@@ -1,5 +1,3 @@
-version: '3.7'
-
 # This prevents the containers from running and creating files as root (which causes issues later on).
 x-user:
   user: &user "${FR_DOCKER_UID:-invalid-user}:${FR_DOCKER_GID:-invalid-user}"
