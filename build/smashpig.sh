@@ -32,16 +32,19 @@ if $(ask_reclone $SMASHPIG_SRC_DIR "Smashpig repo"); then
           https://gerrit.wikimedia.org/r/tools/hooks/commit-msg
       chmod +x $(git rev-parse --git-dir)/hooks/commit-msg
     )
+
+  # Restore the .idea directory if it was backed up
+  if [ -d "$SMASHPIG_TMP_DIR/.idea" ]; then
+    mv "$SMASHPIG_TMP_DIR/.idea" "${SMASHPIG_SRC_DIR}/"
+    rmdir "$SMASHPIG_TMP_DIR"
+    echo
+    echo "* $SMASHPIG_SRC_DIR/.idea restored"
+    echo
+  fi
+
 fi
 
-# Restore the .idea directory if it was backed up
-if [ -d "$SMASHPIG_TMP_DIR/.idea" ]; then
-  mv "$SMASHPIG_TMP_DIR/.idea" "${SMASHPIG_SRC_DIR}/"
-  rmdir "$SMASHPIG_TMP_DIR"
-  echo
-  echo "* $SMASHPIG_SRC_DIR/.idea restored"
-  echo
-fi
+
 
 # bring up docker container
 docker_compose_up "$DOCKER_COMPOSE_FILE" "$SMASHPIG_SERVICE_NAME"
