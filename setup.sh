@@ -20,6 +20,7 @@ display_help() {
   echo "  --full                   Set up everything!"
   echo "  --civicrm                Set up CiviCRM WMFF (our version)"
   echo "  --civicrm-core           Set up CiviCRM Core (for upstream testing)"
+  echo "  --civicrm-standalone     Set up CiviCRM Standalone (experimental)"
   echo "  --payments               Set up PaymentsWiki"
   echo "  --donut                  Set up Donate/Donut Wiki"
   echo "  --email-prefs            Set up Email-Preference Centre Wiki"
@@ -105,6 +106,10 @@ setup_civicrm_core() {
   time source "$SETUP_DIR/civicrm-core.sh"
 }
 
+setup_civicrm_standalone() {
+  time source "$SETUP_DIR/civicrm-standalone.sh"
+}
+
 setup_payments() {
   source "$SETUP_DIR/proxy.sh"
   time source "$SETUP_DIR/payments.sh"
@@ -152,6 +157,7 @@ civicrm_sync() {
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-buildkit.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-core.sh"
+  source "$MAC_SCRIPTS_DIR/sync-push-civicrm-standalone.sh"
 }
 
 drop() {
@@ -197,6 +203,12 @@ for arg in "$@"; do
     announce_install "CiviCRM Buildkit" "CiviCRM Core"
     setup_civicrm_buildkit
     setup_civicrm_core
+    ;;
+  --civicrm-standalone)
+    init
+    announce_install "CiviCRM Buildkit" "CiviCRM Standalone"
+    setup_civicrm_buildkit
+    setup_civicrm_standalone
     ;;
   --payments)
     init

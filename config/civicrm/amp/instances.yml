@@ -34,3 +34,21 @@
     root: /srv/civi-sites/wmff/drupal
     url: null
     visibility: null
+'/srv/civi-sites/standalone-clean/web::cms':
+    name: cms
+    dsn: 'mysql://standalone_hclyq:ndRitAzARAgGUTPM@database:3306/standalonecleancms_jjuou?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: 'https://standalone-clean.localhost:32353'
+    visibility: null
+'/srv/civi-sites/standalone-clean/web::civi':
+    name: civi
+    dsn: 'mysql://standalone_86zxx:Z94Op63ssxlE2Icn@database:3306/standalonecleancivi_1ppg8?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: null
+    visibility: null
+'/srv/civi-sites/standalone-clean/web::test':
+    name: test
+    dsn: 'mysql://standalone_7kd6r:pov9Y9QuBSAQ8xbb@database:3306/standalonecleantest_jrx81?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: null
+    visibility: null
