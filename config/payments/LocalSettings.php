@@ -337,6 +337,8 @@ $wgWhitelistRead =  array (
 	"Special:IngenicoGateway",
 	"Special:DlocalGateway",
 	"Special:DlocalGatewayResult",
+	"Special:GravyGateway",
+	"Special:GravyGatewayResult",
 	"Main_Page",
 	"Donate-thanks"
 );
@@ -403,6 +405,7 @@ $wgGlobalCollectGatewayEnabled = true;
 $wgIngenicoGatewayEnabled = true;
 $wgBraintreeGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
+$wgGravyGatewayEnabled = true;
 
 # Components
 $wgDonationInterfaceEnableReferrerFilter = true;
@@ -490,6 +493,9 @@ $wgDonationInterfaceTestMode = false;
 $wgAmazonGatewayTestMode = true;
 $wgDonationInterfaceFailPage = 'Donate-error';
 $wgDonationInterfaceLogCompleted = true;
+
+$wgGravyGatewayID = "wikimedia";
+$wgGravyGatewayEnvironment = "sandbox";
 
 # Set this to false for less verbose logging
 $wgDonationInterfaceLogDebug = true;
