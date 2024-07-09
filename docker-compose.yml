@@ -18,6 +18,14 @@ x-common-settings: &common-settings
     image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.0
     user: *user
     platform: linux/amd64
+    # Debian overrides containerd defaults to set these to basically infinity, but that
+    # breaks rsyslogd in containers. The apache2 containers are the ones that run rsyslogd,
+    # so we put these limits in common-settings.
+    # See https://github.com/rsyslog/rsyslog/issues/5158#issuecomment-1724558068
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 524288
 
 services:
   payments:
