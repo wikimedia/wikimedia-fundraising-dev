@@ -83,7 +83,6 @@ services:
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=donut
 
-
   privatebin:
     <<: *common-settings
     ports:
@@ -172,6 +171,10 @@ services:
       - FR_DOCKER_EMAIL_PREF_CTR_PORT=${EMAIL_PREF_CTR_PORT:-9002}
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civicrm
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 524288
 
   smashpig:
     <<: *common-settings
@@ -213,6 +216,10 @@ services:
       - FR_DOCKER_GID
       # Provide the name of the service to find the right xdebug.ini files
       - FR_DOCKER_SERVICE_NAME=civiproxy
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 524288
 
   tools:
     image: docker-registry.wikimedia.org/dev/fundraising-tools-bookworm:1.0.0
@@ -281,7 +288,6 @@ services:
     volumes:
       - ./config/:/srv/config/exposed/
       - ./logs/:/logs/
-
 
   queues:
     image: redis:5.0-buster
