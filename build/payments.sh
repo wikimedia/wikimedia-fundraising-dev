@@ -4,6 +4,7 @@ PAYMENTS_CONTAINER_DIR="/var/www/html"
 PAYMENTS_SRC_DIR="src/payments"
 DONATION_INTERFACE_EXT_DIR="$PAYMENTS_SRC_DIR/extensions/DonationInterface"
 FUNDRAISING_EMAIL_UNSUBSCRIBE_EXT_DIR="$PAYMENTS_SRC_DIR/extensions/FundraisingEmailUnsubscribe"
+PAYMENTS_TMP_DIR="/tmp/idea_backups/${PAYMENTS_SERVICE_NAME}"
 MW_CORE_BRANCH="fundraising/REL1_39"
 MW_LANG="en"
 MW_USER="admin"
@@ -13,8 +14,17 @@ echo
 echo "**** Clone Payments-wiki"
 # clone and configure git repos
 if $(ask_reclone $PAYMENTS_SRC_DIR "Payments wiki repo"); then
-    rm -rf "${PAYMENTS_SRC_DIR:?}"/*
-    find "${PAYMENTS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
+
+  # Backup the .idea directory if it exists
+  if [ -d "${PAYMENTS_SRC_DIR}/.idea" ]; then
+    mkdir -p "$PAYMENTS_TMP_DIR"
+    mv "${PAYMENTS_SRC_DIR}/.idea" "$PAYMENTS_TMP_DIR"
+    echo "* $PAYMENTS_SRC_DIR/.idea backed up"
+    echo
+  fi
+
+  rm -rf "${PAYMENTS_SRC_DIR:?}"/*
+  find "${PAYMENTS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone payments with gerrit hooks
   git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
@@ -40,6 +50,16 @@ if $(ask_reclone $PAYMENTS_SRC_DIR "Payments wiki repo"); then
   pushd $FUNDRAISING_EMAIL_UNSUBSCRIBE_EXT_DIR
     git checkout master
   popd
+
+  # Restore the .idea directory if it was backed up
+  if [ -d "$PAYMENTS_TMP_DIR/.idea" ]; then
+    mv "$PAYMENTS_TMP_DIR/.idea" "${PAYMENTS_SRC_DIR}/"
+    rmdir "$PAYMENTS_TMP_DIR"
+    echo
+    echo "* $PAYMENTS_SRC_DIR/.idea restored"
+    echo
+  fi
+
 fi
 
 # bring up docker container
