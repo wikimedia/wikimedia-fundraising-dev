@@ -2,9 +2,21 @@
 CIVICRM_SERVICE_NAME="civicrm"
 CIVICRM_SRC_DIR="src/civi-sites/wmff"
 CIVI_ADMIN_PASS="admin"
+CIVICRM_TMP_DIR="/tmp/idea_backups/${CIVICRM_SERVICE_NAME}"
 
 echo "**** Clone CiviCRM"
 if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMFF (our version)"); then
+
+  # Backup the .idea directory if it exists
+  if [ -d "${CIVICRM_SRC_DIR}/.idea" ]; then
+    mkdir -p "$CIVICRM_TMP_DIR"
+    mv "${CIVICRM_SRC_DIR}/.idea" "$CIVICRM_TMP_DIR"
+    echo "* $CIVICRM_SRC_DIR/.idea backed up"
+    echo
+  fi
+
+  rm -rf "${CIVICRM_SRC_DIR:?}"/*
+  find "${CIVICRM_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   rm -rf "${CIVICRM_SRC_DIR:?}"/*
   find "${CIVICRM_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
@@ -21,6 +33,15 @@ if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMFF (our version)"); then
   pushd ${CIVICRM_SRC_DIR}
   git submodule update --init --recursive
   popd
+  
+  # Restore the .idea directory if it was backed up
+  if [ -d "$CIVICRM_TMP_DIR/.idea" ]; then
+    mv "$CIVICRM_TMP_DIR/.idea" "${CIVICRM_SRC_DIR}/"
+    rmdir "$CIVICRM_TMP_DIR"
+    echo
+    echo "* $CIVICRM_SRC_DIR/.idea restored"
+    echo
+  fi
 
   echo
 fi
