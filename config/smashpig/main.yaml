@@ -65,6 +65,9 @@ data-store:
   jobs-braintree:
     <<: *REDIS
 
+  jobs-gravy:
+    <<: *REDIS
+
   opt-in:
     <<: *REDIS
 
