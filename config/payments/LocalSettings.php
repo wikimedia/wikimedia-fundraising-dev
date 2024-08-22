@@ -339,6 +339,7 @@ $wgWhitelistRead =  array (
 	"Special:DlocalGatewayResult",
 	"Special:GravyGateway",
 	"Special:GravyGatewayResult",
+	"Special:PaymentSettings",
 	"Main_Page",
 	"Donate-thanks"
 );
