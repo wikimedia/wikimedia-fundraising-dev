@@ -10,6 +10,21 @@ To contribute to development or for more help, please visit the [https://www.med
 
 = Some donation forms =
 Donate links:
+
+* Gravy
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=35&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=USD&amount=35&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Recurring Credit card in US, English, USD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=CAD&amount=11.44&country=CA&first_name=Jimmy&last_name=Wales&street_address=1010+Easy+Street&city=Ottawa&state_province=ON&postal_code=K1A+0B1&email=jwales%40example.com&debug=true}} Credit card in CA, English, CAD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=CAD&amount=11.44&country=CA&first_name=Jimmy&last_name=Wales&street_address=1010+Easy+Street&city=Ottawa&state_province=ON&postal_code=K1A+0B1&email=jwales%40example.com&debug=true}} Recurring Credit card in CA, English, CAD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=GBP&country=GB&amount=2.01&first_name=Jimmy&last_name=Wales&street_address=10+Easy+Street&city=Liverpool&postal_code=L37+4QF&email=jwales%40example.com&debug=true}} Credit card in GB, English, GBP]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=GBP&country=GB&amount=2.01&first_name=Jimmy&last_name=Wales&street_address=10+Easy+Street&city=Liverpool&postal_code=L37+4QF&email=jwales%40example.com&debug=true}} Recurring Credit card in GB, English, GBP]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=AUD&country=AU&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in AU, English, AUD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=AUD&country=AU&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Credit card in AU, English, AUD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=NZD&country=NZ&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in NZ, English, NZD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=NZD&country=NZ&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Credit card in NZ, English, NZD]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=EUR&country=IE&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in IE, English, EUR]
+** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=EUR&country=IE&amount=10.01&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Credit card in IE, English, EUR]
+
 * Adyen Checkout
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Recurring credit card in US, English, USD]
@@ -74,12 +89,6 @@ Donate links:
 ** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=bt&recurring=0&uselang=en&language=en&currency=ZAR&amount=50&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=0109116567086&email=jwales%40example.com&debug=true}} Bank transfer in ZA, English, ZAR]
 ** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=ZAR&amount=50&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=0109116567086&email=jwales%40example.com&debug=true}} Credit card in ZA, English, ZAR]
 ** [{{fullurl:Special:DlocalGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=ZAR&amount=50&country=ZA&first_name=Jimmy&last_name=Wales&fiscal_number=0109116567086&email=jwales%40example.com&debug=true&variant=monthlyConvert}} Monthly Convert Credit card in ZA, English, ZAR]
-
-* Gravy
-** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=35&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
-** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=CAD&amount=11.44&country=CA&first_name=Jimmy&last_name=Wales&street_address=1010+Easy+Street&city=Ottawa&state_province=ON&postal_code=K1A+0B1&email=jwales%40example.com&debug=true}} Credit card in CA, English, CAD]
-** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=GBP&country=GB&amount=2.01&first_name=Jimmy&last_name=Wales&street_address=10+Easy+Street&city=Liverpool&postal_code=L37+4QF&email=jwales%40example.com&debug=true}} Credit card in GB, English, GBP]
-** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Recurring credit card in US, English, EUR]
 
 * PayPal Express Checkout
 ** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&recurring=0&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=USD&uselang=en&debug=true}} In US, English, USD - no amount specified]
