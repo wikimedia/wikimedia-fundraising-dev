@@ -20,3 +20,6 @@ docker compose exec smashpig php /srv/smashpig/Maintenance/QueueJobRunner.php --
 
 echo -e "${BLUE}Running ${GREEN}jobs-paypal${BLUE} queue consumer${NC}"
 docker compose exec smashpig php /srv/smashpig/Maintenance/QueueJobRunner.php --queue jobs-paypal --config-node paypal
+
+echo -e "${BLUE}Running ${GREEN}jobs-gravy${BLUE} queue consumer${NC}"
+docker compose exec smashpig php /srv/smashpig/Maintenance/QueueJobRunner.php --queue jobs-gravy --config-node gravy
