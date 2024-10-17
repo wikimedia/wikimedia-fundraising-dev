@@ -2,7 +2,6 @@
 DONUT_SERVICE_NAME="donut"
 DONUT_CONTAINER_DIR="/var/www/html/w"
 DONUT_SRC_DIR="src/donut"
-DONATION_INTERFACE_EXT_DIR="$DONUT_SRC_DIR/extensions/DonationInterface"
 FUNDRAISING_EMAIL_UNSUBSCRIBE_EXT_DIR="$DONUT_SRC_DIR/extensions/FundraisingEmailUnsubscribe"
 MW_CORE_BRANCH="fundraising/REL1_39"
 MW_LANG="en"
@@ -49,7 +48,7 @@ EOF
 
   pushd ${DONUT_SRC_DIR}/extensions
     # Loop over donut wiki extensions and clone
-    for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
+    for i in CentralNotice CodeEditor CodeMirror EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
 		do
 			git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
 				--depth=10 --no-single-branch && \
