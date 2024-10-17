@@ -159,13 +159,17 @@ fi
 if [ $donut_update = true ]; then
   $DOCKER_COMPOSE_COMMAND_BASE exec -w ${DONUT_CONTAINER_DIR} donut php maintenance/update.php --quick
 fi
+
+read -p "Import content dump from Donatewiki? [yN] " -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  echo "Importing dump from Donatewiki"
+  gunzip -c config/donut/Donate.xml.gz | sed -e "s/payments.wikimedia.org/localhost:$PAYMENTS_PORT/g" > config/donut/Donate-replaced.xml
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/var/www/html/w/" donut php maintenance/run.php importDump \
+    /srv/config/exposed/donut/Donate-replaced.xml
+  rm config/donut/Donate-replaced.xml
+fi
 echo
 
-echo "Importing dump from Donatewiki"
-gunzip -c config/donut/Donate.xml.gz | sed -e "s/payments.wikimedia.org/localhost:$PAYMENTS_PORT/g" > config/donut/Donate-replaced.xml
-$DOCKER_COMPOSE_COMMAND_BASE exec -w "/var/www/html/w/" donut php maintenance/run.php importDump \
-  /srv/config/exposed/donut/Donate-replaced.xml
-rm config/donut/Donate-replaced.xml
 # Set the Mainpage to Special:FundraiserRedirector
 $DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
   donut php maintenance/run.php edit MediaWiki:Mainpage < config/donut/MediaWiki_Mainpage.wiki
@@ -173,6 +177,9 @@ $DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
 $DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
   donut php maintenance/run.php createAndPromote admin --force --custom-groups centralnoticeadmin
 
+echo
 echo "Donate/Donut Wiki URL: https://localhost:$DONUT_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
 echo "Donate/Donut Wiki HTTP URL: http://localhost:$DONUT_HTTP_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
-echo "Donate/Donut Wiki Central Notice URL: http://localhost:$DONUT_HTTP_PORT/w/index.php?title=Special:UserLogin&returnto=Special:CentralNotice"
+echo
+echo "Donate/Donut Wiki Central Notice Login: $MW_USER:$MW_PASSWORD"
+echo "Donate/Donut Wiki Central Notice URL: https://localhost:$DONUT_PORT/w/index.php?title=Special:UserLogin&returnto=Special:CentralNotice"
