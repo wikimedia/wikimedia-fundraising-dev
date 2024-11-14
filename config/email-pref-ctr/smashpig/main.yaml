@@ -1,6 +1,3 @@
-# Config for SmashPig under E-mail Preference Center
-# FIXME Remove all unnecessary stuff
-
 data-store:
   # TODO check the FIXME below, copied from Vagrant
   # FIXME some way to reuse this between config files
@@ -26,6 +23,7 @@ data-store:
     constructor-parameters:
       - mysql:host=database;dbname=smashpig
       - smashpig
+      - dockerpass
 
   pending-db:
     <<: *MYSQL
@@ -37,7 +35,8 @@ data-store:
     class: PDO
     constructor-parameters:
       - mysql:host=database;dbname=fredge
-      - smashpig
+      - drupal
+      - drupal
 
   banner-history:
     <<: *REDIS
@@ -54,10 +53,19 @@ data-store:
   jobs-amazon:
     <<: *REDIS
 
+  jobs-dlocal:
+    <<: *REDIS
+
   jobs-ingenico:
     <<: *REDIS
 
   jobs-paypal:
+    <<: *REDIS
+
+  jobs-braintree:
+    <<: *REDIS
+
+  jobs-gravy:
     <<: *REDIS
 
   opt-in:
@@ -81,16 +89,30 @@ data-store:
   unsubscribe:
     <<: *REDIS
 
+  upi-donations:
+    <<: *REDIS
+
   email-preferences:
     <<: *DPREDIS
 
-  recurring-upgrade:
+  recurring-modify:
+    <<: *DPREDIS
+
+  new-checksum-link:
     <<: *DPREDIS
 
 cache:
-    class: LocalClusterPsr6Cache
+  class: SmashPig\Core\Cache\PredisCache
+  constructor-parameters:
+    -
+      servers:
+        scheme: tcp
+        host: queues
+        port: 6379
 
-# No provider-configuration-directory needed in this config
+# This is where the host directory config-private/smashpig appears in the container
+# (Production equivalent comes from localsettings/local-config.)
+provider-configuration-directory: /srv/config/private/smashpig
 
 sequence-generator:
   contribution-tracking:
@@ -102,3 +124,8 @@ sequence-generator:
           host: queues
           port: 6379
         sequence: contribution-tracking
+
+mail-backend:
+  smtp: true
+  smtp-host: mailcatcher
+  smtp-port: 1025
