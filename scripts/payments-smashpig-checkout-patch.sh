@@ -28,10 +28,12 @@ if ! docker compose exec payments bash -c '[ -d "/var/www/html/vendor/wikimedia/
   echo "*** Cloning the SmashPig repository to vendor/wikimedia/smash-pig"
   docker compose exec payments git clone "https://gerrit.wikimedia.org/r/wikimedia/fundraising/SmashPig" /var/www/html/vendor/wikimedia/smash-pig
 fi
+docker compose exec -w "/var/www/html/vendor/wikimedia/smash-pig" payments git checkout master
 
-# Checkout the latest patchset
 echo "*** Fetching patchset/revision $PATCH_ID/$LATEST_REVISION"
-
+# Delete branch if it already exists to get latest changes
+docker compose exec -w "/var/www/html/vendor/wikimedia/smash-pig" payments git branch -D change-$PATCH_ID &>/dev/null || :
+# Checkout the latest patchset
 docker compose exec -w "/var/www/html/vendor/wikimedia/smash-pig" payments git fetch https://gerrit.wikimedia.org/r/wikimedia/fundraising/SmashPig refs/changes/$LAST_TWO_DIGITS/$PATCH_ID/$LATEST_REVISION && \
 docker compose exec -w "/var/www/html/vendor/wikimedia/smash-pig" payments git checkout -b change-$PATCH_ID FETCH_HEAD
 
@@ -42,9 +44,9 @@ else
   exit 1
 fi
 
-# Run composer install to refresh autoloaders
-echo "*** Run composer install"
-docker compose exec -w "/var/www/html/" payments composer install
+# Refresh autoloaders
+echo "*** Run composer dump-autoload"
+docker compose exec -w "/var/www/html/" payments composer dump-autoload
 
 echo "*** SmashPig patch $PATCH_ID checkout complete and composer install finished. Done!"
-
+docker compose exec -w "/var/www/html/vendor/wikimedia/smash-pig" payments git log -1
