@@ -13,7 +13,8 @@ data-store:
   donorprefsredis: &DPREDIS
     class: PHPQueue\Backend\Predis
     constructor-parameters:
-      - servers:
+      -
+        servers:
           scheme: tcp
           host: donorprefsqueues
           port: 6379
