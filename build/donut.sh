@@ -3,7 +3,7 @@ DONUT_SERVICE_NAME="donut"
 DONUT_CONTAINER_DIR="/var/www/html/w"
 DONUT_SRC_DIR="src/donut"
 FUNDRAISING_EMAIL_UNSUBSCRIBE_EXT_DIR="$DONUT_SRC_DIR/extensions/FundraisingEmailUnsubscribe"
-MW_CORE_BRANCH="fundraising/REL1_39"
+MW_CORE_BRANCH="fundraising/REL1_43"
 MW_LANG="en"
 MW_USER="admin"
 MW_PASSWORD="dockerpass"
@@ -32,7 +32,7 @@ if $(ask_reclone $DONUT_SRC_DIR "Donut wiki repo"); then
 {
 	"config": {
 		"platform": {
-			"php": "7.4.30"
+			"php": "8.2.26"
 		}
 	},
 	"extra": {
