@@ -14,6 +14,7 @@ paths=(
     "src/civi-sites/wmff"
     "src/tools"
     "src/django-banner-stats"
+    "src/donut/extensions/CentralNotice"
 )
 
 urls=(
@@ -25,6 +26,7 @@ urls=(
     "https://github.com/wikimedia/wikimedia-fundraising-crm"
     "https://github.com/wikimedia/wikimedia-fundraising-tools"
     "https://github.com/wikimedia/wikimedia-fundraising-tools-DjangoBannerStats"
+    "https://github.com/wikimedia/mediawiki-extensions-CentralNotice"
 )
 
 # Loop through the directories
