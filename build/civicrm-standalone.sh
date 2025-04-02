@@ -1,5 +1,6 @@
 # CiviCRM Standalone Config
 CIVICRM_SERVICE_NAME="civicrm"
+CIVICRM_SRC_CORE_ENV_VARS="src/civi-sites/standalone-clean.sh"
 CIVICRM_SRC_CORE_DIR="src/civi-sites/standalone-clean"
 CIVI_ADMIN_PASS="admin"
 
@@ -8,6 +9,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   rm -rf "${CIVICRM_SRC_CORE_DIR:?}"/*
+  rm -f "${CIVICRM_SRC_CORE_ENV_VARS:?}"
   find "${CIVICRM_SRC_CORE_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
   mkdir -p src/civi-sites
 
