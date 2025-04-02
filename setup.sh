@@ -16,21 +16,22 @@ display_help() {
   echo "  -h, --help               Display this help and exit"
   echo
   echo "========================= Setup Options ========================="
-  echo "  --skip-reclone           Do not ask to reclone any repos"
-  echo "  --full                   Set up everything!"
-  echo "  --civicrm                Set up CiviCRM WMFF (our version)"
-  echo "  --civicrm-core           Set up CiviCRM Core (for upstream testing)"
-  echo "  --civicrm-standalone     Set up CiviCRM Standalone (experimental)"
-  echo "  --payments               Set up PaymentsWiki"
-  echo "  --donut                  Set up Donate/Donut Wiki"
-  echo "  --email-prefs            Set up Email-Preference Centre Wiki"
-  echo "  --civiproxy              Set up CiviProxy (Email-Preference Centre Wiki)"
-  echo "  --smashpig               Set up Smashpig Listeners (IPN testing)"
-  echo "  --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)"
-  echo "  --django                 Set up DjangoBannerStats"
-  echo "  --gr4vy                  Set up Gr4vy POC repo"
-  echo "  --privatebin             Set up PrivateBin"
-  echo "  --config-private         Set up config-private repo"
+  echo "  --skip-reclone                Do not ask to reclone any repos"
+  echo "  --full                        Set up everything!"
+  echo "  --civicrm                     Set up CiviCRM WMFF (our version)"
+  echo "  --civicrm-core                Set up CiviCRM Core (for upstream testing)"
+  echo "  --civicrm-standalone          Set up CiviCRM Standalone"
+  echo "  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer"
+  echo "  --payments                    Set up PaymentsWiki"
+  echo "  --donut                       Set up Donate/Donut Wiki"
+  echo "  --email-prefs                 Set up Email-Preference Centre Wiki"
+  echo "  --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)"
+  echo "  --smashpig                    Set up Smashpig Listeners (IPN testing)"
+  echo "  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)"
+  echo "  --django                      Set up DjangoBannerStats"
+  echo "  --gr4vy                       Set up Gr4vy POC repo"
+  echo "  --privatebin                  Set up PrivateBin"
+  echo "  --config-private              Set up config-private repo"
   echo
   echo "========================= Docker Commands ========================="
   echo "  up                       Create and start up Docker containers"
@@ -108,6 +109,10 @@ setup_civicrm_core() {
 
 setup_civicrm_standalone() {
   time source "$SETUP_DIR/civicrm-standalone.sh"
+}
+
+setup_civicrm_standalone_composer() {
+  time source "$SETUP_DIR/civicrm-standalone-composer.sh"
 }
 
 setup_payments() {
@@ -209,6 +214,12 @@ for arg in "$@"; do
     announce_install "CiviCRM Buildkit" "CiviCRM Standalone"
     setup_civicrm_buildkit
     setup_civicrm_standalone
+    ;;
+  --civicrm-standalone-composer)
+    init
+    announce_install "CiviCRM Buildkit" "CiviCRM Standalone on Composer"
+    setup_civicrm_buildkit
+    setup_civicrm_standalone_composer
     ;;
   --payments)
     init
