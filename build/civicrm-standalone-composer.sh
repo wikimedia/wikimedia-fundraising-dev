@@ -1,7 +1,7 @@
 # CiviCRM Standalone Config
 CIVICRM_SERVICE_NAME="civicrm"
-CIVICRM_SRC_CORE_ENV_VARS="src/civi-sites/standalone-clean.sh"
-CIVICRM_SRC_CORE_DIR="src/civi-sites/standalone-clean"
+CIVICRM_SRC_CORE_ENV_VARS="src/civi-sites/standalone-composer.sh"
+CIVICRM_SRC_CORE_DIR="src/civi-sites/standalone-composer"
 CIVI_ADMIN_PASS="admin"
 
 read -p "Install CiviCRM Standalone (no more Drupal!!!)  [yN] " -r
@@ -24,7 +24,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild-standalone.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
-  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create standalone-clean --admin-pass $CIVI_ADMIN_PASS
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create standalone-composer --admin-pass $CIVI_ADMIN_PASS
   echo
 
   $DOCKER_COMPOSE_COMMAND_BASE restart "$CIVICRM_SERVICE_NAME"
@@ -57,5 +57,5 @@ if [ -f "$HOME/.gitconfig" ]; then
   echo
 fi
 
-echo "CiviCRM Core URL: https://standalone-clean.localhost:$CIVICRM_PORT/civicrm"
+echo "CiviCRM Core URL: https://standalone-composer.localhost:$CIVICRM_PORT/civicrm"
 echo "Civicrm Core user/password: admin/$CIVI_ADMIN_PASS"
