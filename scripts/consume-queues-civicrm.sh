@@ -35,3 +35,6 @@ docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admi
 
 echo -e "${BLUE}Running ${GREEN}unsubscribe${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=Unsubscribe queueName=unsubscribe 2>&1 | tail -n +18
+
+echo -e "${BLUE}Running ${GREEN}new-checksum-link${BLUE} queue consumer${NC}"
+docker compose exec -w "/srv/civi-sites/wmff/drupal" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=NewChecksumLink queueName=new-checksum-link 2>&1 | tail -n +18
