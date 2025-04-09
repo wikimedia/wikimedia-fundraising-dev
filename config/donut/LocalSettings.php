@@ -314,7 +314,18 @@ $wgNoticeNumberOfControllerBuckets = 2;
 # Don't try to do client-side GeoIP location
 $wgCentralNoticeGeoIPBackgroundLookupModule = false;
 $wgCentralNoticeContentSecurityPolicy = "default-src data: blob: 'unsafe-inline' 'unsafe-eval' 'self';";
-
+$wgNoticeHideUrls = [
+	'//en.wikipedia.org/w/index.php?title=Special:HideBanners',
+	'//meta.wikimedia.org/w/index.php?title=Special:HideBanners',
+	'//commons.wikimedia.org/w/index.php?title=Special:HideBanners',
+	'//species.wikimedia.org/w/index.php?title=Special:HideBanners',
+	'//en.wikibooks.org/w/index.php?title=Special:HideBanners',
+	'//en.wikiquote.org/w/index.php?title=Special:HideBanners',
+	'//en.wikisource.org/w/index.php?title=Special:HideBanners',
+	'//en.wikinews.org/w/index.php?title=Special:HideBanners',
+	'//en.wikiversity.org/w/index.php?title=Special:HideBanners',
+	'//www.mediawiki.org/w/index.php?title=Special:HideBanners',
+];
 # Enable running QUnit JavaScript tests via Special:JavaScriptTest
 $wgEnableJavaScriptTest = true;
 
