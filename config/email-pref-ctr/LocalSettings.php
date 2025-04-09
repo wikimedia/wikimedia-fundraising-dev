@@ -149,15 +149,11 @@ $wgFileCacheDirectory = "{$wgCacheDirectory}/html";
 $wgLocalisationUpdateDirectory = "{$wgCacheDirectory}/l10n";
 
 # NoLogin
-function NoLoginLinkOnMainPage(&$personal_urls){
-	unset($personal_urls['anonlogin']);
-	unset($personal_urls['login']);
-	unset($personal_urls['login-private']);
-	unset($personal_urls['anonuserpage']);
-	unset($personal_urls['anontalk']);
-	return true;
+function NoLoginLinkOnMainPage($skinTemplate, &$links){
+	unset($links['user-menu']['login-private']);
+	$skinTemplate->userpageUrlDetails = [];
 }
-$wgHooks['PersonalUrls'][]='NoLoginLinkOnMainPage';
+$wgHooks['SkinTemplateNavigation::Universal'][]='NoLoginLinkOnMainPage';
 
 ### (Profiling settings, below, are enabled on staging. Commenting them out for now.)
 # TODO Set up profiling in Docker?
