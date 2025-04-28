@@ -83,7 +83,9 @@ DATABASES = {
 UDP_LOG_PATH = "/tmp/banner_logs"
 
 CACHES = {
-    'default': {},
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+    },
     'country': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'country',

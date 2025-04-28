@@ -25,9 +25,9 @@ echo
 echo "Install required Python3 packages"
 echo
 $DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} mkdir -p /srv/django-banner-stats/packages
-$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "Django==1.11.29" -t /srv/django-banner-stats/packages
-$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "PyMySQL==0.9.3" -t /srv/django-banner-stats/packages
-$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "mysqlclient==1.3.14" -t /srv/django-banner-stats/packages
+$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "Django==3.2.19" -t /srv/django-banner-stats/packages
+$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "PyMySQL==1.0.2" -t /srv/django-banner-stats/packages
+$DOCKER_COMPOSE_COMMAND_BASE exec ${DJANGO_BANNER_STATS_SERVICE_NAME} pip3 install "mysqlclient==1.4.6" -t /srv/django-banner-stats/packages
 echo
 echo "Python3 Packages installed!"
 echo

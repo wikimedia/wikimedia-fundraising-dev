@@ -236,7 +236,7 @@ services:
      - FR_DOCKER_GID
 
   djangobannerstats:
-    image: docker-registry.wikimedia.org/dev/fundraising-bullseye-python:1.0.0
+    image: docker-registry.wikimedia.org/dev/fundraising-bookworm-python:1.0.0
     depends_on:
       - database
     user: *user
