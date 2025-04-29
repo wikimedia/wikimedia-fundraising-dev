@@ -67,8 +67,8 @@ $target_interface           = NULL;
  **                 Authentication Options                     **
  ****************************************************************/
 // API and SITE keys
-$api_key_map = array('API_KEY' => getenv('FR_DOCKER_CIVI_API_KEY'));
-$sys_key_map = array('SITE_KEY' => getenv('FR_DOCKER_CIVI_SITE_KEY'));
+$api_key_map = [ 'API_KEY' => getenv('FR_DOCKER_CIVI_API_KEY') ];
+$sys_key_map = [ 'SITE_KEY' => getenv('FR_DOCKER_CIVI_SITE_KEY') ];
 
 if (file_exists(dirname(__FILE__)."/secrets.php")) {
   // keys can also be stored in 'secrets.php'
@@ -92,18 +92,18 @@ $authx_external_flow = ['legacyrest'];
  ****************************************************************/
 
 // define file cache options, see http://pear.php.net/manual/en/package.caching.cache-lite.cache-lite.cache-lite.php
-$file_cache_options = array(
+$file_cache_options = [
     'cacheDir' => 'file_cache/',
     'lifeTime' => 86400
-);
+];
 
 // define regex patterns that shoud NOT be accepted
-$file_cache_exclude = array();
+$file_cache_exclude = [];
 
 // if set, cached file must match at least one of these regex patterns
-$file_cache_include = array(
+$file_cache_include = [
         //'#.+[.](png|jpe?g|gif)#i'           // only media files
-    );
+];
 
 
 
@@ -120,22 +120,22 @@ $rest_evaluate_json_parameter = FALSE;
 // - if a request comes in and the IP is not a key in the array, the whitelisted in 'all' are used
 // - if a request comes in and the IP is indeed a key in the array, the whitelisted in the IP are checked first. If nothing is
 //   found ,the 'all' ones are checked next.
-$rest_allowed_actions = array(
-  'all' => array(
-    'CiviProxy' => array(
-      'getpreferences' => array(
+$rest_allowed_actions = [
+  'all' => [
+    'CiviProxy' => [
+      'getpreferences' => [
         'checksum' => 'string',
         'contact_id' => 'int',
-      ),
-    ),
+	  ],
+	],
     'ContributionRecur' => [
       'getUpgradableRecur' => [
         'checksum' => 'string',
         'contact_id' => 'int',
       ]
     ]
-  ),
-);
+  ],
+];
 
 
 /****************************************************************
