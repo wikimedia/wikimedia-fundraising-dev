@@ -7,7 +7,6 @@ if [ -f "./src/civi-sites/wmff.sh" ]; then
 fi
 
 if [ -d "./src/civi-sites/wmff" ]; then
-  docker compose exec ${CONTAINER_ID} rm -rf /srv/civi-sites/wmff
   docker compose cp "./src/civi-sites/wmff" "${CONTAINER_ID}:/srv/civi-sites/"
   echo "local => container: sync complete - ./src/civi-sites/wmff:/srv/civi-sites/wmff"
 else

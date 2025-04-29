@@ -8,7 +8,6 @@ if [ -f "./src/civi-sites/dmaster.sh" ]; then
 fi
 
 if [ -d "./src/civi-sites/dmaster" ]; then
-  docker compose exec ${CONTAINER_ID} rm -rf /srv/civi-sites/dmaster
   docker compose cp "./src/civi-sites/dmaster" "${CONTAINER_ID}:/srv/civi-sites"
   echo "local => container: sync complete - ./src/civi-sites/dmaster:/srv/civi-sites/dmaster"
 else

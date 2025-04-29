@@ -8,7 +8,6 @@ if [ -f "./src/civi-sites/standalone-composer.sh" ]; then
 fi
 
 if [ -d "./src/civi-sites/standalone-composer" ]; then
-  docker compose exec ${CONTAINER_ID} rm -rf /srv/civi-sites/standalone-composer
   docker compose cp "./src/civi-sites/standalone-composer/" "${CONTAINER_ID}:/srv/civi-sites/"
   echo "local => container: sync complete - ./src/civi-sites/standalone-composer:/srv/civi-sites/standalone-composer"
 else
