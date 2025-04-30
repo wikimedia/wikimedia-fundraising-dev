@@ -126,14 +126,20 @@ $rest_allowed_actions = [
       'getpreferences' => [
         'checksum' => 'string',
         'contact_id' => 'int',
-	  ],
-	],
+      ],
+    ],
     'ContributionRecur' => [
       'getUpgradableRecur' => [
         'checksum' => 'string',
         'contact_id' => 'int',
       ]
-    ]
+    ],
+    'WMFContact'  => [
+      'getDonorSummary' => [
+        'checksum' => 'string',
+        'contact_id' => 'int',
+      ]
+    ],
   ],
 ];
 
