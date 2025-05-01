@@ -333,7 +333,6 @@ wfLoadExtensions( [
 	'CentralNotice',
 	'CodeEditor',
 	'CodeMirror',
-	'DonationInterface',
 	'EventLogging',
 	'FundraiserLandingPage',
 	'FundraisingTranslateWorkflow',
