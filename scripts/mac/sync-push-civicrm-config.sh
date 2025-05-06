@@ -11,7 +11,6 @@ if [ -d "./config" ]; then
       docker compose exec "${CONTAINER_ID}" cp -r /tmp/config/"$app_name"/. /srv/config/exposed/"$app_name"/
     fi
   done
-  docker compose exec "${CONTAINER_ID}" rm -rf /tmp/config
   echo "local => container: sync complete - ./config/*:/srv/config/exposed/"
 else
   echo "Directory not found: ./config"

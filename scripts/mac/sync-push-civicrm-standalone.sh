@@ -8,7 +8,6 @@ if [ -f "./src/civi-sites/standalone-clean.sh" ]; then
 fi
 
 if [ -d "./src/civi-sites/standalone-clean" ]; then
-  docker compose exec ${CONTAINER_ID} rm -rf /srv/civi-sites/standalone-clean
   docker compose cp "./src/civi-sites/standalone-clean/" "${CONTAINER_ID}:/srv/civi-sites/"
   echo "local => container: sync complete - ./src/civi-sites/standalone-clean:/srv/civi-sites/standalone-clean"
 else
