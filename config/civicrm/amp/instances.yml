@@ -52,3 +52,21 @@
   root: /srv/civi-sites/standalone-clean/web
   url: null
   visibility: null
+'/srv/civi-sites/wpmaster::cms':
+    name: cms
+    dsn: 'mysql://wpmaster:wpmaster@database:3306/wpmastercms?new_link=true'
+    root: /srv/civi-sites/wpmaster
+    url: 'https://wpmaster.localhost:32353'
+    visibility: null
+'/srv/civi-sites/wpmaster::civi':
+    name: civi
+    dsn: 'mysql://wpmaster:wpmaster@database:3306/wpmastercivi?new_link=true'
+    root: /srv/civi-sites/wpmaster
+    url: null
+    visibility: null
+'/srv/civi-sites/wpmaster::test':
+    name: test
+    dsn: 'mysql://wpmaster:wpmaster@database:3306/wpmastertest_?new_link=true'
+    root: /srv/civi-sites/wpmaster
+    url: null
+    visibility: null
