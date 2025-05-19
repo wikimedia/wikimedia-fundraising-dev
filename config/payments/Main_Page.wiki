@@ -59,7 +59,7 @@ Donate links:
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=ZAR&amount=50&country=ZA&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true&variant=monthlyConvert}} Monthly Convert Credit card in ZA, English, ZAR]
 
 ** Trustly
-*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=dd&payment_submethod=ach&recurring=0&uselang=en&language=en&currency=USD&amount=12.23&debug=true}} ACH (Trustly) in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=dd&payment_submethod=ach&recurring=0&uselang=en&language=en&currency=USD&country=US&amount=12.23&debug=true}} ACH (Trustly) in US, English, USD]
 ** PayPal
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} PayPal in US, English, USD]
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=paypal&recurring=1&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} Recurring PayPal in US, English, USD]
