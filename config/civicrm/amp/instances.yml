@@ -1,57 +1,57 @@
 '/srv/civi-sites/dmaster/web::cms':
-  name: cms
-  dsn: 'mysql://dmastercms:dmastercms@database:3306/dmastercms?new_link=true'
-  root: /srv/civi-sites/dmaster/web
-  url: 'https://dmaster.localhost:32353'
-  visibility: null
+    name: cms
+    dsn: 'mysql://dmastercms:dmastercms@database:3306/dmastercms?new_link=true'
+    root: /srv/civi-sites/dmaster/web
+    url: 'https://dmaster.localhost:32353'
+    visibility: null
 '/srv/civi-sites/dmaster/web::civi':
-  name: civi
-  dsn: 'mysql://dmastercivicrm:dmastercivicrm@database:3306/dmastercivicrm?new_link=true'
-  root: /srv/civi-sites/dmaster/web
-  url: null
-  visibility: null
+    name: civi
+    dsn: 'mysql://dmastercivicrm:dmastercivicrm@database:3306/dmastercivicrm?new_link=true'
+    root: /srv/civi-sites/dmaster/web
+    url: null
+    visibility: null
 '/srv/civi-sites/dmaster/web::test':
-  name: test
-  dsn: 'mysql://dmastertest:dmastertest@database:3306/dmastertest?new_link=true'
-  root: /srv/civi-sites/dmaster/web
-  url: null
-  visibility: null
+    name: test
+    dsn: 'mysql://dmastertest:dmastertest@database:3306/dmastertest?new_link=true'
+    root: /srv/civi-sites/dmaster/web
+    url: null
+    visibility: null
 '/srv/civi-sites/wmff/drupal::cms':
-  name: cms
-  dsn: 'mysql://drupal:drupal@database:3306/drupal?new_link=true'
-  root: /srv/civi-sites/wmff/drupal
-  url: 'https://wmff.localhost:32353'
-  visibility: null
+    name: cms
+    dsn: 'mysql://drupal:drupal@database:3306/drupal?new_link=true'
+    root: /srv/civi-sites/wmff/drupal
+    url: 'https://wmff.localhost:32353'
+    visibility: null
 '/srv/civi-sites/wmff/drupal::civi':
-  name: civi
-  dsn: 'mysql://civicrm:civicrm@database:3306/civicrm?new_link=true'
-  root: /srv/civi-sites/wmff/drupal
-  url: null
-  visibility: null
+    name: civi
+    dsn: 'mysql://civicrm:civicrm@database:3306/civicrm?new_link=true'
+    root: /srv/civi-sites/wmff/drupal
+    url: null
+    visibility: null
 '/srv/civi-sites/wmff/drupal::test':
-  name: test
-  dsn: 'mysql://wmff_test:wmff_test@database:3306/wmff_test?new_link=true'
-  root: /srv/civi-sites/wmff/drupal
-  url: null
-  visibility: null
+    name: test
+    dsn: 'mysql://wmff_test:wmff_test@database:3306/wmff_test?new_link=true'
+    root: /srv/civi-sites/wmff/drupal
+    url: null
+    visibility: null
 '/srv/civi-sites/standalone-clean/web::cms':
-  name: cms
-  dsn: 'mysql://standalone_cms@database:3306/standalone_cms?new_link=true'
-  root: /srv/civi-sites/standalone-clean/web
-  url: 'https://standalone-clean.localhost:32353'
-  visibility: null
+    name: cms
+    dsn: 'mysql://standalone_cms@database:3306/standalone_cms?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: 'https://standalone-clean.localhost:32353'
+    visibility: null
 '/srv/civi-sites/standalone-clean/web::civi':
-  name: civi
-  dsn: 'mysql://standalone@database:3306/standalone?new_link=true'
-  root: /srv/civi-sites/standalone-clean/web
-  url: null
-  visibility: null
+    name: civi
+    dsn: 'mysql://standalone@database:3306/standalone?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: null
+    visibility: null
 '/srv/civi-sites/standalone-clean/web::test':
-  name: test
-  dsn: 'mysql://standalone_test@database:3306/standalone_test?new_link=true'
-  root: /srv/civi-sites/standalone-clean/web
-  url: null
-  visibility: null
+    name: test
+    dsn: 'mysql://standalone_test@database:3306/standalone_test?new_link=true'
+    root: /srv/civi-sites/standalone-clean/web
+    url: null
+    visibility: null
 '/srv/civi-sites/wpmaster::cms':
     name: cms
     dsn: 'mysql://wpmaster:wpmaster@database:3306/wpmastercms?new_link=true'
