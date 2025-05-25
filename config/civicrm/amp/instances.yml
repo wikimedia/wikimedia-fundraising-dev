@@ -70,3 +70,21 @@
     root: /srv/civi-sites/wpmaster
     url: null
     visibility: null
+'/srv/civi-sites/wmf::cms':
+    name: cms
+    dsn: 'mysql://civicrm:civicrm@database:3306/wmfcms?new_link=true'
+    root: /srv/civi-sites/wmf
+    url: 'https://wmf.localhost:32353'
+    visibility: null
+'/srv/civi-sites/wmf::civi':
+    name: civi
+    dsn: 'mysql://civicrm:civicrm@database:3306/wmfcivi?new_link=true'
+    root: /srv/civi-sites/wmf
+    url: null
+    visibility: null
+'/srv/civi-sites/wmf::test':
+    name: test
+    dsn: 'mysql://wmftest:wmftest@database:3306/wmftest?new_link=true'
+    root: /srv/civi-sites/wmf
+    url: null
+    visibility: null

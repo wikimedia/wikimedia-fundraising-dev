@@ -19,6 +19,7 @@ display_help() {
   echo "  --skip-reclone                Do not ask to reclone any repos"
   echo "  --full                        Set up everything!"
   echo "  --civicrm                     Set up CiviCRM WMFF (our version)"
+  echo "  --civicrm-wmf                 Set up CiviCRM WMF (our version, on standalone)"
   echo "  --civicrm-core                Set up CiviCRM Core (for upstream testing)"
   echo "  --civicrm-standalone          Set up CiviCRM Standalone"
   echo "  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer"
@@ -101,6 +102,10 @@ setup_civicrm_buildkit() {
 
 setup_civicrm() {
   time source "$SETUP_DIR/civicrm.sh"
+}
+
+setup_civicrm_wmf() {
+  time source "$SETUP_DIR/civicrm-wmf.sh"
 }
 
 setup_civicrm_core() {
@@ -202,6 +207,13 @@ for arg in "$@"; do
     create_xdebug_ini "civicrm"
     setup_civicrm_buildkit
     setup_civicrm
+    ;;
+  --civicrm-wmf)
+    init
+    announce_install "CiviCRM Buildkit" "CiviCRM WMF"
+    create_xdebug_ini "civicrm"
+    setup_civicrm_buildkit
+    setup_civicrm_wmf
     ;;
   --civicrm-core)
     init
