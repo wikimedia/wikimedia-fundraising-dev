@@ -46,6 +46,13 @@ if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMF (our version)"); then
   echo
 fi
 
+# Composer install
+read -p "Run CiviCRM Composer install? [yN] " -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  $DOCKER_COMPOSE_COMMAND_BASE exec -w /srv/civi-sites/wmf/ civicrm composer install
+fi
+echo
+
 read -p "Install CiviCRM Standalone with WMF extensions (no more Drupal!!!)  [Yn] " -r
 echo
 if [[ ! $REPLY =~ ^[Nn]$ ]]; then
