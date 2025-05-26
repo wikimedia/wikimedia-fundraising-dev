@@ -36,19 +36,19 @@
     visibility: null
 '/srv/civi-sites/standalone-clean/web::cms':
     name: cms
-    dsn: 'mysql://standalone_cms@database:3306/standalone_cms?new_link=true'
+    dsn: 'mysql://standalone_cms:standalone_cms@database:3306/standalone_cms?new_link=true'
     root: /srv/civi-sites/standalone-clean/web
     url: 'https://standalone-clean.localhost:32353'
     visibility: null
 '/srv/civi-sites/standalone-clean/web::civi':
     name: civi
-    dsn: 'mysql://standalone@database:3306/standalone?new_link=true'
+    dsn: 'mysql://standalone:standalone@database:3306/standalone?new_link=true'
     root: /srv/civi-sites/standalone-clean/web
     url: null
     visibility: null
 '/srv/civi-sites/standalone-clean/web::test':
     name: test
-    dsn: 'mysql://standalone_test@database:3306/standalone_test?new_link=true'
+    dsn: 'mysql://standalone_test:standalone_test@database:3306/standalone_test?new_link=true'
     root: /srv/civi-sites/standalone-clean/web
     url: null
     visibility: null
