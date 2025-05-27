@@ -13,20 +13,23 @@ Fundraising-dev setup script.
   -h, --help               Display this help and exit
 
 ========================= Setup Options =========================
-  --skip-reclone           Do not ask to reclone any repos
-  --full                   Set up everything!
-  --civicrm                Set up CiviCRM WMFF (our version)
-  --civicrm-core           Set up CiviCRM Core (for upstream testing)
-  --payments               Set up PaymentsWiki
-  --donut                  Set up Donate/Donut Wiki
-  --email-prefs            Set up Email-Preference Centre Wiki
-  --civiproxy              Set up CiviProxy (Email-Preference Centre Wiki)
-  --smashpig               Set up Smashpig Listeners (IPN testing)
-  --tools                  Set up Fundraising-tools (incl. Silverpop Export scripts)
-  --django                 Set up DjangoBannerStats
-  --gr4vy                  Set up Gr4vy POC repo
-  --privatebin             Set up PrivateBin
-  --config-private         Set up config-private repo
+  --skip-reclone                Do not ask to reclone any repos
+  --full                        Set up everything!
+  --civicrm                     Set up CiviCRM WMFF (our version)
+  --civicrm-wmf                 Set up CiviCRM WMF (our version, on standalone)
+  --civicrm-core                Set up CiviCRM Core (for upstream testing)
+  --civicrm-standalone          Set up CiviCRM Standalone
+  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer
+  --payments                    Set up PaymentsWiki
+  --donut                       Set up Donate/Donut Wiki
+  --email-prefs                 Set up Email-Preference Centre Wiki
+  --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)
+  --smashpig                    Set up Smashpig Listeners (IPN testing)
+  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)
+  --django                      Set up DjangoBannerStats
+  --gr4vy                       Set up Gr4vy POC repo
+  --privatebin                  Set up PrivateBin
+  --config-private              Set up config-private repo
 
 ========================= Docker Commands =========================
   up                       Create and start up Docker containers
