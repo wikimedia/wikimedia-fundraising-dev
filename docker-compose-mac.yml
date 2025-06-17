@@ -134,7 +134,7 @@ services:
 
 
     civicrm:
-        image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bookworm-php82-apache2:1.1.1
+        image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bookworm-php82-apache2:1.1.2
         depends_on:
             - database
             - queues
