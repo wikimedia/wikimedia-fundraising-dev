@@ -122,12 +122,6 @@ $rest_evaluate_json_parameter = FALSE;
 //   found ,the 'all' ones are checked next.
 $rest_allowed_actions = [
   'all' => [
-    'CiviProxy' => [
-      'getpreferences' => [
-        'checksum' => 'string',
-        'contact_id' => 'int',
-      ],
-    ],
     'ContributionRecur' => [
       'getUpgradableRecur' => [
         'checksum' => 'string',
@@ -135,6 +129,10 @@ $rest_allowed_actions = [
       ]
     ],
     'WMFContact'  => [
+      'getCommunicationsPreferences' => [
+        'checksum' => 'string',
+        'contact_id' => 'int',
+      ],
       'getDonorSummary' => [
         'checksum' => 'string',
         'contact_id' => 'int',
