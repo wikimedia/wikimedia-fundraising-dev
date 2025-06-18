@@ -166,6 +166,7 @@ civicrm_sync() {
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-config.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-buildkit.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm.sh"
+  source "$MAC_SCRIPTS_DIR/sync-push-civicrm-wmf.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-core.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-standalone.sh"
 }
