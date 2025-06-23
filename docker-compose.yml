@@ -152,9 +152,11 @@ services:
     networks:
       default:
         aliases:
+          - wmf.civicrm
           - wmff.civicrm
       donorprefs:
         aliases:
+          - wmf.civicrm
           - wmff.civicrm
     volumes:
       - ./src/civi-sites:/srv/civi-sites
