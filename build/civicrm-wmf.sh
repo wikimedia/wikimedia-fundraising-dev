@@ -83,6 +83,7 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
     echo "**** MacOS Setup: sync container source code to local to retain generated build config"
     echo
     source "$MAC_SCRIPTS_DIR/sync-pull-civicrm-standalone.sh"
+    source "$MAC_SCRIPTS_DIR/sync-pull-civicrm-wmf.sh"
   fi
 
   echo "CiviCRM Standalone Installed!"
