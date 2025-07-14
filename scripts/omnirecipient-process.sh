@@ -23,4 +23,4 @@ echo -e "${BLUE}Running ${GREEN}Omnigroupmember load${BLUE}${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm wmf-cv -vv --in=json api3 Omnigroupmember.load
 #match them with mailing data rows that are missing their contact_id because we sent a silverpop mailing before the contact made the round trip to CiviCRM and back out.
 echo -e "${BLUE}Running ${GREEN}Omnigroupmember match${BLUE}${NC}"
-docker compose exec -w "/srv/civi-sites/wmf" civicrm civicrm wmf-cv -vv api3 omnigroupmember.match group_id=310 limit=10000
+docker compose exec -w "/srv/civi-sites/wmf" civicrm wmf-cv -vv api3 omnigroupmember.match group_id=310 limit=10000
