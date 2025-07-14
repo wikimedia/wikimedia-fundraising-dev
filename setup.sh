@@ -90,6 +90,7 @@ init() {
   source "$SETUP_DIR/project-name.sh"
   source "$SETUP_DIR/bind-mount-dirs.sh"
   source "$SETUP_DIR/xdebug.sh"
+  source "$SETUP_DIR/debug.sh"
   source "$SETUP_DIR/functions.sh"
   source "$SETUP_DIR/config-private.sh"
 }
@@ -200,6 +201,7 @@ for arg in "$@"; do
     init
     announce_install "CiviCRM Buildkit" "CiviCRM WMF"
     create_xdebug_ini "civicrm"
+    create_debug_ini "civicrm"
     setup_civicrm_buildkit
     setup_civicrm
     ;;
@@ -291,6 +293,7 @@ for arg in "$@"; do
     init
     announce_install "${apps[@]}"
     create_xdebug_ini_all
+    create_debug_ini_all
     time (
       setup_payments
       setup_donut
