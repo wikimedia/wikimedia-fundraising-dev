@@ -4,7 +4,7 @@ CIVICRM_SRC_CORE_ENV_VARS="src/civi-sites/standalone-composer.sh"
 CIVICRM_SRC_CORE_DIR="src/civi-sites/standalone-composer"
 CIVI_ADMIN_PASS="admin"
 
-read -p "Install CiviCRM Standalone (no more Drupal!!!)  [yN] " -r
+read -p "Install CiviCRM Standalone  [yN] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 

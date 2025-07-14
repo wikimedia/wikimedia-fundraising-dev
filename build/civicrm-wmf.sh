@@ -53,7 +53,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 echo
 
-read -p "Install CiviCRM Standalone with WMF extensions (no more Drupal!!!)  [Yn] " -r
+read -p "Install CiviCRM Standalone with WMF extensions [Yn] " -r
 echo
 if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 
