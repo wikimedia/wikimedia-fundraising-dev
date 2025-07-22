@@ -11,7 +11,7 @@ paths=(
     "src/donut/extensions/DonationInterface"
     "src/email-pref-ctr/extensions/DonationInterface"
     "src/smashpig/"
-    "src/civi-sites/wmff"
+    "src/civi-sites/wmf"
     "src/tools"
     "src/django-banner-stats"
     "src/donut/extensions/CentralNotice"
