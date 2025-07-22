@@ -18,8 +18,7 @@ display_help() {
   echo "========================= Setup Options ========================="
   echo "  --skip-reclone                Do not ask to reclone any repos"
   echo "  --full                        Set up everything!"
-  echo "  --civicrm                     Set up CiviCRM WMFF (our version)"
-  echo "  --civicrm-wmf                 Set up CiviCRM WMF (our version, on standalone)"
+  echo "  --civicrm                     Set up CiviCRM WMF (our version, on standalone)"
   echo "  --civicrm-core                Set up CiviCRM Core (for upstream testing)"
   echo "  --civicrm-standalone          Set up CiviCRM Standalone"
   echo "  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer"
@@ -101,10 +100,6 @@ setup_civicrm_buildkit() {
 }
 
 setup_civicrm() {
-  time source "$SETUP_DIR/civicrm.sh"
-}
-
-setup_civicrm_wmf() {
   time source "$SETUP_DIR/civicrm-wmf.sh"
 }
 
@@ -165,7 +160,6 @@ show_urls() {
 civicrm_sync() {
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-config.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-buildkit.sh"
-  source "$MAC_SCRIPTS_DIR/sync-push-civicrm.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-wmf.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-core.sh"
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-standalone.sh"
@@ -204,17 +198,10 @@ for arg in "$@"; do
   ## Build flags
   --civicrm)
     init
-    announce_install "CiviCRM Buildkit" "CiviCRM WMFF"
-    create_xdebug_ini "civicrm"
-    setup_civicrm_buildkit
-    setup_civicrm
-    ;;
-  --civicrm-wmf)
-    init
     announce_install "CiviCRM Buildkit" "CiviCRM WMF"
     create_xdebug_ini "civicrm"
     setup_civicrm_buildkit
-    setup_civicrm_wmf
+    setup_civicrm
     ;;
   --civicrm-core)
     init

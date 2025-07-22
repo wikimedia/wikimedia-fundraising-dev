@@ -15,8 +15,7 @@ Fundraising-dev setup script.
 ========================= Setup Options =========================
   --skip-reclone                Do not ask to reclone any repos
   --full                        Set up everything!
-  --civicrm                     Set up CiviCRM WMFF (our version)
-  --civicrm-wmf                 Set up CiviCRM WMF (our version, on standalone)
+  --civicrm                     Set up CiviCRM WMF (our version, on standalone)
   --civicrm-core                Set up CiviCRM Core (for upstream testing)
   --civicrm-standalone          Set up CiviCRM Standalone
   --civicrm-standalone-composer Set up CiviCRM Standalone with Composer
@@ -148,7 +147,7 @@ Logs are not yet rotated. If they start getting too big, you can just delete the
 
 For phpunit tests for DonationInterface, run `payments-phpunit.sh`.
 
-For phpunit tests for Civicrm, run `civicrm-phpunit.sh wmff`.
+For phpunit tests for Civicrm, run `civicrm-phpunit.sh wmf`.
 
 ## Queues
 
@@ -205,9 +204,9 @@ TODO: Adapt this command for access to Civicrm and E-mail Preference Center, too
         {USER_ON_IDE_BOX}@{IP_OF_IDE_BOX}
 
 Depending on your IDE you may wish to set the environment variable PHP_IDE_CONFIG
-For phpstorm it should hold a value like "serverName=wmff" - where wmff is configured
+For phpstorm it should hold a value like "serverName=wmf" - where wmf is configured
 as a deployment server in phpstorm. If you are using drush then the site alias will set
-this variable - e.g drush @wmff will run drush in the context of the wmff.localhost
+this variable - e.g drush @wmf will run drush in the context of the wmf.localhost
 site, including the PHP_IDE_CONFIG.serverName key.
 
 You can set a system default for this variable (or set any other environment variable)
