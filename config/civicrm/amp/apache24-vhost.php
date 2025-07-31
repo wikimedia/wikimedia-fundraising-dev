@@ -20,6 +20,9 @@
     <?php if ($host == "wmff.localhost") { ?>
     ServerAlias wmff.civicrm
     <?php } ?>
+	<?php if ($host == "wmf.localhost") { ?>
+    ServerAlias wmf.civicrm
+	<?php } ?>
 
     ErrorLog "| /usr/bin/logger -thttpd -plocal6.err"
     CustomLog "| /usr/bin/logger -thttpd -plocal6.notice" combined

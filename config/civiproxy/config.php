@@ -22,7 +22,7 @@
 $proxy_base     = 'https://localhost:9005/';
 
 // this should point to the target CiviCRM system
-$target_civicrm = 'https://wmff.civicrm:9001';
+$target_civicrm = 'https://wmf.civicrm:9001';
 
 
 /****************************************************************
