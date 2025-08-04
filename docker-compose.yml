@@ -256,21 +256,6 @@ services:
      - FR_DOCKER_GID
      - PYTHONPATH=/etc/fundraising:/srv/django-banner-stats/packages
 
-  gr4vy:
-      <<: *common-settings
-      ports:
-          - "${GR4VY_PORT:-9012}:9001"
-      networks: [ "default" ]
-      volumes:
-          - ./src/gr4vy:/var/www/html
-          - ./config-private/gr4vy:/srv/config/private
-      environment:
-          - GR4VY_KEY_DIR=/srv/config/private
-          - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
-          - FR_DOCKER_UID
-          - FR_DOCKER_GID
-          - FR_DOCKER_SERVICE_NAME=gr4vy
-
   database:
     image: mariadb:10.4
     ports:

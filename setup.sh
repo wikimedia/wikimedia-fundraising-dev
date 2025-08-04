@@ -29,7 +29,6 @@ display_help() {
   echo "  --smashpig                    Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)"
   echo "  --django                      Set up DjangoBannerStats"
-  echo "  --gr4vy                       Set up Gr4vy POC repo"
   echo "  --privatebin                  Set up PrivateBin"
   echo "  --config-private              Set up config-private repo"
   echo

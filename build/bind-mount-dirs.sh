@@ -13,5 +13,4 @@ mkdir -p ./src/smashpig/
 mkdir -p ./src/civiproxy/
 mkdir -p ./src/tools/
 mkdir -p ./src/django-banner-stats/
-mkdir -p ./src/gr4vy
 mkdir -p ./logs/
