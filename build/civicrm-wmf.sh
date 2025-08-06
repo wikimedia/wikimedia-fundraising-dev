@@ -68,7 +68,7 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
   fi
 
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
-	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild-standalone.conf /srv/civicrm-buildkit/app/civibuild.conf
+	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
   echo "Running civibuild create"

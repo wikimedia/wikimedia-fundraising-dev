@@ -21,7 +21,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
 	# Link config/civicrm/civibuild.conf to required location under buildkit source
-	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild-standalone.conf /srv/civicrm-buildkit/app/civibuild.conf
+	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
   $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create standalone-clean --admin-pass $CIVI_ADMIN_PASS
