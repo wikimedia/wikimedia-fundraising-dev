@@ -15,6 +15,10 @@ paths=(
     "src/tools"
     "src/django-banner-stats"
     "src/donut/extensions/CentralNotice"
+    "src/payments/"
+    "src/donut/"
+    "src/email-pref-ctr/"
+
 )
 
 urls=(
@@ -27,6 +31,9 @@ urls=(
     "https://github.com/wikimedia/wikimedia-fundraising-tools"
     "https://github.com/wikimedia/wikimedia-fundraising-tools-DjangoBannerStats"
     "https://github.com/wikimedia/mediawiki-extensions-CentralNotice"
+    "https://github.com/wikimedia/mediawiki"
+    "https://github.com/wikimedia/mediawiki"
+    "https://github.com/wikimedia/mediawiki"
 )
 
 # Loop through the directories
