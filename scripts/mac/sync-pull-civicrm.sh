@@ -2,9 +2,9 @@
 CONTAINER_ID=civicrm
 
 # copy remote civicrm source to local
-docker compose cp "${CONTAINER_ID}:/srv/civi-sites/wmff.sh" "./src/civi-sites/wmff.sh"
-echo "container => local: sync complete - ./src/civi-sites/wmff.sh:/srv/civi-sites/wmff.sh"
+docker compose cp "${CONTAINER_ID}:/srv/civi-sites/wmf.sh" "./src/civi-sites/wmf.sh"
+echo "container => local: sync complete - ./src/civi-sites/wmf.sh:/srv/civi-sites/wmf.sh"
 
-docker compose cp "${CONTAINER_ID}:/srv/civi-sites/wmff/" /srv/civi-sites
+docker compose cp "${CONTAINER_ID}:/srv/civi-sites/wmf/" /srv/civi-sites
 
-echo "container => local: sync complete - /srv/civi-sites/wmff:./src/civi-sites/wmff"
+echo "container => local: sync complete - /srv/civi-sites/wmf:./src/civi-sites/wmf"

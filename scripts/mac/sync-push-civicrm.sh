@@ -2,13 +2,13 @@
 CONTAINER_ID=civicrm
 
 if [ -f "./src/civi-sites/wmff.sh" ]; then
-  docker compose cp "./src/civi-sites/wmff.sh" "${CONTAINER_ID}:/srv/civi-sites/wmff.sh"
-  echo "local => container: sync complete - ./src/civi-sites/wmff.sh:/srv/civi-sites/wmff.sh"
+  docker compose cp "./src/civi-sites/wmf.sh" "${CONTAINER_ID}:/srv/civi-sites/wmf.sh"
+  echo "local => container: sync complete - ./src/civi-sites/wmf.sh:/srv/civi-sites/wmf.sh"
 fi
 
-if [ -d "./src/civi-sites/wmff" ]; then
-  docker compose cp "./src/civi-sites/wmff" "${CONTAINER_ID}:/srv/civi-sites/"
-  echo "local => container: sync complete - ./src/civi-sites/wmff:/srv/civi-sites/wmff"
+if [ -d "./src/civi-sites/wmf" ]; then
+  docker compose cp "./src/civi-sites/wmf" "${CONTAINER_ID}:/srv/civi-sites/"
+  echo "local => container: sync complete - ./src/civi-sites/wmf:/srv/civi-sites/wmf"
 else
-  echo "Directory not found: ./src/civi-sites/wmff"
+  echo "Directory not found: ./src/civi-sites/wmf"
 fi
