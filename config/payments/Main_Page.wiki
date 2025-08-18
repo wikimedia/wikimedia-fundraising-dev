@@ -35,6 +35,9 @@ Donate links:
 ** Adyen Apple Pay
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=0&uselang=en&language=en&currency=USD&amount=1.21&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Apple Pay in US, English, USD]
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Apple Pay in US, English, USD]
+** Adyen SEPA
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=0&uselang=en&language=en&currency=EUR&amount=5&country=NL&debug=true}} SEPA Direct Debit in NL, English, EUR]
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=FR&debug=true}} Recurring SEPA Direct Debit in FR, English, EUR]
 ** dLocal
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in BR, English, BRL]
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Credit card in BR, English, BRL]
