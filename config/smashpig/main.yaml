@@ -1,15 +1,11 @@
-data-store:
-  # TODO check the FIXME below, copied from Vagrant
-  # FIXME some way to reuse this between config files
-  redis: &REDIS
-    class: PHPQueue\Backend\Predis
-    constructor-parameters:
-      -
-        servers:
-          scheme: tcp
-          host: queues
-          port: 6379
+redis: &REDIS
+  servers:
+    scheme: tcp
+    host: queues
+    port: 6379
+    read_write_timeout: -1
 
+data-store:
   donorprefsredis: &DPREDIS
     class: PHPQueue\Backend\Predis
     constructor-parameters:
@@ -40,58 +36,129 @@ data-store:
       - drupal
 
   banner-history:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: banner-history
 
   contribution-tracking:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: contribution-tracking
 
   donations:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: donations
 
   jobs-adyen:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-adyen
 
   jobs-amazon:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-amazon
 
   jobs-dlocal:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-dlocal
 
   jobs-ingenico:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-ingenico
 
   jobs-paypal:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-paypal
 
   jobs-braintree:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-braintree
 
   jobs-gravy:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-gravy
 
   opt-in:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: opt-in
 
   payments-antifraud:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: payments-antifraud
 
   payments-init:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
 
   pending:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: pending
 
   recurring:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: recurring
 
   refund:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: refund
 
   unsubscribe:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: unsubscribe
 
   upi-donations:
-    <<: *REDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: upi-donations
 
   email-preferences:
     <<: *DPREDIS
