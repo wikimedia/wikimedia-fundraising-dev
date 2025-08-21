@@ -5,15 +5,13 @@ redis: &REDIS
     port: 6379
     read_write_timeout: -1
 
+donorprefsredis: &DPREDIS
+  servers:
+    scheme: tcp
+    host: donorprefsqueues
+    port: 6379
+
 data-store:
-  donorprefsredis: &DPREDIS
-    class: PHPQueue\Backend\Predis
-    constructor-parameters:
-      -
-        servers:
-          scheme: tcp
-          host: donorprefsqueues
-          port: 6379
 
   mysql: &MYSQL
     class: PDO
@@ -161,22 +159,31 @@ data-store:
         queue: upi-donations
 
   email-preferences:
-    <<: *DPREDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *DPREDIS
+        queue: email-preferences
 
   recurring-modify:
-    <<: *DPREDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *DPREDIS
+        queue: recurring-modify
 
   new-checksum-link:
-    <<: *DPREDIS
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *DPREDIS
+        queue: new-checksum-link
 
 cache:
   class: SmashPig\Core\Cache\PredisCache
   constructor-parameters:
     -
-      servers:
-        scheme: tcp
-        host: queues
-        port: 6379
+      <<: *REDIS
 
 # This is where the host directory config-private/smashpig appears in the container
 # (Production equivalent comes from localsettings/local-config.)
@@ -187,10 +194,7 @@ sequence-generator:
     class: SmashPig\Core\SequenceGenerators\PredisSequenceGenerator
     constructor-parameters:
       -
-        servers:
-          scheme: tcp
-          host: queues
-          port: 6379
+        <<: *REDIS
         sequence: contribution-tracking
 
 mail-backend:
