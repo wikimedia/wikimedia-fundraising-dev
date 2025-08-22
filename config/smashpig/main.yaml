@@ -179,6 +179,13 @@ data-store:
         <<: *DPREDIS
         queue: new-checksum-link
 
+  set-primary-email:
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *DPREDIS
+        queue: set-primary-email
+
 cache:
   class: SmashPig\Core\Cache\PredisCache
   constructor-parameters:

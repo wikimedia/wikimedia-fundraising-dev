@@ -101,6 +101,9 @@ data-store:
   new-checksum-link:
     <<: *DPREDIS
 
+  set-primary-email:
+    <<: *DPREDIS
+
 cache:
   class: SmashPig\Core\Cache\PredisCache
   constructor-parameters:
