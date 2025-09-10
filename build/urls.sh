@@ -30,6 +30,7 @@ printf "${MAGENTA}Donate/Donut Wiki HTTP URL:${RESET} http://localhost:$DONUT_HT
 printf "${MAGENTA}Donate/Donut Wiki Central Notice URL:${RESET} http://localhost:$DONUT_HTTP_PORT/w/index.php?title=Special:UserLogin&returnto=Special:CentralNotice\n"
 printf "\n"
 printf "${RED}E-mail Preference Center URL:${RESET} https://localhost:$EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences\n"
+printf "${RED}Donor Portal URL:${RESET} https://localhost:$EMAIL_PREF_CTR_PORT/index.php?title=Special:DonorPortal\n"
 printf "${BLUE}SmashPig IPN listener Test URL:${RESET} https://paymentsipntest$PROXY_FORWARD_ID.wmcloud.org (see README.md)\n"
 printf "\n"
 printf "${CYAN}Gr4vy Embed Form Proof-of-concept:${RESET} http://localhost:$GR4VY_PORT/embedded-checkout.php\n"
