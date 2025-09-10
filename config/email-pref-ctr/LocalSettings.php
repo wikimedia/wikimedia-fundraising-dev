@@ -357,3 +357,6 @@ $wgDonationInterfaceLogDebug = true;
 ### Include optional settings not tracked by git
 if ( file_exists ( '/srv/config/exposed/email-pref-ctr/LocalSettings-local.php' ) )
     require( '/srv/config/exposed/email-pref-ctr/LocalSettings-local.php' );
+
+### Uncomment to use mock data with Donor Portal
+# require( 'DonorPortalMockData.php' );
