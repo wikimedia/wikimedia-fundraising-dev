@@ -30,11 +30,11 @@ Donate links:
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&payment_submethod=jcb&recurring=&uselang=ja&language=en&currency=JPY&country=JP&amount=250&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} JCB in JP, Japanese, JPY]
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&payment_submethod=jcb&recurring=1&uselang=ja&language=en&currency=JPY&country=JP&amount=250&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring JCB in JP, Japanese, JPY]
 ** Adyen Google Pay
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=google&recurring=0&uselang=en&language=en&currency=USD&amount=1.21&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Google Pay in US, English, USD]
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=google&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Google Pay in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=google&recurring=0&uselang=en&language=en&currency=USD&amount=1.21&country=US&debug=true}} Google Pay in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=google&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&debug=true}} Recurring Google Pay in US, English, USD]
 ** Adyen Apple Pay
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=0&uselang=en&language=en&currency=USD&amount=1.21&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Apple Pay in US, English, USD]
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Apple Pay in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=0&uselang=en&language=en&currency=USD&amount=1.21&country=US&debug=true}} Apple Pay in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&debug=true}} Recurring Apple Pay in US, English, USD]
 ** Adyen SEPA
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=0&uselang=en&language=en&currency=EUR&amount=5&country=NL&debug=true}} SEPA Direct Debit in NL, English, EUR]
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=FR&debug=true}} Recurring SEPA Direct Debit in FR, English, EUR]
@@ -68,8 +68,8 @@ Donate links:
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=paypal&recurring=0&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} PayPal in US, English, USD]
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=paypal&recurring=1&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} Recurring PayPal in US, English, USD]
 ** Venmo
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=venmo&recurring=0&uselang=en&language=en&currency=USD&amount=12.23&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Venmo in US, English, USD]
-*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=venmo&recurring=1&uselang=en&language=en&currency=USD&amount=12.23&country=US&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Venmo in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=venmo&recurring=0&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} Venmo in US, English, USD]
+*** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=venmo&recurring=1&uselang=en&language=en&currency=USD&amount=12.23&country=US&debug=true}} Recurring Venmo in US, English, USD]
 * Adyen Checkout
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=USD&amount=10&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Credit card in US, English, USD]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=USD&amount=10&country=US&first_name=Jimmy&last_name=Wales&street_address=1+Montgomery+Street&city=San+Francisco&state_province=CA&postal_code=94104&email=jwales%40example.com&debug=true}} Recurring credit card in US, English, USD]
