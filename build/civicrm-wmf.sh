@@ -90,9 +90,9 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 
   echo
   echo "**** Backing up CiviCRM Standalone databases"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot wmfcivi > ./.backup/sql/wmfcivi.sql
-  echo "wmfcivi.sql added to .backup/sql"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot wmftest > ./.backup/sql/wmftest.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civicrm > ./.backup/sql/civicrm.sql
+  echo "civicrm.sql added to .backup/sql"
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civitest > ./.backup/sql/civitest.sql
   echo "wmftest.sql added to .backup/sql"
   echo
   echo "**** CiviCRM Standalone databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-wmf.sh"

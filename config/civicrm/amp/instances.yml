@@ -16,24 +16,6 @@
     root: /srv/civi-sites/dmaster/web
     url: null
     visibility: null
-'/srv/civi-sites/wmff/drupal::cms':
-    name: cms
-    dsn: 'mysql://drupal:drupal@database:3306/drupal?new_link=true'
-    root: /srv/civi-sites/wmff/drupal
-    url: 'https://wmff.localhost:32353'
-    visibility: null
-'/srv/civi-sites/wmff/drupal::civi':
-    name: civi
-    dsn: 'mysql://civicrm:civicrm@database:3306/civicrm?new_link=true'
-    root: /srv/civi-sites/wmff/drupal
-    url: null
-    visibility: null
-'/srv/civi-sites/wmff/drupal::test':
-    name: test
-    dsn: 'mysql://wmff_test:wmff_test@database:3306/wmff_test?new_link=true'
-    root: /srv/civi-sites/wmff/drupal
-    url: null
-    visibility: null
 '/srv/civi-sites/standalone-clean/web::cms':
     name: cms
     dsn: 'mysql://standalone_cms:standalone_cms@database:3306/standalone_cms?new_link=true'
@@ -78,13 +60,13 @@
     visibility: null
 '/srv/civi-sites/wmf::civi':
     name: civi
-    dsn: 'mysql://civicrm:civicrm@database:3306/wmfcivi?new_link=true'
+    dsn: 'mysql://civicrm:civicrm@database:3306/civicrm?new_link=true'
     root: /srv/civi-sites/wmf
     url: null
     visibility: null
 '/srv/civi-sites/wmf::test':
     name: test
-    dsn: 'mysql://wmftest:wmftest@database:3306/wmftest?new_link=true'
+    dsn: 'mysql://wmftest:wmftest@database:3306/civitest?new_link=true'
     root: /srv/civi-sites/wmf
     url: null
     visibility: null
