@@ -16,4 +16,4 @@ echo -e "${BLUE}Running ${GREEN}new-checksum-link${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=NewChecksumLink queueName=new-checksum-link 2>&1 | tail -n +18
 
 echo -e "${BLUE}Running ${GREEN}set-primary-email${BLUE} queue consumer${NC}"
-docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=SetPrimaryEmail queueName=set-primary-email 2>&1 | tail -n +18
+docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=VerifyEmail queueName=set-primary-email 2>&1 | tail -n +18
