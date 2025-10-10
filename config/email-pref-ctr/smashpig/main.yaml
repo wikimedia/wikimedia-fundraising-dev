@@ -69,7 +69,7 @@ data-store:
     <<: *REDIS
 
   opt-in:
-    <<: *REDIS
+    <<: *DPREDIS
 
   payments-antifraud:
     <<: *REDIS
@@ -87,7 +87,7 @@ data-store:
     <<: *REDIS
 
   unsubscribe:
-    <<: *REDIS
+    <<: *DPREDIS
 
   upi-donations:
     <<: *REDIS
@@ -101,7 +101,7 @@ data-store:
   new-checksum-link:
     <<: *DPREDIS
 
-  set-primary-email:
+  verify-email:
     <<: *DPREDIS
 
 cache:
