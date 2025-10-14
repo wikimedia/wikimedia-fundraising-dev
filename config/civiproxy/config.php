@@ -136,8 +136,16 @@ $rest_allowed_actions = [
       'getDonorSummary' => [
         'checksum' => 'string',
         'contact_id' => 'int',
+      ],
+      'doubleOptIn' => [
+        'checksum' => 'string',
+        'contact_id' => 'int',
+        'email' => 'string',
+        'campaign' => 'string',
+        'medium' => 'string',
+        'source' => 'string',
       ]
-    ],
+	],
   ],
 ];
 
