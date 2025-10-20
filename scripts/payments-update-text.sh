@@ -15,3 +15,5 @@ docker compose exec -T -w "/var/www/html/" \
 	payments php maintenance/edit.php Template:LanguageSwitch < config/payments/LanguageSwitch.wiki
 docker compose exec -T -w "/var/www/html/" \
 	payments php maintenance/edit.php Template:2011FR/JimmyQuote/text/en < config/payments/Appeal.wiki
+docker compose exec -T -w "/var/www/html/" \
+	payments php maintenance/edit.php Template:2011FR/WP25/text/en < config/payments/Appeal-WP25.wiki
