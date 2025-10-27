@@ -24,7 +24,7 @@ display_help() {
   echo "  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer"
   echo "  --payments                    Set up PaymentsWiki"
   echo "  --donut                       Set up Donate/Donut Wiki"
-  echo "  --email-prefs                 Set up Email-Preference Centre Wiki"
+  echo "  --email-prefs                 Set up Email-Pref/Donor Portal Wiki"
   echo "  --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)"
   echo "  --smashpig                    Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)"
