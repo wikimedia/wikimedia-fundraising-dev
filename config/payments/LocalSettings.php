@@ -427,7 +427,10 @@ $wgDonationInterfaceEnableBannerHistoryLog = true;
 # settings for related stuff. TODO Check this.
 $wgDonationInterfaceEnableMinFraud = false;
 
-$wgDonationInterfaceThankYouPage = 'https://thankyou.wikipedia.org/wiki/Thank_You';
+$wgDonationInterfaceThankYouPage = [
+	'default' => 'https://thankyou.wikipedia.org/wiki/Thank_You',
+	'WP25' => 'https://thankyou.wikipedia.org/wiki/WP25'
+];
 $wgDonationInterfacePriceCeiling = 12000;
 
 # Value on staging: 'http://wikimediafoundation.org/wiki/DonateNonJS/en'
