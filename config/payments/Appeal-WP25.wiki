@@ -115,6 +115,10 @@
       font-size: 14px;
     }
 
+    #wp25 p.attribution {
+      font-size: 13px;
+    }
+
     #wp25 div.text-box {
       display: flex;
       flex-direction: row;
@@ -433,7 +437,7 @@
   <section id="wp25" class="display-ds">
     <h2>Celebrating 25 years of<br />knowledge at its best</h2>
 
-    <img class="hero-image" src="/extensions/DonationInterface/resources/appeal/wp25/Inle-floating-market.png" alt="Image of Inle floating market in Myanmar. Merchants in traditional attire navigate boats laden with goods." width="640" height="327" />
+    <img class="hero-image" src="/extensions/DonationInterface/resources/appeal/wp25/W25-landing-page-main-image.png" alt="Astronaut Samantha Cristoforetti on the ISS" width="640" height="327" />
 
     <div class="copy">
       <p class="paragraph">After 25 years, Wikipedia is still here. What started as a wildly ambitious and probably impossible dream is now an essential knowledge resource for humanity—funded by readers like you and filled with knowledge shared by volunteers all over the world.</p>
@@ -447,6 +451,10 @@
           <path d="M28.0231 8.6177C30.6334 11.2311 32.0572 14.7084 32.0572 18.3801C32.0572 22.0518 30.6118 25.5507 28.0231 28.1425C25.4128 30.7559 21.9395 32.1814 18.2722 32.1814C14.6048 32.1814 11.11 30.7343 8.52126 28.1425C5.93252 25.5507 4.46557 22.0734 4.46557 18.3801C4.46557 14.6868 5.91095 11.2095 8.49969 8.6177C8.71542 8.40172 8.95272 8.18574 9.19002 7.96975L6.04039 4.81641C5.80309 5.03239 5.58736 5.24837 5.35006 5.46435C3.66738 7.14902 2.35144 9.09286 1.44538 11.2743C0.496175 13.5205 0 15.9179 0 18.3801C0 20.8423 0.474602 23.2397 1.44538 25.486C2.37301 27.6674 3.68895 29.6112 5.35006 31.2959C7.03274 32.9806 8.97429 34.298 11.1531 35.2052C13.3967 36.1555 15.7913 36.6523 18.2506 36.6523C20.7099 36.6523 23.1045 36.1771 25.3481 35.2052C27.5269 34.2764 29.4685 32.959 31.1511 31.2959C32.8338 29.6112 34.1498 27.6674 35.0558 25.486C36.005 23.2397 36.5012 20.8423 36.5012 18.3801C36.5012 15.9179 36.0266 13.5205 35.0558 11.2743C34.1282 9.09286 32.8122 7.14902 31.1511 5.46435C30.9354 5.24837 30.6981 5.03239 30.4608 4.81641L27.3328 7.96975C27.5701 8.16414 27.7858 8.38012 28.0231 8.6177Z" fill="black"/><path d="M16.6759 15.4644V29.5249C11.218 28.7474 7.0329 24.0602 7.0329 18.3799C7.03297 14.9243 8.58618 11.836 11.0238 9.78418L16.6759 15.4644ZM25.4989 9.80566C27.9367 11.8791 29.4899 14.9461 29.4899 18.4019C29.4898 24.0605 25.3047 28.7474 19.8468 29.5249V15.4644L25.4989 9.80566Z" fill="black"/><path d="M18.2506 11.4039C21.396 11.4039 23.9458 8.85104 23.9458 5.70194C23.9458 2.55285 21.396 0 18.2506 0C15.1052 0 12.5554 2.55285 12.5554 5.70194C12.5554 8.85104 15.1052 11.4039 18.2506 11.4039Z" fill="black"/>
       </svg>
       <p class="paragraph">The Wikimedia Foundation is the nonprofit that hosts Wikipedia, supporting the people and technology that enable reliable information to be shared with the world.</p>
+    </div>
+
+    <div class="copy">
+      <p class="attribution"><a target="_blank" href="https://commons.wikimedia.org/wiki/File:ISS-42_Samantha_Cristoforetti_Leonard_Nimoy_tribute.jpg">Image of Astronaut Samantha Cristoforetti on the ISS</a> by ESA/NASA is licensed under <a target="_blank" href="https://creativecommons.org/licenses/by-sa/3.0/igo/deed.en">CC BY-SA 3.0 IGO</a></p>
     </div>
   </section>
 
