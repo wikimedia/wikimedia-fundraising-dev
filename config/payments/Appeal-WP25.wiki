@@ -383,7 +383,9 @@
       #wp25-mb h2, #wp25-mb p {
         margin: 0;
       }
+    }
 
+    @media screen and (max-width: 1069px) {
       div.mw-body-content{
         background: white;
       }
