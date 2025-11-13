@@ -383,6 +383,18 @@
       #wp25-mb h2, #wp25-mb p {
         margin: 0;
       }
+
+      div.mw-body-content{
+        background: white;
+      }
+
+      body #donate {
+        padding: 16px 20px;
+      }
+
+      #mw-content-text div[style="line-height: 1px;"] {
+        display:none;
+      }
     }
 
   </style>
