@@ -23,9 +23,6 @@ docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WM
 echo -e "${BLUE}Running ${GREEN}recurring${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=Recurring queueName=recurring 2>&1 | tail -n +18
 
-echo -e "${BLUE}Running ${GREEN}recurring-modify${BLUE} queue consumer${NC}"
-docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=RecurringModify queueName=recurring-modify 2>&1 | tail -n +18
-
 echo -e "${BLUE}Running ${GREEN}upi-donations${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=UpiDonations queueName=upi-donations 2>&1 | tail -n +18
 
