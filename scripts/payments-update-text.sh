@@ -23,3 +23,5 @@ docker compose exec -T -w "/var/www/html/" \
 	payments php maintenance/edit.php Template:2011FR/WP25/text/fr < config/payments/Appeal-WP25.fr.wiki
 docker compose exec -T -w "/var/www/html/" \
 	payments php maintenance/edit.php Template:2011FR/WP25/text/pt-br < config/payments/Appeal-WP25.pt-br.wiki
+docker compose exec -T -w "/var/www/html/" \
+	payments php maintenance/edit.php Template:2011FR/WP25/text/ja < config/payments/Appeal-WP25.ja.wiki
