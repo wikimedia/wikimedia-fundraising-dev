@@ -25,6 +25,7 @@ display_help() {
   echo "  --payments                    Set up PaymentsWiki"
   echo "  --donut                       Set up Donate/Donut Wiki"
   echo "  --email-prefs                 Set up Email-Pref/Donor Portal Wiki"
+  echo "  --fraud-scoring               Set up Fraud scoring service"
   echo "  --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)"
   echo "  --smashpig                    Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)"
@@ -126,6 +127,10 @@ setup_donut() {
 
 setup_email_prefs() {
   time source "$SETUP_DIR/email-prefs.sh"
+}
+
+setup_fraud_scoring() {
+  time source "$SETUP_DIR/fraud-scoring.sh"
 }
 
 setup_civiproxy() {
@@ -246,6 +251,11 @@ for arg in "$@"; do
     create_xdebug_ini "email-pref-ctr"
     setup_email_prefs
     ;;
+  --fraud-scoring)
+    init
+    announce_install "Fraud scoring service"
+    setup_fraud_scoring
+    ;;
   --smashpig)
     init
     announce_install "SmashPig"
@@ -288,6 +298,7 @@ for arg in "$@"; do
       "CiviCRM Core"
       "Fundraising Tools"
       "PrivateBin"
+      "Fraud scoring service"
     )
     init
     announce_install "${apps[@]}"
@@ -298,6 +309,7 @@ for arg in "$@"; do
       setup_donut
       setup_civiproxy
       setup_email_prefs
+      setup_fraud_scoring
       setup_smashpig
       setup_civicrm_buildkit
       setup_civicrm

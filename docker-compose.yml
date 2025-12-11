@@ -232,7 +232,25 @@ services:
     platform: linux/amd64
     networks: [ "default" ]
     volumes:
-        - ./src/tools/:/srv/tools/
+      - ./src/tools/:/srv/tools/
+    environment:
+     - FR_DOCKER_UID
+     - FR_DOCKER_GID
+
+  fraud-scoring:
+    image: docker-registry.wikimedia.org/dev/fundraising-fraud-scoring-bookworm:0.1
+    depends_on:
+      - memcached
+    user: *user
+    tty: true
+    platform: linux/amd64
+    networks: [ "default" ]
+    volumes:
+      - ./config/:/srv/config/exposed/
+      - ./config-private/:/srv/config/private/
+      - ./src/fraud-scoring/:/srv/fraud-scoring/
+    ports:
+      - "${FRAUD_SCORING_PORT:-9012}:5000"
     environment:
      - FR_DOCKER_UID
      - FR_DOCKER_GID
