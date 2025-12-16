@@ -35,7 +35,7 @@ ssh_args="
  -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes
  -R $payments_remote_port:localhost:$PAYMENTS_HTTP_PORT\
  -R $ipn_remote_port:localhost:$SMASHPIG_PORT\
- payments.fr-tech-dev
+ payments-trixie.fr-tech-dev
 "
 
 output_msg="
