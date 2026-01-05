@@ -30,8 +30,8 @@ data-store:
     class: PDO
     constructor-parameters:
       - mysql:host=database;dbname=fredge
-      - drupal
-      - drupal
+      - civicrm
+      - civicrm
 
   banner-history:
     class: PHPQueue\Backend\Predis
