@@ -60,6 +60,19 @@ echo
 
 echo "**** Smashpig Database Setup"
 
+read -p "Drop old Smashpig database? [yN] " -r
+echo
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+# Create SQL script
+  cat <<EOF >/tmp/smashpig_setup.sql
+DROP DATABASE IF EXISTS smashpig;
+EOF
+
+$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mysql </tmp/smashpig_setup.sql
+fi
+
 read -p "Create Smashpig database and db user? [yN] " -r
 echo
 
