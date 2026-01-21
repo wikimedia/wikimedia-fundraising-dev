@@ -4,7 +4,7 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Fetch the contribution-tracking sequence
-sequence=$( "${script_dir}/queues-redis-cli.sh" GET sequence_contribution-tracking )
+sequence=$( "${script_dir}/queues-cli.sh" GET sequence_contribution-tracking )
 
 if [ $? -eq 0 ]; then
     if [ -n "$sequence" ]; then
