@@ -146,6 +146,12 @@ $rest_allowed_actions = [
         'source' => 'string',
       ]
 	],
+    'Contact' => [
+      'InvalidateChecksum' => [
+        'checksum' => 'string',
+        'contactId' => 'int',
+      ]
+    ],
   ],
 ];
 
