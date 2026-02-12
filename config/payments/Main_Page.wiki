@@ -89,6 +89,8 @@ Donate links:
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=dd&payment_submethod=ach&recurring=1&uselang=en&language=en&currency=USD&amount=15&country=US&debug=true}} Recurring ACH Direct Debit in US, English, USD]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=0&uselang=en&language=en&currency=EUR&amount=5&country=NL&debug=true}} SEPA Direct Debit in NL, English, EUR]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=FR&debug=true}} Recurring SEPA Direct Debit in FR, English, EUR]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ew&payment_submethod=vipps&recurring=0&uselang=en&language=en&currency=NOK&amount=20&country=NO&debug=true}} Vipps in NO, English, NOK]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ew&payment_submethod=vipps&recurring=0&uselang=nb&language=nb&currency=NOK&amount=20&country=NO&debug=true}} Vipps in NO, Norwegian Bokmal, NOK]
 
 * Amazon
 ** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&debug=true}} In US, no language specified, USD]
