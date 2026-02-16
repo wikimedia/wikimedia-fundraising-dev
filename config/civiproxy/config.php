@@ -144,14 +144,17 @@ $rest_allowed_actions = [
         'campaign' => 'string',
         'medium' => 'string',
         'source' => 'string',
-      ]
-	],
+      ],
+    ],
     'Contact' => [
       'InvalidateChecksum' => [
         'checksum' => 'string',
         'contactId' => 'int',
       ]
     ],
+    'System' => [
+      'getCiviCRMStatus' => [],
+    ]
   ],
 ];
 
