@@ -22,6 +22,7 @@ display_help() {
   echo "  --civicrm-core                Set up CiviCRM Core (for upstream testing)"
   echo "  --civicrm-standalone          Set up CiviCRM Standalone"
   echo "  --civicrm-standalone-composer Set up CiviCRM Standalone with Composer"
+  echo "  --core                        Set up vanilla Core MediaWiki"
   echo "  --payments                    Set up PaymentsWiki"
   echo "  --donut                       Set up Donate/Donut Wiki"
   echo "  --email-prefs                 Set up Email-Pref/Donor Portal Wiki"
@@ -116,6 +117,10 @@ setup_civicrm_standalone_composer() {
   time source "$SETUP_DIR/civicrm-standalone-composer.sh"
 }
 
+setup_core() {
+  time source "$SETUP_DIR/core.sh"
+}
+
 setup_payments() {
   source "$SETUP_DIR/proxy.sh"
   time source "$SETUP_DIR/payments.sh"
@@ -200,6 +205,9 @@ for arg in "$@"; do
     # ignore --skip-reclone due to being handled in the first block
   --skip-reclone)
     ;;
+  branch=*)
+    MW_CORE_BRANCH="${arg#branch=}"
+    ;;
   ## Build flags
   --civicrm)
     init
@@ -226,6 +234,13 @@ for arg in "$@"; do
     announce_install "CiviCRM Buildkit" "CiviCRM Standalone on Composer"
     setup_civicrm_buildkit
     setup_civicrm_standalone_composer
+    ;;
+  --core)
+    init
+    announce_install "Core Wiki"
+    create_xdebug_ini "core"
+    create_debug_ini "core"
+    setup_core
     ;;
   --payments)
     init
@@ -288,6 +303,7 @@ for arg in "$@"; do
     ;;
   --full)
     apps=(
+      "Core Wiki"
       "Payments Wiki"
       "Donate/Donut Wiki"
       "Email Preference Center Wiki"
@@ -305,6 +321,7 @@ for arg in "$@"; do
     create_xdebug_ini_all
     create_debug_ini_all
     time (
+      setup_core
       setup_payments
       setup_donut
       setup_civiproxy

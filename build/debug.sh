@@ -25,6 +25,7 @@ create_debug_ini_all() {
   declare -a debug_config_files=(
     "civicrm"
     "civiproxy"
+    "core"
     "payments"
     "privatebin"
     "email-pref-ctr"

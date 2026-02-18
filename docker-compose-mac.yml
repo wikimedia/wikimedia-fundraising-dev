@@ -51,6 +51,26 @@ services:
             # Provide the name of the service to find the right xdebug.ini files
             - FR_DOCKER_SERVICE_NAME=payments
 
+    core:
+        <<: *common-settings
+        depends_on:
+            - database
+            - logger
+        ports:
+            - "${CORE_PORT:-9013}:9001"
+            - "${CORE_HTTP_PORT:-9014}:9002"
+        networks: [ "default" ]
+        volumes:
+            - ./src/core/:/var/www/html/:cached
+            - ./config/:/srv/config/exposed/
+        environment:
+            - *logger-host
+            - COMPOSER_CACHE_DIR=/var/www/html/cache/composer
+            - FR_DOCKER_MW_PORT=${CORE_PORT:-9013}
+            - FR_DOCKER_UID
+            - FR_DOCKER_GID
+            - FR_DOCKER_SERVICE_NAME=core
+
     donut:
         <<: *common-settings
         depends_on:

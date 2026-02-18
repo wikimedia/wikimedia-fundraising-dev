@@ -19,14 +19,16 @@ Fundraising-dev setup script.
   --civicrm-core                Set up CiviCRM Core (for upstream testing)
   --civicrm-standalone          Set up CiviCRM Standalone
   --civicrm-standalone-composer Set up CiviCRM Standalone with Composer
+  --core                        Set up vanilla Core MediaWiki
+  --core branch=BRANCH          Set Core MediaWiki branch (default: master)
   --payments                    Set up PaymentsWiki
   --donut                       Set up Donate/Donut Wiki
-  --email-prefs                 Set up Email-Preference Centre Wiki
+  --email-prefs                 Set up Email-Pref/Donor Portal Wiki
+  --fraud-scoring               Set up Fraud scoring service
   --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)
   --smashpig                    Set up Smashpig Listeners (IPN testing)
   --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)
   --django                      Set up DjangoBannerStats
-  --gr4vy                       Set up Gr4vy POC repo
   --privatebin                  Set up PrivateBin
   --config-private              Set up config-private repo
 

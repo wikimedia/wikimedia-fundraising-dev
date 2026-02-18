@@ -28,6 +28,7 @@ create_xdebug_ini_all() {
   declare -a xdebug3_config_files=(
     "civicrm"
     "civiproxy"
+    "core"
     "payments"
     "privatebin"
     "email-pref-ctr"
