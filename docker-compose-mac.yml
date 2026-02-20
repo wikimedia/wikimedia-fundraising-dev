@@ -220,6 +220,7 @@ services:
         networks: [ "default" ]
         volumes:
             - ./src/tools/:/srv/tools/
+            - ./config/tools/output/:/tmp/
         environment:
             - FR_DOCKER_UID
             - FR_DOCKER_GID

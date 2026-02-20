@@ -58,3 +58,6 @@ docker-compose.override.yml
 
 # Eclipse project files
 .project
+
+# exclude tools output files
+config/tools/output
