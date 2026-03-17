@@ -37,6 +37,8 @@ Donate links:
 *** [{{fullurl:Special:GravyGateway|title=Special:GravyGateway&appeal=JimmyQuote&payment_method=apple&recurring=1&uselang=en&language=en&currency=USD&amount=1.25&country=US&debug=true}} Recurring Apple Pay in US, English, USD]
 ** Adyen SEPA
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=0&uselang=en&language=en&currency=EUR&amount=5&country=NL&debug=true}} SEPA Direct Debit in NL, English, EUR]
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=rtbt_ideal&recurring=0&uselang=en&language=en&currency=EUR&amount=2.75&country=NL&debug=true}} iDeal Direct Debit in NL, English, EUR]
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=rtbt_ideal&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=NL&debug=true}} Recurring iDeal in NL, English, EUR]
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=FR&debug=true}} Recurring SEPA Direct Debit in FR, English, EUR]
 ** Adyen Online Banking (CZ)
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=bt&payment_submethod=onlineBanking_CZ&recurring=0&uselang=en&language=en&currency=CZK&amount=50&country=CZ&debug=true}} Online Banking CZ in CZ, English, CZK]
