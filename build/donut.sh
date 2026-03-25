@@ -17,7 +17,7 @@ if $(ask_reclone $DONUT_SRC_DIR "Donut wiki repo"); then
   find "${DONUT_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone donut with gerrit hooks
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+  git clone $(make_gerrit_url mediawiki/core) \
     --depth=10 --no-single-branch \
     $DONUT_SRC_DIR &&
     (
@@ -50,12 +50,12 @@ EOF
     # Loop over donut wiki extensions and clone
     for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
 		do
-			git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
+			git clone $(make_gerrit_url "mediawiki/extensions/$i") \
 				--depth=10 --no-single-branch && \
 			scp $EXTRA_SCP_OPTION -p -P 29418 ${GIT_REVIEW_USER}@gerrit.wikimedia.org:hooks/commit-msg \
 			"$i/.git/hooks/"
 
-      git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/extensions/$i" \
+      git clone $(make_gerrit_url "mediawiki/extensions/$i") \
       --depth=10 --no-single-branch \
       ${DONUT_SRC_DIR}/extensions/$i &&
       (
@@ -70,7 +70,7 @@ EOF
 
   pushd ${DONUT_SRC_DIR}/skins
 
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/Vector" \
+  git clone $(make_gerrit_url mediawiki/skins/Vector) \
     --depth=10 --no-single-branch && \
     (
       cd "Vector" &&
@@ -80,7 +80,7 @@ EOF
       chmod +x $(git rev-parse --git-dir)/hooks/commit-msg
     )
 
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/MinervaNeue" \
+  git clone $(make_gerrit_url mediawiki/skins/MinervaNeue) \
     --depth=10 --no-single-branch && \
     (
       cd "MinervaNeue" &&

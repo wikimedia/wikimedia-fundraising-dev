@@ -12,7 +12,7 @@ if $(ask_reclone $PRIVATEBIN_SRC_DIR "Privatebin repo"); then
   find "${PRIVATEBIN_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone PrivateBin with gerrit hooks
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/privatebin" \
+  git clone $(make_gerrit_url wikimedia/fundraising/privatebin) \
     $PRIVATEBIN_SRC_DIR &&
     (
       cd "$PRIVATEBIN_SRC_DIR" &&

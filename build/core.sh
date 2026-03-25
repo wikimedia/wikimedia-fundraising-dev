@@ -34,7 +34,7 @@ if $(ask_reclone $CORE_SRC_DIR "Core wiki repo"); then
   find "${CORE_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone core with gerrit hooks
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+  git clone $(make_gerrit_url mediawiki/core) \
     --depth=10 --no-single-branch \
     $CORE_SRC_DIR &&
     (
@@ -51,7 +51,7 @@ if $(ask_reclone $CORE_SRC_DIR "Core wiki repo"); then
   popd
 
   # Clone Vector skin (not bundled as a submodule on master)
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/skins/Vector" \
+  git clone $(make_gerrit_url mediawiki/skins/Vector) \
     --depth=10 --no-single-branch \
     ${CORE_SRC_DIR}/skins/Vector &&
     (

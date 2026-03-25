@@ -10,7 +10,7 @@ if [ $clone_stats = true ]; then
   rm -rf "${DJANGO_BANNER_STATS_SRC_DIR:?}"/*
   find "${DJANGO_BANNER_STATS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools/DjangoBannerStats" \
+  git clone $(make_gerrit_url wikimedia/fundraising/tools/DjangoBannerStats) \
     ${DJANGO_BANNER_STATS_SRC_DIR} && \
     (cd "$DJANGO_BANNER_STATS_SRC_DIR" && \
     mkdir -p `git rev-parse --git-dir`/hooks/ && \

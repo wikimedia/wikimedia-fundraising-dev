@@ -17,7 +17,7 @@ if $(ask_reclone $EMAIL_PREF_CTR_SRC_DIR "E-mail Preference Center wiki repo"); 
   find "${EMAIL_PREF_CTR_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone email-pref-ctr with gerrit hooks
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/mediawiki/core" \
+  git clone $(make_gerrit_url mediawiki/core) \
     --depth=10 --no-single-branch \
     $EMAIL_PREF_CTR_SRC_DIR &&
     (

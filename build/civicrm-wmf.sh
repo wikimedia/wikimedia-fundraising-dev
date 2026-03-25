@@ -22,7 +22,7 @@ if $(ask_reclone "${CIVICRM_SRC_DIR}" "Clone CiviCRM WMF (our version)"); then
   find "${CIVICRM_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
   mkdir -p src/civi-sites
 
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/crm" \
+  git clone $(make_gerrit_url wikimedia/fundraising/crm) \
     ${CIVICRM_SRC_DIR} && \
     (cd "$CIVICRM_SRC_DIR" && \
     mkdir -p `git rev-parse --git-dir`/hooks/ && \

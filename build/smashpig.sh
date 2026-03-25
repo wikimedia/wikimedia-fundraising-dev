@@ -23,7 +23,7 @@ if $(ask_reclone $SMASHPIG_SRC_DIR "Smashpig repo"); then
   find "${SMASHPIG_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
   # Clone Smashpig with gerrit hooks
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/SmashPig" \
+  git clone $(make_gerrit_url wikimedia/fundraising/SmashPig) \
     $SMASHPIG_SRC_DIR &&
     (
       cd "$SMASHPIG_SRC_DIR" &&

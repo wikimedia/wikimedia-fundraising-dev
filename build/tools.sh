@@ -12,7 +12,7 @@ if [ $clone_tools = true ]; then
   rm -rf "${TOOLS_SRC_DIR:?}"/*
   find "${TOOLS_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
-  git clone "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/wikimedia/fundraising/tools" \
+  git clone $(make_gerrit_url wikimedia/fundraising/tools) \
     ${TOOLS_SRC_DIR} && \
     (cd "$TOOLS_SRC_DIR" && \
     mkdir -p `git rev-parse --git-dir`/hooks/ && \

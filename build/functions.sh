@@ -90,3 +90,11 @@ destroy() {
     echo "R.I.P environment. It's no longer with us. ./setup.sh --full to bring it back!"
   fi
 }
+
+make_gerrit_url() {
+  if [ -z "${GIT_REVIEW_USER}" ]; then
+    echo "https://gerrit.wikimedia.org/r/$1"
+  else
+    echo "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/$1"
+  fi
+}
