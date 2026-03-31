@@ -30,17 +30,21 @@ fi
 
 payments_remote_port=$((8000 + PROXY_FORWARD_ID))
 ipn_remote_port=$((8100 + PROXY_FORWARD_ID))
+donorportal_remote_port=$((8200 + PROXY_FORWARD_ID))
 
 ssh_args="
  -N -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes
  -R $payments_remote_port:localhost:$PAYMENTS_HTTP_PORT\
  -R $ipn_remote_port:localhost:$SMASHPIG_PORT\
+ -R $donorportal_remote_port:localhost:$EMAIL_PREF_CTR_HTTP_PORT\
  payments-trixie.fr-tech-dev.eqiad1.wikimedia.cloud
 "
 
 output_msg="
 https://paymentstest$PROXY_FORWARD_ID.wmcloud.org should forward\
  to http://localhost:$PAYMENTS_HTTP_PORT\n\
+https://donorportaltest$PROXY_FORWARD_ID.wmcloud.org should forward\
+ to http://localhost:$EMAIL_PREF_CTR_HTTP_PORT\n\
 https://paymentsipntest$PROXY_FORWARD_ID.wmcloud.org should forward
  to http://localhost:$SMASHPIG_PORT
 "

@@ -132,6 +132,7 @@ services:
 
     ports:
       - "${EMAIL_PREF_CTR_PORT:-9002}:9001"
+      - "${EMAIL_PREF_CTR_HTTP_PORT:-9015}:9002"
     networks: [ "donorprefs" ]
     volumes:
       - ./src/email-pref-ctr/:/var/www/html/:cached

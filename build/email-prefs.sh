@@ -106,6 +106,9 @@ if [ $email_pref_ctr_update = true ]; then
 fi
 echo
 
-echo "Donor Portal URL: https://localhost:$EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
+echo "Donor Portal URL: https://localhost:$EMAIL_PREF_CTR_PORT/index.php/Special:DonorPortal"
+echo "Donor Portal HTTP URL: http://localhost:$EMAIL_PREF_CTR_HTTP_PORT/index.php/Special:DonorPortal"
+echo "Email Preferences URL: https://localhost:$EMAIL_PREF_CTR_PORT/index.php/Special:EmailPreferences"
+echo "Email Preferences HTTP URL: http://localhost:$EMAIL_PREF_CTR_HTTP_PORT/index.php/Special:EmailPreferences"
 echo "Donor Portal contact page: Viewable within local CiviCRM https://wmf.localhost:32353/civicrm/contact/view?reset=1&cid=32"
 echo "E-mail Preference Center URL: Viewable within local CiviCRM https://wmf.localhost:32353/civicrm/contact/view?reset=1&cid=32"
