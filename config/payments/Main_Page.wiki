@@ -45,6 +45,8 @@ Donate links:
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=bt&payment_submethod=onlineBanking_CZ&recurring=0&uselang=en&language=en&currency=CZK&amount=50&country=CZ&debug=true}} Online Banking CZ in CZ, English, CZK]
 ** Adyen Vipps (NO)
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=ew&payment_submethod=vipps&recurring=0&uselang=en&language=en&currency=NOK&amount=50&country=NO&debug=true}} Vipps in NO, English, NOK]
+** Adyen Blik (PL)
+*** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=bt&payment_submethod=blik&recurring=0&uselang=en&language=en&currency=PLN&amount=10&country=PL&debug=true}} Blik in PL, English, PLN]
 ** dLocal
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=0&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Credit card in BR, English, BRL]
 *** [{{fullurl:Special:GravyGateway|appeal=JimmyQuote&payment_method=cc&recurring=1&uselang=en&language=en&currency=BRL&amount=100&country=BR&first_name=Jimmy&last_name=Wales&email=jwales%40example.com&debug=true}} Recurring Credit card in BR, English, BRL]
@@ -99,6 +101,7 @@ Donate links:
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=rtbt&payment_submethod=sepadirectdebit&recurring=1&uselang=en&language=en&currency=EUR&amount=2.75&country=FR&debug=true}} Recurring SEPA Direct Debit in FR, English, EUR]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ew&payment_submethod=vipps&recurring=0&uselang=en&language=en&currency=NOK&amount=20&country=NO&debug=true}} Vipps in NO, English, NOK]
 ** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=ew&payment_submethod=vipps&recurring=0&uselang=nb&language=nb&currency=NOK&amount=20&country=NO&debug=true}} Vipps in NO, Norwegian Bokmal, NOK]
+** [{{fullurl:Special:AdyenCheckoutGateway|appeal=JimmyQuote&payment_method=bt&payment_submethod=blik&recurring=0&uselang=en&language=en&currency=PLN&amount=10&country=PL&debug=true}} Blik in PL, English, PLN]
 
 * Amazon
 ** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&debug=true}} In US, no language specified, USD]
