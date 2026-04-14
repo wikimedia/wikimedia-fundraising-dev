@@ -11,9 +11,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   find "${CIVICRM_SRC_CORE_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
   mkdir -p src/civi-sites
 
-  if [ "$USE_MAC_CONFIG" = "true" ]; then
+  if [ "$USE_VOLUME_MOUNT" = "true" ]; then
     echo
-    echo "**** MacOS Setup: sync local config to container"
+    echo "**** Volume Mount Setup: sync local config to container"
     echo
     source "$MAC_SCRIPTS_DIR/sync-push-civicrm-config.sh"
   fi
@@ -29,9 +29,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   $DOCKER_COMPOSE_COMMAND_BASE restart "$CIVICRM_SERVICE_NAME"
 
 
-  if [ "$USE_MAC_CONFIG" = "true" ]; then
+  if [ "$USE_VOLUME_MOUNT" = "true" ]; then
     echo
-    echo "**** MacOS Setup: sync container source code to local to retain generated build config"
+    echo "**** Volume Mount Setup: sync container source code to local to retain generated build config"
     echo
     source "$MAC_SCRIPTS_DIR/sync-pull-civicrm-core.sh"
   fi

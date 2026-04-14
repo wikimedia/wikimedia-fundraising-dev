@@ -5,8 +5,10 @@ SCRIPTS_DIR="./scripts"
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 MAC_SCRIPTS_DIR="./scripts/mac"
 MAC_DOCKER_COMPOSE_FILE="docker-compose-mac.yml"
-USE_MAC_CONFIG="false"
+MAC_VOLUME_MOUNT_DOCKER_COMPOSE_FILE="docker-compose-mac-with-volume-mount.yml"
 SKIP_RECLONE="false"
+USE_VOLUME_MOUNT="false"
+HAS_CIVICRM_FLAG="false"
 CONFIG_PRIVATE_CALLED_DIRECTLY="false"
 
 display_help() {
@@ -17,6 +19,7 @@ display_help() {
   echo
   echo "========================= Setup Options ========================="
   echo "  --skip-reclone                Do not ask to reclone any repos"
+  echo "  --use-volume-mount            Use volume mounts instead of bind mounts (only applies to --civicrm* installs)"
   echo "  --full                        Set up everything!"
   echo "  --civicrm                     Set up CiviCRM WMF (our version, on standalone)"
   echo "  --civicrm-core                Set up CiviCRM Core (for upstream testing)"
@@ -74,10 +77,19 @@ init_env
 
 # mac optimisations
 if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
-  echo "**** MacOS Detected: using optimised docker-compose-mac.yml config "
-  echo
-  USE_MAC_CONFIG="true"
-  DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+  if [ "$USE_VOLUME_MOUNT" = "true" ] && [ "$HAS_CIVICRM_FLAG" = "true" ]; then
+    echo "**** MacOS Detected: using volume mount docker-compose-mac-with-volume-mount.yml config"
+    echo
+    DOCKER_COMPOSE_FILE=$MAC_VOLUME_MOUNT_DOCKER_COMPOSE_FILE
+  elif [ "$USE_VOLUME_MOUNT" = "true" ] && [ "$HAS_CIVICRM_FLAG" = "false" ]; then
+    echo "**** Warning: --use-volume-mount is only applicable for --civicrm* installations. Ignoring flag."
+    echo
+    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+  else
+    echo "**** MacOS Detected: using optimised docker-compose-mac.yml config "
+    echo
+    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
+  fi
 fi
 
 DOCKER_COMPOSE_COMMAND_BASE="docker compose -f $DOCKER_COMPOSE_FILE"
@@ -187,11 +199,17 @@ setup_config_private() {
     docker_compose_restart "$DOCKER_COMPOSE_FILE"
 }
 
-# Check for --skip-reclone flags before executing other build scripts
+# Check for --skip-reclone, --use-volume-mount, and --civicrm* flags before executing other build scripts
 for arg in "$@"; do
   case $arg in
     --skip-reclone)
       SKIP_RECLONE="true"
+      ;;
+    --use-volume-mount)
+      USE_VOLUME_MOUNT="true"
+      ;;
+    --civicrm | --civicrm-core | --civicrm-standalone | --civicrm-standalone-composer)
+      HAS_CIVICRM_FLAG="true"
       ;;
   esac
 done
@@ -202,8 +220,10 @@ for arg in "$@"; do
     display_help
     exit 0
     ;;
-    # ignore --skip-reclone due to being handled in the first block
+    # ignore flags handled in the first block
   --skip-reclone)
+    ;;
+  --use-volume-mount)
     ;;
   branch=*)
     MW_CORE_BRANCH="${arg#branch=}"

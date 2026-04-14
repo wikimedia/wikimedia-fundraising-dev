@@ -14,9 +14,9 @@ fi
 # spin up the docker container
 docker_compose_up "$DOCKER_COMPOSE_FILE" "$CIVICRM_SERVICE_NAME"
 
-if [ "$USE_MAC_CONFIG" = "true" ]; then
+if [ "$USE_VOLUME_MOUNT" = "true" ]; then
   echo
-  echo "**** MacOS Setup: sync local buildkit to container"
+  echo "**** Volume Mount Setup: sync local buildkit to container"
   echo
   source "$MAC_SCRIPTS_DIR/sync-push-civicrm-buildkit.sh"
 fi
@@ -36,9 +36,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 echo
 
-if [ "$USE_MAC_CONFIG" = "true" ]; then
+if [ "$USE_VOLUME_MOUNT" = "true" ]; then
   echo
-  echo "**** MacOS Setup: sync container buildkit to local"
+  echo "**** Volume Mount Setup: sync container buildkit to local"
   echo
   source "$MAC_SCRIPTS_DIR/sync-pull-civicrm-buildkit.sh"
 fi
