@@ -17,7 +17,7 @@ x-civicrm-site-key: &civicrm-site-key
 
 # Most apps build from this generic image
 x-common-settings: &common-settings
-    image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.1
+    image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.1-s2
     user: *user
     platform: linux/amd64
 
@@ -154,7 +154,7 @@ services:
 
 
     civicrm:
-        image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bookworm-php82-apache2:1.1.3
+        image: docker-registry.wikimedia.org/dev/fundraising-civicrm-bookworm-php82-apache2:1.1.3-s2
         depends_on:
             - database
             - queues
@@ -210,7 +210,7 @@ services:
             - FR_DOCKER_SERVICE_NAME=smashpig
 
     civiproxy:
-        image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.1
+        image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.1-s2
         platform: linux/amd64
         ports:
             - 9005:9001
@@ -231,7 +231,7 @@ services:
             - FR_DOCKER_SERVICE_NAME=civiproxy
 
     tools:
-        image: docker-registry.wikimedia.org/dev/fundraising-tools-bullseye:1.0.0
+        image: docker-registry.wikimedia.org/dev/fundraising-tools-bookworm:1.0.0-s1
         depends_on:
             - database
         user: *user
@@ -245,7 +245,7 @@ services:
             - FR_DOCKER_GID
 
     fraud-scoring:
-        image: docker-registry.wikimedia.org/dev/fundraising-fraud-scoring-bookworm:0.1
+        image: docker-registry.wikimedia.org/dev/fundraising-fraud-scoring-bookworm:0.1-s1
         depends_on:
             - memcached
         user: *user
@@ -263,7 +263,7 @@ services:
             - FR_DOCKER_GID
 
     djangobannerstats:
-        image: docker-registry.wikimedia.org/dev/fundraising-bullseye-python:1.0.0
+        image: docker-registry.wikimedia.org/dev/fundraising-bookworm-python:1.0.0-s1
         depends_on:
             - database
         user: *user
@@ -293,7 +293,7 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
 
     logger:
-        image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s1
+        image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s4
         user: *user
         platform: linux/amd64
         networks: [ "default", "donorprefs", "donut" ]
