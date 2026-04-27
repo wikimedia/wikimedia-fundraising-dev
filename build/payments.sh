@@ -132,7 +132,7 @@ echo
 
 read -p "Update Payments wiki text? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  ./scripts/payments-update-text.sh
+  ./scripts/payments-update-wiki-pages.sh
 fi
 echo
 
