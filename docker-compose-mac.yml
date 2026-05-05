@@ -21,6 +21,11 @@ x-common-settings: &common-settings
     user: *user
     platform: linux/amd64
 
+x-common-settings-trixie: &common-settings-trixie
+    image: docker-registry.wikimedia.org/dev/fundraising-trixie-php84-apache2:1.0.0
+    user: *user
+    platform: linux/amd64
+
 services:
     payments:
         <<: *common-settings
@@ -52,7 +57,7 @@ services:
             - FR_DOCKER_SERVICE_NAME=payments
 
     core:
-        <<: *common-settings
+        <<: *common-settings-trixie
         depends_on:
             - database
             - logger
@@ -72,7 +77,7 @@ services:
             - FR_DOCKER_SERVICE_NAME=core
 
     donut:
-        <<: *common-settings
+        <<: *common-settings-trixie
         depends_on:
             - database
             - logger
