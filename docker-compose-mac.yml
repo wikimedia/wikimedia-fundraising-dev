@@ -235,7 +235,7 @@ services:
             - FR_DOCKER_SERVICE_NAME=civiproxy
 
     tools:
-        image: docker-registry.wikimedia.org/dev/fundraising-tools-bookworm:1.0.0-s1
+        image: docker-registry.wikimedia.org/dev/fundraising-tools-trixie:1.0.0
         depends_on:
             - database
         user: *user
@@ -267,7 +267,7 @@ services:
             - FR_DOCKER_GID
 
     djangobannerstats:
-        image: docker-registry.wikimedia.org/dev/fundraising-bookworm-python:1.0.0-s1
+        image: docker-registry.wikimedia.org/dev/fundraising-trixie-python:1.0.0
         depends_on:
             - database
         user: *user
