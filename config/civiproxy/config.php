@@ -21,6 +21,8 @@
 // this should point to the base address of the CiviProxy installation
 $proxy_base     = 'https://localhost:9005/';
 
+$allow_self_signed_cert = TRUE;
+
 // this should point to the target CiviCRM system
 $target_civicrm = 'https://wmf.civicrm:9001';
 
@@ -40,6 +42,13 @@ $target_mail_view = $target_civicrm . '/civicrm/mailing/view';
 $target_url       = $target_civicrm . '/civicrm/mailing/url';
 $target_open      = $target_civicrm . '/civicrm/mailing/open';
 
+/****************************************************************
+ **                    Plugins                                 **
+ ****************************************************************/
+$plugins = [
+	//'\Systopia\CiviProxy\Plugin\Logger\Plugin',
+	// Add your plugins here by adding the fully qualified class name of the Plugin Class
+];
 /****************************************************************
  **                    GENERAL OPTIONS                         **
  ****************************************************************/
