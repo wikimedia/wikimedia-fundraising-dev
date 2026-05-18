@@ -194,7 +194,7 @@ services:
         hard: 524288
 
   smashpig:
-    <<: *common-settings
+    <<: *common-settings-trixie
     depends_on:
       - database
       - queues
