@@ -58,43 +58,38 @@ Fundraising-dev setup script.
 
 Application URLs
 
-- Payments
-https://localhost:9001
-- Payments (HTTP)
-http://localhost:9009
-- Core Wiki
-https://localhost:9013
-- Core Wiki (Special)
-https://localhost:9013/index.php/Special:FundraisingWidgets
-- Donate/Donut Wiki
-https://localhost:9010/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
-- Donate/Donut Wiki (HTTP)
-http://localhost:9011/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
-- Email Preferences Center
-https://localhost:9002/index.php/Special:EmailPreferences
-- Donor Portal
-https://localhost:9002/index.php?title=Special:DonorPortal
-- CiviCRM WMF
-https://wmf.localhost:32353/civicrm
-- CiviCRM Core
-https://dmaster.localhost:32353/civicrm
-- CiviCRM Standalone
-https://standalone-clean.localhost:32353/civicrm
-- CiviProxy
-https://localhost:9005
-- SmashPig IPN
-https://localhost:9006
-- PrivateBin (Read-Only)
-https://localhost:9007
-- PrivateBin (Read-Write)
-https://localhost:9008
-- Fraud Scoring Service
-http://localhost:9012/v1
-- Mail Catcher
-http://localhost:1080
+- CiviCRM WMF URL: https://wmf.localhost:32353/civicrm
+  Civicrm WMF user/password: admin/admin
+
+- CiviCRM Core URL: https://dmaster.localhost:32353/civicrm
+- Civicrm Core user/password: admin/admin
+
+- CiviCRM Standalone URL: https://standalone-clean.localhost:32353/civicrm
+- Civicrm Standalone user/password: admin/admin
+
+- Core Wiki URL: https://localhost:9013
+- Core Wiki FundraisingWidgets URL: https://localhost:9013/index.php/Special:FundraisingWidgets
+
+- Payments HTTPS URL: https://localhost:9001
+- Payments HTTP URL: http://localhost:9009
+- Payments Test URL: https://paymentstest.wmcloud.org (see README.md)
+
+- Donate/Donut Wiki URL: https://localhost:9010/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
+- Donate/Donut Wiki HTTP URL: http://localhost:9011/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
+- Donate/Donut Wiki Central Notice URL: http://localhost:9011/w/index.php?title=Special:UserLogin&returnto=Special:CentralNotice
+
+- E-mail Preference Center URL: https://localhost:9002/index.php/Special:EmailPreferences
+- Donor Portal URL: https://localhost:9002/index.php?title=Special:DonorPortal
+- SmashPig IPN listener Test URL: https://paymentsipntest.wmcloud.org (see README.md)
+- Fraud scoring service: http://localhost:9012/v1
+- Mail Catcher: http://localhost:1080
+
+- Gr4vy Embed Form Proof-of-concept: http://localhost:/embedded-checkout.php
+- GR4VY Sandbox console URL: https://sandbox.wikimedia.gr4vy.app/
+
 
 Database Credentials
-```shell
+```shell 
 Host: 127.0.0.1
 Port: 3307
 Username: root
