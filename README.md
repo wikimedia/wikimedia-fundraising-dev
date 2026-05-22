@@ -53,8 +53,59 @@ Fundraising-dev setup script.
   You can pass multiple options to install only what you need
 
   Example: ./setup.sh --civicrm --smashpig --tools
+```
+## Application URLs and database credentials
 
-  This will install CiviCRM, Smashpig and Fundraising-tools
+Application URLs
+
+- Payments
+https://localhost:9001
+- Payments (HTTP)
+http://localhost:9009
+- Core Wiki
+https://localhost:9013
+- Core Wiki (Special)
+https://localhost:9013/index.php/Special:FundraisingWidgets
+- Donate/Donut Wiki
+https://localhost:9010/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
+- Donate/Donut Wiki (HTTP)
+http://localhost:9011/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US
+- Email Preferences Center
+https://localhost:9002/index.php/Special:EmailPreferences
+- Donor Portal
+https://localhost:9002/index.php?title=Special:DonorPortal
+- CiviCRM WMF
+https://wmf.localhost:32353/civicrm
+- CiviCRM Core
+https://dmaster.localhost:32353/civicrm
+- CiviCRM Standalone
+https://standalone-clean.localhost:32353/civicrm
+- CiviProxy
+https://localhost:9005
+- SmashPig IPN
+https://localhost:9006
+- PrivateBin (Read-Only)
+https://localhost:9007
+- PrivateBin (Read-Write)
+https://localhost:9008
+- Fraud Scoring Service
+http://localhost:9012/v1
+- Mail Catcher
+http://localhost:1080
+
+Database Credentials
+```shell
+Host: 127.0.0.1
+Port: 3307
+Username: root
+Password: (empty - MYSQL_ALLOW_EMPTY_PASSWORD: 1)
+Default Connection: mysql -h 127.0.0.1 -P 3307 -u root
+
+Database Names:
+payments - for Payments Wiki
+donut - for Donate/Donut Wiki
+email_pref_ctr - for Email Preferences Center
+civicrm - for CiviCRM
 ```
 ## Setting up the stack
 To install a full stack, run `./setup.sh --full` and grab a coffee as it might take a while first time around. 
