@@ -4,7 +4,6 @@ SETUP_DIR="./build"
 SCRIPTS_DIR="./scripts"
 DOCKER_COMPOSE_FILE="docker-compose.yml"
 MAC_SCRIPTS_DIR="./scripts/mac"
-MAC_DOCKER_COMPOSE_FILE="docker-compose-mac.yml"
 MAC_VOLUME_MOUNT_DOCKER_COMPOSE_FILE="docker-compose-mac-with-volume-mount.yml"
 SKIP_RECLONE="false"
 USE_VOLUME_MOUNT="false"
@@ -74,28 +73,6 @@ fi
 # set up .env file
 source "$SETUP_DIR/env.sh"
 init_env
-
-# mac optimisations
-if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
-  if [ "$USE_VOLUME_MOUNT" = "true" ] && [ "$HAS_CIVICRM_FLAG" = "true" ]; then
-    echo "**** MacOS Detected: using volume mount docker-compose-mac-with-volume-mount.yml config"
-    echo
-    DOCKER_COMPOSE_FILE=$MAC_VOLUME_MOUNT_DOCKER_COMPOSE_FILE
-  elif [ "$USE_VOLUME_MOUNT" = "true" ] && [ "$HAS_CIVICRM_FLAG" = "false" ]; then
-    echo "**** Warning: --use-volume-mount is only applicable for --civicrm* installations. Ignoring flag."
-    echo
-    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
-  else
-    echo "**** MacOS Detected: using optimised docker-compose-mac.yml config "
-    echo
-    DOCKER_COMPOSE_FILE=$MAC_DOCKER_COMPOSE_FILE
-  fi
-fi
-
-DOCKER_COMPOSE_COMMAND_BASE="docker compose -f $DOCKER_COMPOSE_FILE"
-if [ -f docker-compose.override.yml ]; then
-  DOCKER_COMPOSE_COMMAND_BASE="$DOCKER_COMPOSE_COMMAND_BASE -f docker-compose.override.yml"
-fi
 
 # run before app setup scripts
 init() {
@@ -213,6 +190,20 @@ for arg in "$@"; do
       ;;
   esac
 done
+
+# mac optimisations
+if [ "$DOCKER_HOST_OS" = "Darwin" ]; then
+  if [ "$USE_VOLUME_MOUNT" = "true" ] && [ "$HAS_CIVICRM_FLAG" = "true" ]; then
+    echo "**** MacOS Detected: using volume mount docker-compose-mac-with-volume-mount.yml config"
+    echo
+    DOCKER_COMPOSE_FILE=$MAC_VOLUME_MOUNT_DOCKER_COMPOSE_FILE
+  fi
+fi
+
+DOCKER_COMPOSE_COMMAND_BASE="docker compose -f $DOCKER_COMPOSE_FILE"
+if [ -f docker-compose.override.yml ]; then
+  DOCKER_COMPOSE_COMMAND_BASE="$DOCKER_COMPOSE_COMMAND_BASE -f docker-compose.override.yml"
+fi
 
 for arg in "$@"; do
   case $arg in
