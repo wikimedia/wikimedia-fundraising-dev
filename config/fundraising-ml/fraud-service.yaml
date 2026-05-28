@@ -1,0 +1,14 @@
+DATABASE:
+  host: database
+  database: fundraising_ml
+  user: fundraising_ml
+  password: dockerpass
+  charset: utf8mb4
+ARCHIVE_DATABASE:
+  host: database
+  database: civicrm
+  user: civicrm
+  password: civicrm
+  charset: utf8mb4
+ARCHIVE_TABLE_NAME: civicrm_payment_attempt
+LABEL_TABLE_NAME: civicrm_payment_attempt_label

@@ -271,10 +271,11 @@ services:
      - FR_DOCKER_UID
      - FR_DOCKER_GID
 
-  fraud-scoring:
-    image: docker-registry.wikimedia.org/dev/fundraising-fraud-scoring-bookworm:0.1-s1
+  fundraising-ml:
+    image: docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.0.0
     depends_on:
       - memcached
+      - database
     user: *user
     tty: true
     platform: linux/amd64
@@ -282,12 +283,20 @@ services:
     volumes:
       - ./config/:/srv/config/exposed/
       - ./config-private/:/srv/config/private/
-      - ./src/fraud-scoring/:/srv/fraud-scoring/
+      - ./src/fundraising-ml/:/srv/fundraising-ml/
     ports:
-      - "${FRAUD_SCORING_PORT:-9012}:5000"
+      - "${FUNDRAISING_ML_PORT:-9012}:5000"
     environment:
      - FR_DOCKER_UID
      - FR_DOCKER_GID
+     - PYTHONPATH=/srv/fundraising-ml/src
+     - MODEL_PATH=/srv/fundraising-ml/mnt/models
+     - BLOCKLIST_PATH=/srv/fundraising-ml/data/disposable_email_blocklist.conf"
+     - FEATURE_COLUMNS_PATH=/srv/fundraising-ml/mnt/models
+     - LOGNAME=fundraising-ml
+     - LOG_TRANSFORM_COLUMNS_PATH=/srv/fundraising-ml/mnt/models
+     - PREPROCESSOR_PATH=/srv/fundraising-ml/mnt/models
+     - SCALER_PATH=/srv/fundraising-ml/mnt/models
 
   djangobannerstats:
     image: docker-registry.wikimedia.org/dev/fundraising-trixie-python:1.0.0

@@ -24,7 +24,7 @@ Fundraising-dev setup script.
   --payments                    Set up PaymentsWiki
   --donut                       Set up Donate/Donut Wiki
   --email-prefs                 Set up Email-Pref/Donor Portal Wiki
-  --fraud-scoring               Set up Fraud scoring service
+  --fundraising-ml              Set up Fundraising ML services
   --civiproxy                   Set up CiviProxy (Email-Preference Centre Wiki)
   --smashpig                    Set up Smashpig Listeners (IPN testing)
   --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)
