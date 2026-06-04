@@ -22,6 +22,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
+  add_my_cnf civicrm
+
   $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create \
 		dmaster --admin-pass $CIVI_ADMIN_PASS
   echo
@@ -40,11 +42,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   echo
   echo "**** Backing up CiviCRM Core databases"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercivicrm > ./.backup/sql/core_civicrm_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot dmastercivicrm > ./.backup/sql/core_civicrm_backup.sql
   echo "core_civicrm_backup.sql added to .backup/sql"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastercms > ./.backup/sql/core_drupal_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot dmastercms > ./.backup/sql/core_drupal_backup.sql
   echo "core_drupal_backup.sql added to .backup/sql"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot dmastertest > ./.backup/sql/core_test_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot dmastertest > ./.backup/sql/core_test_backup.sql
   echo "core_test_backup.sql added to .backup/sql"
   echo
   echo "**** CiviCRM Core databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-core.sh"

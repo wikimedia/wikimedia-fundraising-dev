@@ -31,7 +31,7 @@ echo
 # spin up the docker container
 docker_compose_up "$DOCKER_COMPOSE_FILE" "$TOOLS_SERVICE_NAME"
 
-# create required mysql databases
+# create required mariadb databases
 read -p "Create Silverpop & Silverpop test databases? [yN] " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# Create SQL script
@@ -41,7 +41,7 @@ CREATE USER IF NOT EXISTS 'test'@'%';
 GRANT ALL PRIVILEGES ON test.* TO 'test'@'%';
 CREATE DATABASE IF NOT EXISTS silverpop;
 EOF
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql < /tmp/tools_setup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mariadb < /tmp/tools_setup.sql
 fi
 echo
 echo "**** Fundraising Tools (Silverpop Export) setup complete"

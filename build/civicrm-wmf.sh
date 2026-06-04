@@ -71,6 +71,8 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
+  add_my_cnf civicrm
+
   echo "Running civibuild create"
   $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create wmf --admin-pass $CIVI_ADMIN_PASS
   echo
@@ -90,9 +92,9 @@ if [[ ! $REPLY =~ ^[Nn]$ ]]; then
 
   echo
   echo "**** Backing up CiviCRM Standalone databases"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civicrm > ./.backup/sql/civicrm.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot civicrm > ./.backup/sql/civicrm.sql
   echo "civicrm.sql added to .backup/sql"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot civitest > ./.backup/sql/civitest.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot civitest > ./.backup/sql/civitest.sql
   echo "wmftest.sql added to .backup/sql"
   echo
   echo "**** CiviCRM Standalone databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-wmf.sh"

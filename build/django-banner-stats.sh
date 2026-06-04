@@ -35,13 +35,13 @@ echo
 read -p "Create DjangoBannerStats database? [Yn] " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] || [ -z $REPLY ]; then
-	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql -e "CREATE DATABASE IF NOT EXISTS dev_pgehres;"
+	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mariadb -e "CREATE DATABASE IF NOT EXISTS dev_pgehres;"
 	echo "Added dev_pgehres database..."
-	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql dev_pgehres < src/django-banner-stats/doc/001_create.sql
+	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mariadb dev_pgehres < src/django-banner-stats/doc/001_create.sql
 	echo "Imported src/django-banner-stats/doc/001_create.sql"
-	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql dev_pgehres < src/django-banner-stats/doc/002_populate_countries.sql
+	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mariadb dev_pgehres < src/django-banner-stats/doc/002_populate_countries.sql
 	echo "Imported src/django-banner-stats/doc/002_populate_countries.sql"
-	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mysql dev_pgehres < src/django-banner-stats/doc/003_populate_languages.sql
+	$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DB_SERVICE_NAME} mariadb dev_pgehres < src/django-banner-stats/doc/003_populate_languages.sql
 	echo "Imported src/django-banner-stats/doc/003_populate_languages.sql"
 	echo "Finished setting up DjangoBannerStats database..."
 fi

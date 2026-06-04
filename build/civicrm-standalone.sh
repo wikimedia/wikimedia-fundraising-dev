@@ -24,6 +24,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	$DOCKER_COMPOSE_COMMAND_BASE exec civicrm ln -fs /srv/config/exposed/civicrm/civibuild.conf /srv/civicrm-buildkit/app/civibuild.conf
 	echo
 
+  add_my_cnf civicrm
+
   $DOCKER_COMPOSE_COMMAND_BASE exec -w "/srv/civi-sites/" ${CIVICRM_SERVICE_NAME} civibuild create standalone-clean --admin-pass $CIVI_ADMIN_PASS
   echo
 
@@ -41,9 +43,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   echo
   echo "**** Backing up CiviCRM Standalone databases"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot standalonedev_civi > ./.backup/sql/standalone_civicrm_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot standalonedev_civi > ./.backup/sql/standalone_civicrm_backup.sql
   echo "standalone_civicrm_backup.sql added to .backup/sql"
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mysqldump -hdatabase -uroot standalonedev_test > ./.backup/sql/standalone_test_backup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T $CIVICRM_SERVICE_NAME mariadb-dump -hdatabase -uroot standalonedev_test > ./.backup/sql/standalone_test_backup.sql
   echo "standalone_test_backup.sql added to .backup/sql"
   echo
   echo "**** CiviCRM Standalone databases backed up! Restore them anytime with ./scripts/db/restore-civicrm-standalone.sh"

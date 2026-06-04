@@ -98,3 +98,10 @@ make_gerrit_url() {
     echo "ssh://${GIT_REVIEW_USER}@gerrit.wikimedia.org:29418/$1"
   fi
 }
+
+add_my_cnf() {
+  echo "[client]
+ssl = 0" > /tmp/docker-my.cnf
+  $DOCKER_COMPOSE_COMMAND_BASE cp /tmp/docker-my.cnf $1:/home/docker/.my.cnf
+  $DOCKER_COMPOSE_COMMAND_BASE exec $1 chmod go-rwx /home/docker/.my.cnf
+}

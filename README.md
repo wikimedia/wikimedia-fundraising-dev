@@ -216,9 +216,9 @@ from the host computer:
 (Note: If, instead of 127.0.0.1, you specify `localhost` as the database host, you may need
 to explicitly tell your MySQL client to connect using TCP.)
 
-The script `database-mysql.sh` opens a mysql shell directly on the database container. Arguments
+The script `database-mariadb.sh` opens a mariadb shell directly on the database container. Arguments
 passed to that script are added to the arguments passed to the command-line client. So,
-you can say, for example, `./database-mysql.sh civicrm` to directly access the civicrm database.
+you can say, for example, `./database-mariadb.sh civicrm` to directly access the civicrm database.
 
 ## XDebug
 

@@ -70,7 +70,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 DROP DATABASE IF EXISTS smashpig;
 EOF
 
-$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mysql </tmp/smashpig_setup.sql
+$DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mariadb </tmp/smashpig_setup.sql
 fi
 
 read -p "Create Smashpig database and db user? [yN] " -r
@@ -93,7 +93,7 @@ GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'localhost';
 GRANT ALL PRIVILEGES ON smashpig.* To 'smashpig'@'%';
 EOF
 
-  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mysql </tmp/smashpig_setup.sql
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mariadb </tmp/smashpig_setup.sql
 
   echo
 fi
