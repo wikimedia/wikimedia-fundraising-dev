@@ -70,7 +70,7 @@ Application URLs
 - Core Wiki URL: https://localhost:9013
 - Core Wiki FundraisingWidgets URL: https://localhost:9013/index.php/Special:FundraisingWidgets
 
-- Payments HTTPS URL: https://localhost:9001
+- Payments HTTPS URL: https://localhost:9001/index.php/Main_Page
 - Payments HTTP URL: http://localhost:9009
 - Payments Test URL: https://paymentstest.wmcloud.org (see README.md)
 
