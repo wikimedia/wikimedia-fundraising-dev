@@ -507,6 +507,7 @@ $wgDonationInterfaceLogDebug = true;
 $wgIngenicoGatewayCurlVerboseLog = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
 $wgDonationInterfaceEmployersListDataFileLocation = '/srv/config/private/payments/employerData.csv';
+$wgDonationInterfaceFraudServiceURL = 'http://fundraising-ml:9001';
 
 ### Include private settings, if present
 if ( file_exists ( '/srv/config/private/payments/LocalSettings-private.php' ) )
