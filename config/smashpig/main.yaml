@@ -68,6 +68,13 @@ data-store:
         <<: *REDIS
         queue: jobs-amazon
 
+  jobs-chariot:
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: jobs-chariot
+
   jobs-dlocal:
     class: PHPQueue\Backend\Predis
     constructor-parameters:
