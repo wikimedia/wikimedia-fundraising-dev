@@ -31,7 +31,6 @@ create_xdebug_ini_all() {
     "civiproxy"
     "core"
     "payments"
-    "privatebin"
     "email-pref-ctr"
     "donut"
     "smashpig"

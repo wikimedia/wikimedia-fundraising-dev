@@ -6,7 +6,6 @@ mkdir -p ./config/
 mkdir -p ./src/payments/
 mkdir -p ./src/core/
 mkdir -p ./src/donut/
-mkdir -p ./src/privatebin/
 mkdir -p ./src/email-pref-ctr/
 mkdir -p ./src/civi-sites/
 mkdir -p ./src/civicrm-buildkit/

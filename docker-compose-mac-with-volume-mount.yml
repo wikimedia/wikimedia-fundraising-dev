@@ -13,10 +13,6 @@ services:
         extends:
             file: docker-compose.yml
             service: donut
-    privatebin:
-        extends:
-            file: docker-compose.yml
-            service: privatebin
     email-pref-ctr:
         extends:
             file: docker-compose.yml

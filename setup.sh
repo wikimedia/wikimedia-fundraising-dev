@@ -33,7 +33,6 @@ display_help() {
   echo "  --smashpig                    Set up Smashpig Listeners (IPN testing)"
   echo "  --tools                       Set up Fundraising-tools (incl. Silverpop Export scripts)"
   echo "  --django                      Set up DjangoBannerStats"
-  echo "  --privatebin                  Set up PrivateBin"
   echo "  --config-private              Set up config-private repo"
   echo
   echo "========================= Docker Commands ========================="
@@ -146,10 +145,6 @@ setup_djangobannerstats() {
 
 setup_gr4vy() {
   time source "$SETUP_DIR/gr4vy.sh"
-}
-
-setup_privatebin() {
-  time source "$SETUP_DIR/privatebin.sh"
 }
 
 show_urls() {
@@ -303,12 +298,6 @@ for arg in "$@"; do
     announce_install "Gr4vy POC"
     setup_gr4vy
     ;;
-  --privatebin)
-    init
-    announce_install "PrivateBin"
-    create_xdebug_ini "privatebin"
-    setup_privatebin
-    ;;
   --config-private)
     setup_config_private
     ;;
@@ -324,7 +313,6 @@ for arg in "$@"; do
       "CiviCRM"
       "CiviCRM Core"
       "Fundraising Tools"
-      "PrivateBin"
       "Fundraising ML service"
     )
     init
@@ -343,7 +331,6 @@ for arg in "$@"; do
       setup_civicrm
       setup_civicrm_core
       setup_tools
-      setup_privatebin
       echo "Overall Build Time:"
     )
     show_urls
