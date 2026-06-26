@@ -16,7 +16,7 @@ if [ $clone_ml = true ]; then
   rm -rf "${FUNDRAISING_ML_SRC_DIR:?}"/*
   find "${FUNDRAISING_ML_SRC_DIR:?}" -mindepth 1 -name '.*' -exec rm -rf {} +
 
-  git clone "git@gitlab.wikimedia.org:repos/fundraising-tech/fundraising-ml.git" \
+  git clone "git@gitlab-ssh.wikimedia.org:repos/fundraising-tech/fundraising-ml.git" \
     ${FUNDRAISING_ML_SRC_DIR}
 fi
 
