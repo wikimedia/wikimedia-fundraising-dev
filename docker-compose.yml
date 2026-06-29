@@ -272,8 +272,21 @@ services:
      - FR_DOCKER_GID
 
   fundraising-ml:
-    image: docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.0.0
+    # We need a 'docker' user to run mod_wsgi, and we need to create it at this point
+    # where we know the UID and GID rather than in the parent image build process.
+    build:
+      context: .
+      args:
+        - FR_DOCKER_UID=${FR_DOCKER_UID}
+        - FR_DOCKER_GID=${FR_DOCKER_GID}
+      dockerfile_inline: |
+        FROM docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.1.0
+        ARG FR_DOCKER_UID
+        ARG FR_DOCKER_GID
+        RUN getent group "$FR_DOCKER_GID" >/dev/null 2>&1 || groupadd -r -g "$FR_DOCKER_GID" docker
+        RUN useradd -r -u "$FR_DOCKER_UID" -d /home/docker -g "$FR_DOCKER_GID" -M -G www-data docker
     depends_on:
+      - logger
       - memcached
       - database
     user: *user
@@ -285,18 +298,13 @@ services:
       - ./config-private/:/srv/config/private/
       - ./src/fundraising-ml/:/srv/fundraising-ml/
     ports:
-      - "${FUNDRAISING_ML_PORT:-9012}:5000"
+      - "${FUNDRAISING_ML_PORT:-9012}:9001"
+      - "${FUNDRAISING_ML_DEBUG_PORT:-9016}:5000"
     environment:
-     - FR_DOCKER_UID
-     - FR_DOCKER_GID
-     - PYTHONPATH=/srv/fundraising-ml/src
-     - MODEL_PATH=/srv/fundraising-ml/mnt/models
-     - BLOCKLIST_PATH=/srv/fundraising-ml/data/disposable_email_blocklist.conf"
-     - FEATURE_COLUMNS_PATH=/srv/fundraising-ml/mnt/models
-     - LOGNAME=fundraising-ml
-     - LOG_TRANSFORM_COLUMNS_PATH=/srv/fundraising-ml/mnt/models
-     - PREPROCESSOR_PATH=/srv/fundraising-ml/mnt/models
-     - SCALER_PATH=/srv/fundraising-ml/mnt/models
+      - *logger-host
+      - FR_DOCKER_UID
+      - FR_DOCKER_GID
+      - FR_DOCKER_SERVICE_NAME=fundraising-ml
 
   djangobannerstats:
     image: docker-registry.wikimedia.org/dev/fundraising-trixie-python:1.0.0

@@ -8,6 +8,11 @@ if [ "$FUNDRAISING_ML_PORT" = "" ]; then
   echo "FUNDRAISING_ML_PORT=9012" >> .env
 fi
 
+if [ "$FUNDRAISING_ML_DEBUG_PORT" = "" ]; then
+  FUNDRAISING_ML_DEBUG_PORT=9016
+  echo "FUNDRAISING_ML_DEBUG_PORT=9016" >> .env
+fi
+
 echo "**** Clone fundraising ML service"
 clone_ml=$(ask_reclone "${FUNDRAISING_ML_SRC_DIR}" "Fundraising ML service repo")
 if [ $clone_ml = true ]; then
@@ -21,6 +26,7 @@ if [ $clone_ml = true ]; then
 fi
 
 $DOCKER_COMPOSE_COMMAND_BASE up --force-recreate -d "$FUNDRAISING_ML_SERVICE_NAME"
+
 read -p "Create Fundraising ML database and db user? [yN] " -r
 echo
 
