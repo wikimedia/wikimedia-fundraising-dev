@@ -434,8 +434,8 @@ $wgDonationInterfaceThankYouPage = [
 ];
 $wgDonationInterfacePriceCeiling = 12000;
 
-# Value on staging: 'http://wikimediafoundation.org/wiki/DonateNonJS/en'
-$wgDonationInterfaceNoScriptRedirect = 'http://testNoScriptRedirect.example.com/blah';
+# Value on staging: 'https://wikimediafoundation.org/give/#ways-to-give'
+$wgDonationInterfaceNoScriptRedirect = 'http://waystogive.example.com/blah';
 
 $wgDonationInterfaceUseSyslog = true;
 $wgDonationInterfaceSaveCommStats = true;
