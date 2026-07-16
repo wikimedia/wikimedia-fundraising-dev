@@ -341,6 +341,7 @@ $wgWhitelistRead =  array (
 	"Special:GravyGatewayResult",
 	"Special:PaymentSettings",
 	"Special:ComboWiki",
+	"Special:ComboWikiGatewayResult",
 	"Main_Page",
 	"Donate-thanks"
 );
