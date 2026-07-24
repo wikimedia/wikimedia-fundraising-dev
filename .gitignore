@@ -10,6 +10,8 @@ config/private
 .env
 
 # xdebug config is created by setup.sh but may contain local customizations
+config/core/xdebug-cli.ini
+config/core/xdebug-web.ini
 config/donut/xdebug-cli.ini
 config/donut/xdebug-web.ini
 config/payments/xdebug-cli.ini
@@ -24,6 +26,8 @@ config/smashpig/xdebug-cli.ini
 config/smashpig/xdebug-web.ini
 
 # php debug.ini config is created by setup.sh but may contain local customizations
+config/core/debug-cli.ini
+config/core/debug-web.ini
 config/donut/debug-cli.ini
 config/donut/debug-web.ini
 config/payments/debug-cli.ini
