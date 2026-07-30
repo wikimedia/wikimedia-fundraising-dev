@@ -4,6 +4,12 @@ DATABASE:
   user: fundraising_ml
   password: dockerpass
   charset: utf8mb4
+QUEUE:
+  host: queues
+  port: 6379
+  password: ''
+  read_write_timeout: -1
+  archive_queue: payment_attempts_archive
 ARCHIVE_DATABASE:
   host: database
   database: civicrm
