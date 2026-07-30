@@ -261,7 +261,7 @@ services:
         - FR_DOCKER_UID=${FR_DOCKER_UID}
         - FR_DOCKER_GID=${FR_DOCKER_GID}
       dockerfile_inline: |
-        FROM docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.1.0
+        FROM docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.1.1
         ARG FR_DOCKER_UID
         ARG FR_DOCKER_GID
         RUN getent group "$FR_DOCKER_GID" >/dev/null 2>&1 || groupadd -r -g "$FR_DOCKER_GID" docker
