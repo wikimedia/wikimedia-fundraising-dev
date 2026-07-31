@@ -14,6 +14,9 @@ docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WM
 echo -e "${BLUE}Running ${GREEN}donations${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=Donation queueName=donations 2>&1 | tail -n +18
 
+echo -e "${BLUE}Running ${GREEN}donations-modify${BLUE} queue consumer${NC}"
+docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=DonationModify queueName=donations-modify 2>&1 | tail -n +18
+
 echo -e "${BLUE}Running ${GREEN}contribution tracking${BLUE} queue consumer${NC}"
 docker compose exec -w "/srv/civi-sites/wmf" civicrm cv api4 --user=admin -vv WMFQueue.Consume timeLimit=280 queueConsumer=ContributionTracking queueName=contribution-tracking 2>&1 | tail -n +18
 

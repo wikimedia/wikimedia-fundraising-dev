@@ -54,6 +54,13 @@ data-store:
         <<: *REDIS
         queue: donations
 
+  donations-modify:
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: donations-modify
+
   jobs-adyen:
     class: PHPQueue\Backend\Predis
     constructor-parameters:
