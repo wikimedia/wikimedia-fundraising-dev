@@ -7,6 +7,8 @@ You are using the WMF fundraising-dev development setup for FR-Tech. Careful, th
 For more details on how to use this environment, please see the [https://gerrit.wikimedia.org/r/plugins/gitiles/wikimedia/fundraising/dev/+/e33fc90d29124e29c040649057cb81e1b8db0379/README.md README].
 
 To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Freenode.
+= combo wiki =
+* [{{fullurl:Special:ComboWiki}} Combo wiki in US, English, USD]
 
 = Some donation forms =
 Donate links:
