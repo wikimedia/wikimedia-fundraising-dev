@@ -117,6 +117,13 @@ data-store:
         <<: *REDIS
         queue: opt-in
 
+  payment-attempts:
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *REDIS
+        queue: payment-attempts
+
   payments-antifraud:
     class: PHPQueue\Backend\Predis
     constructor-parameters:
