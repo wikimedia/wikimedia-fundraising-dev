@@ -260,7 +260,7 @@ services:
         - FR_DOCKER_UID=${FR_DOCKER_UID}
         - FR_DOCKER_GID=${FR_DOCKER_GID}
       dockerfile_inline: |
-        FROM docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.1.1
+        FROM docker-registry.wikimedia.org/dev/fundraising-ml-trixie:1.1.2
         ARG FR_DOCKER_UID
         ARG FR_DOCKER_GID
         RUN getent group "$FR_DOCKER_GID" >/dev/null 2>&1 || groupadd -r -g "$FR_DOCKER_GID" docker
@@ -280,6 +280,7 @@ services:
     ports:
       - "${FUNDRAISING_ML_PORT:-9012}:9001"
       - "${FUNDRAISING_ML_DEBUG_PORT:-9016}:5000"
+      - "8888:8888"
     environment:
       - *logger-host
       - FR_DOCKER_UID
