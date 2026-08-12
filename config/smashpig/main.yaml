@@ -117,6 +117,13 @@ data-store:
         <<: *REDIS
         queue: jobs-gravy
 
+  lead-generation:
+    class: PHPQueue\Backend\Predis
+    constructor-parameters:
+      -
+        <<: *DPREDIS
+        queue: lead-generation
+
   opt-in:
     class: PHPQueue\Backend\Predis
     constructor-parameters:

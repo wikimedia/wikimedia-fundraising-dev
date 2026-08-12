@@ -1,0 +1,628 @@
+<!-- Small mobile fundraising banner -->
+<style>
+/* css variables */
+.frb {
+    color-scheme: normal;
+    color-scheme: light;
+    --wmui-base100: #fff;
+    --wmui-base90: #f8f9fa;
+    --wmui-base80: #eaecf0;
+    --wmui-base70: #c8ccd1;
+    --wmui-base50: #a2a9b1;
+    --wmui-base30: #72777d;
+    --wmui-base20: #54595d;
+    --wmui-base10: #202122;
+    --wmui-base0: #000;
+    --wmui-accent: #36c;
+    --wmui-accent-light: #eaf3ff;
+    --wmui-accent-dark: #2a4b8d;
+    --wmui-red: #d73333;
+    --wmui-red-light: #fee7e6;
+    --wmui-red-dark: #801919;
+    --wmui-green: #00af89;
+    --wmui-green-light: #d5fdf4;
+    --wmui-green-dark: #14866d;
+    --wmui-yellow: #fc3;
+    --wmui-yellow-light: #fef6e7;
+    --wmui-yellow-dark: #ac6600;
+    --frb-body: var(--wmui-base0);
+    --frb-link: #233F76;
+    --frb-link-hover: #1F3D7A;
+    --frb-message-background: #F0ECF6;
+    --frb-message-border: #E6E0F0;
+    --frb-message: var(--wmui-base100);
+    --frb-muted: var(--wmui-base10);
+    --frb-muted-hover: var(--wmui-base0);
+    --frb-submit: #534FA3;
+    --frb-submit-border: #534FA3;
+    --frb-submit-hover: #7C6BB3;
+    --frb-submit-border-hover: #7C6BB3;
+    --frb-error: var(--wmui-red-dark);
+    --frb-smallprint: var(--wmui-base20);
+    --frb-smallprint-link: var(--wmui-accent);
+    --frb-smallprint-hover: var(--wmui-base0);
+}
+
+/* darkmode */
+html.skin-theme-clientpref-night .frb {
+    color-scheme: dark;
+    --frb-body: var(--wmui-base100);
+    --frb-link: #95a0d8;
+    --frb-link-hover: #aab2e0;
+    --frb-message-background: #1a1825;
+    --frb-message-border: #534FA3;
+    --frb-message: var(--wmui-base100);
+    --frb-muted: var(--wmui-base50);
+    --frb-muted-hover: var(--wmui-base80);
+    --frb-submit: #4e2ea1;
+    --frb-submit-border: #4e2ea1;
+    --frb-submit-hover: #534FA3;
+    --frb-submit-border-hover: #534FA3;
+    --frb-error: var(--wmui-red);
+    --frb-smallprint: var(--frb-muted);
+    --frb-smallprint-link: var(--frb-link);
+    --frb-smallprint-hover: var(--frb-muted-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+    /* automatic mode */
+    html.skin-theme-clientpref-os .frb {
+        color-scheme: dark;
+        --frb-body: var(--wmui-base100);
+        --frb-link: #95a0d8;
+        --frb-link-hover: #aab2e0;
+        --frb-message-background: #1a1825;
+        --frb-message-border: #534FA3;
+        --frb-message: var(--wmui-base100);
+        --frb-muted: var(--wmui-base50);
+        --frb-muted-hover: var(--wmui-base80);
+        --frb-submit: #4e2ea1;
+        --frb-submit-border: #4e2ea1;
+        --frb-submit-hover: #534FA3;
+        --frb-submit-border-hover: #534FA3;
+        --frb-error: var(--wmui-red);
+        --frb-smallprint: var(--frb-muted);
+        --frb-smallprint-link: var(--frb-link);
+        --frb-smallprint-hover: var(--frb-muted-hover);
+    }
+}
+
+/* Hide nag when editor overlay enabled, or reference drawer open */
+.overlay-enabled #frb-nag,
+.has-drawer--with-scroll-locked #frb-nag {
+    display: none !important;
+}
+
+/* Resets */
+.frb * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: none;
+}
+
+.frb button {
+    cursor: pointer;
+}
+
+/* Box-sizing */
+.frb,
+.frb *,
+.frb *:before,
+.frb *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.frb input[type="email"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.frb-replaced {
+    white-space: nowrap;
+}
+
+/* Hide when printed */
+@media print {
+    .frb {
+        display: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .frb,
+    .frb * {
+        transition: none;
+    }
+}
+
+/* Typography
+---------------------------- */
+
+/*Base font*/
+.frb {
+    font-family: system-ui, -apple-system,BlinkMacSystemFont, "Segoe UI", Roboto, "Oxygen-Sans", Ubuntu, Cantarell, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5; /*24px @16px*/
+}
+
+.frb-error {
+    display: block;
+    line-height: 1.25; /*20px @16px*/
+    font-weight: 600;
+    margin: 4px 0;
+    color: var(--frb-error);
+    text-align: center;
+    font-size: 14px;
+    flex: 0 0 100%;
+}
+
+.frb-submit {
+    font-size: 14px;
+    line-height: 1.2222222222; /*22px @18px*/
+}
+
+/* In-article banner styles
+---------------------------- */
+
+#frb-leadacqbanner {
+    display: none;
+    position: relative;
+    color: var(--frb-body);
+    margin-top: 14px;
+    padding: 0 15px;
+}
+
+#frb-leadacqbanner.frb-leadacqbanner--shown {
+    display: block;
+}
+
+.frb-inline-border {
+    position: relative;
+    padding: 15px;
+    background-color: var(--frb-message-background);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: block;
+}
+
+.frb-inline-message {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    padding-right: 30px;
+    text-align: left;
+}
+
+.frb-message-wrapper {
+    flex: 0 1 auto;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 450px) {
+    .frb-message-wrapper {
+        min-height: 0;
+        margin-bottom: 2px;
+    }
+}
+
+.frb-message-flex-container {
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.frb-inline-message-text {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    display: block;
+    margin-bottom: 0.25em;
+}
+
+.frb-inline-message-text strong {
+    font-weight: 600;
+}
+
+.frb-inline-message p:first-of-type {
+    margin-top: 0;
+}
+
+
+/* Submit/Continue buttons (blue background) */
+
+.frb-submit {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-weight: bold;
+    color: rgba(84,89,93,0.2);
+    background-color: var(--wmui-base100);
+    border: 1px solid var(--frb-button-border-hover);
+    cursor: default;
+    border-radius: 2px;
+    transition: background-color 0.5s ease;
+    opacity: .5;
+}
+
+.frb-leadacq-form .frb-submit {
+    color: var(--wmui-base100);
+    background-color: var(--frb-submit);
+    border-color: var(--frb-submit-border);
+    cursor: pointer;
+    opacity: 1;
+    flex: 0 0 150px;
+    max-width: 150px;
+    margin-bottom: 10px;
+    border-radius: 0 2px 2px 0;
+    margin-right: 100px;
+}
+
+@media (max-width: 650px) {
+    .frb-leadacq-form .frb-submit {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 475px) {
+    .frb-leadacq-form .frb-submit {
+        max-width: 100%;
+        border-radius: 2px;
+        padding: 11px;
+        font-size: 16px;
+    }
+}
+
+.frb-leadacq-form .frb-submit:hover {
+    background-color: var(--frb-submit-hover);
+    border-color: var(--frb-submit-border-hover);
+}
+
+/* --- Close options --- */
+
+.frb-close {
+    color: var(--frb-smallprint);
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 10px;
+    height: 45px;
+    width: 45px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.frb-close:hover {
+    color: var(--frb-smallprint-hover);
+}
+
+/* Close button icon */
+
+.frb-close-x {
+    margin-bottom: -3px;
+    width: 21px;
+    height: 21px;
+}
+.frb-close-x {
+    stroke: currentColor;
+}
+
+/* --- Smallprint --- */
+
+.frb-smallprint {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--frb-muted);
+    font-weight: normal;
+    margin-top: 10px;
+    flex: 0 0 100%;
+}
+
+.frb-smallprint a {
+    color: var(--frb-muted);
+    text-decoration: underline
+}
+
+.frb-smallprint a:hover,
+.frb-smallprint a:focus {
+    color: var(--frb-muted-hover);
+    text-decoration: underline
+}
+
+/*!--- Focus styles ----*/
+
+/*Outline reset*/
+.frb-submit:focus {
+    outline: 0;
+}
+
+.frb-submit:focus {
+    border-color: var(--frb-button-border-focus);
+    box-shadow: inset 0 0 0 2px var(--frb-button-border-focus), inset 0 0 0 3px var(--wmui-base100);
+}
+
+/* --- leadacq form --- */
+
+.frb-leadacq-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 475px) {
+    .frb-leadacq-form {
+        display: block;
+    }
+}
+
+.frb-leadacq-form-legend {
+    display: block;
+    margin: 0 0 4px;
+    padding: 0;
+    font-weight: normal;
+    text-align: inherit;
+    font-size: 14px;
+    line-height: 1.2142857143;
+    color: var(--frb-muted);
+}
+
+.frb-leadacq-form input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid var(--wmui-base50);
+    border-radius: 2px;
+    background: #f8f9fa;
+    color: var(--frb-body);
+    font-size: 14px;
+    height: 40px;
+    margin-bottom: 10px;
+    flex: 0 1 auto;
+    max-width: calc(100% - 350px);
+    border-radius: 2px 0 0 2px;
+    border-right-width: 0;
+    margin-left: 100px;
+}
+
+@media (max-width: 650px) {
+    .frb-leadacq-form input {
+        max-width: calc(100% - 150px);
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 475px) {
+    .frb-leadacq-form input {
+        max-width: 100%;
+        border-right-width: 1px;
+        border-radius: 2px;
+    }
+}
+
+#frb-leadacq-email.frb-haserror {
+    border-color: var(--frb-error) !important;
+    box-shadow: inset 0 0 0 1px var(--frb-error) !important;
+}
+
+.frb-leadacq-ty {
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.44;
+    font-weight: 500;
+}
+
+</style>
+
+<div id="frb-leadacqbanner" class="frb" role="region" aria-label="lead acquisition banner"><!-- the in-article banner -->
+
+    <div class="frb-inline-border">
+
+        <button class="frb-close">
+            <svg class="frb-close-x" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke-linecap="round"><path d="M2 2l7 7M9 2L2 9"/></g></svg>
+        </button>
+
+        <div class="frb-inline-message">
+            <div class="frb-message-wrapper">
+                <div class="frb-message-flex-container">
+                    <div class="frb-inline-message-text">
+                        <strong>Sign up for email updates from Wikipedia.</strong> Help keep knowledge free for everyone. Get occasional updates on how Wikipedia stays independent, human-led—and how you can be part of it as a reader, donor, or editor.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="frb-form-wrapper">
+
+            <form method="post" action="https://localhost:9002/api.php?origin=*" class="frb-lg-form frb-leadacq-form" id="frb-lg-form-email">
+                <input type="hidden" name="action" value="leadgen" />
+                <input type="hidden" name="leadgen_source" value="{{{banner}}}" />
+                <input type="email" name="email" id="frb-lg-email" dir="ltr" autocomplete="email"  placeholder="Enter your email address" autofocus />
+
+                <button class="frb-submit active" id="frb-lg-submit" type="submit">Stay informed</button>
+
+                <div class="frb-error frb-error-invalidemail" style="display: none;">
+Invalid
+                </div>
+
+            </form>
+            <div class="frb-leadacq-ty frb-lg-ty" style="display: none;">
+                Thank you! We promise not to send too many emails.
+            </div>
+            <div class="frb-smallprint frb-localize-links">
+                <span>We never sell your information. By submitting, you are agreeing to our <span class="frb-link-privacy">donor privacy policy</span>. The Wikimedia Foundation is a nonprofit, <span class="frb-link-tax">tax-exempt organization</span>.</span>
+            </div>
+        </div><!--- frb-leadacq-form-email -->
+
+    </div>
+
+</div><!--frb-leadacqbanner-->
+
+
+<script>
+var frb = {};
+
+    mw.loader.using(['mediawiki.util']).then(function() {
+        frb.lg.init();
+    });
+
+    var language = mw.config.get('wgUserLanguage');
+    var country = mw.centralNotice.data.country;
+
+    frb.HIDE_DURATION_CLOSE = 3600; // 1 hour
+    frb.HIDE_DURATION_LG = 604800; // 1 week
+
+    frb.hide = function() {
+        /* Hide the banner, and remove related event handlers */
+        $('.frb').hide();
+        $('.frb-prevent-page-jump').hide();
+        $(window).off('.frb');
+        $('#toc a').off('.frb');
+    };
+
+    if ( language === 'pt' && country === 'BR' ) {
+        variantLanguage = 'pt-br';
+    } else if ( language === 'es' && ['AR', 'CL', 'CO', 'PE', 'MX', 'UY'].indexOf( country ) !== -1 ) {
+        variantLanguage = 'es-419';
+    } else {
+        variantLanguage = language;
+    }
+
+    frb.makeLink = function( selector, language, baseUrl ) {
+        var url = new URL( baseUrl );
+        if ( language ) {
+            url.searchParams.set( 'language', language );
+        }
+        $( selector ).each( function() {
+            var $link = $( '<a></a>' );
+            $link.html( $( this ).html() );
+            $link.attr( { href: url.toString(), target: '_blank' } );
+            $( this ).replaceWith( $link );
+        });
+    };
+
+    // Add links
+    frb.makeLink( '.frb-link-privacy', variantLanguage, 'https://foundation.wikimedia.org/wiki/Special:LandingCheck?basic=true&landing_page=Donor_privacy_policy' );
+    frb.makeLink( '.frb-link-tax',     variantLanguage, 'https://donate.wikimedia.org/wiki/Special:LandingCheck?basic=true&landing_page=Tax_deductibility' );
+
+    frb.shouldShowLeadAcqBanner = function() {
+        // Always show when previewing
+        if ( !mw.centralNotice.data.campaign ) {
+            return true;
+        }
+
+        var rawCookieVal = $.cookie( 'centralnotice_hide_fundraising' ), // will we need to detect different cookie?
+            hideData;
+
+        // No cookie
+        if ( !rawCookieVal ) {
+            return false;
+        }
+
+        // Try to parse the cookie
+        try {
+            hideData = JSON.parse( rawCookieVal );
+        } catch ( e ) {
+            // Corrupt cookie contents
+            return false;
+        }
+
+        if ( hideData.reason === 'donate' || hideData.reason === 'alreadyDonated') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Form code
+    frb.lg = {
+
+        post: function( $form ) {
+		// Email form
+		// Post using ajax
+		var postUrl = $form.attr('action');
+		$.post( postUrl, $form.serialize() );
+        },
+
+
+        init: function() {
+        /* Prep the form */
+            var formEmail = document.getElementById('frb-lg-form-email');
+
+      	    formEmail.leadgen_source.value = mw.centralNotice.data.banner;
+
+            // Email form submit
+            $('#frb-lg-form-email .frb-submit').click(function() {
+                if ( mw.util.validateEmail( formEmail.email.value ) ) {
+                    frb.lg.post($('#frb-lg-form-email'));
+                    $('.frb-lg-form').hide();
+	   	    $('.frb-lg-ty').show();
+                    window.setTimeout( function() {
+                        frb.hide();
+                    }, 2500);
+                    frb.altSetHideCookie( 'lg', frb.HIDE_DURATION_LG );
+                    return false;
+                } else {
+                    $('#frb-lg-email').addClass('frb-haserror').focus();
+                    $('#frb-lg-form-email .frb-error-invalidemail').show();
+                    return false;
+                }
+            });
+        }
+
+    };
+
+/**
+ * Custom hide cookie function from Core.JS
+ */
+    frb.altSetHideCookie = function ( reason, duration ) {
+
+	mw.loader.using( 'mediawiki.cookie' ).then( function () {
+
+		var cookieName = 'centralnotice_hide_fundraising',
+			date = new Date(),
+			hideData = {
+				v: 1,
+				created: Math.floor( date.getTime() / 1000 ),
+				reason: reason
+			};
+
+		// Re-use the same date object to set the cookie's expiry time
+		date.setSeconds( date.getSeconds() + duration );
+
+		mw.cookie.set(
+			cookieName,
+			JSON.stringify( hideData ),
+			{ expires: date, path: '/', domain: 'localhost:9010', prefix: '' }
+		);
+
+	});
+
+    };
+
+    frb.showLeadAcqBanner = function() {
+        $( '#frb-leadacqbanner' ).addClass( 'frb-leadacqbanner--shown' );
+    };
+
+    $( '.frb-close' ).on('click', function(e) {
+        $( '#frb-leadacqbanner' ).removeClass( 'frb-leadacqbanner--shown' );
+        frb.altSetHideCookie( 'close', frb.HIDE_DURATION_CLOSE );
+    });
+
+    mw.loader.using( 'mediawiki.cookie' ).then( function () {
+        frb.showLeadAcqBanner();
+    });
+</script>

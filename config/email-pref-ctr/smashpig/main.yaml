@@ -68,6 +68,9 @@ data-store:
   jobs-gravy:
     <<: *REDIS
 
+  lead-generation:
+    <<: *DPREDIS
+
   opt-in:
     <<: *DPREDIS
 

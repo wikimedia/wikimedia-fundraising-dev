@@ -317,6 +317,10 @@ wfLoadExtensions( array(
 
 ### Settings for E-mail Preference Center, adapted from those for Payments
 ### (See config/payments/LocalSettings.php.)
+// Allow posting to leadgen API from donut wiki
+$wgCrossSiteAJAXdomains = [
+	"localhost:9010"
+];
 
 $wgDonationInterfaceHeader = "{{2010/Donate-banner/@language}}";
 

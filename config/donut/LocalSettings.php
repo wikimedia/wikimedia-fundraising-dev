@@ -313,7 +313,7 @@ $wgNoticeUseTranslateExtension = true;
 $wgNoticeNumberOfControllerBuckets = 2;
 # Don't try to do client-side GeoIP location
 $wgCentralNoticeGeoIPBackgroundLookupModule = false;
-$wgCentralNoticeContentSecurityPolicy = "default-src data: blob: 'unsafe-inline' 'unsafe-eval' 'self';";
+$wgCentralNoticeContentSecurityPolicy = "default-src data: blob: 'unsafe-inline' 'unsafe-eval' 'self' localhost:9002 ;";
 $wgNoticeHideUrls = [
 	'//en.wikipedia.org/w/index.php?title=Special:HideBanners',
 	'//meta.wikimedia.org/w/index.php?title=Special:HideBanners',
