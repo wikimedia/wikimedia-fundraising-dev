@@ -509,6 +509,7 @@ $wgIngenicoGatewayCurlVerboseLog = true;
 $wgAstroPayGatewayCurlVerboseLog = true;
 $wgDonationInterfaceEmployersListDataFileLocation = '/srv/config/private/payments/employerData.csv';
 $wgDonationInterfaceFraudServiceURL = 'http://fundraising-ml:9001';
+$wgDonationInterfaceFraudServiceWeight = 10;
 
 # Set default gateway priority rule for ComboWiki
 $wgExtensionFunctions[] = static function () {
