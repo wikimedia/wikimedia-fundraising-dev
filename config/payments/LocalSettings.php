@@ -524,15 +524,6 @@ $wgDonationInterfaceFraudServiceScoreRules = [
 	],
 ];
 
-# Set default gateway priority rule for ComboWiki
-$wgExtensionFunctions[] = static function () {
-  global $wgDonationInterfaceGatewayPriorityRules;
-  array_unshift( $wgDonationInterfaceGatewayPriorityRules, [
-    'conditions' => [ 'payment_method' => 'cc' ],
-    'gateways' => [ 'gravy' ],
-  ] );
-};
-
 ### Include private settings, if present
 if ( file_exists ( '/srv/config/private/payments/LocalSettings-private.php' ) )
 	require( '/srv/config/private/payments/LocalSettings-private.php' );
