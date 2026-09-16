@@ -1,5 +1,7 @@
 # DONUT Config
+DATABASE_SERVICE_NAME="database"
 DONUT_SERVICE_NAME="donut"
+TK_SERVICE_NAME="test-kitchen"
 DONUT_CONTAINER_DIR="/var/www/html/w"
 DONUT_SRC_DIR="src/donut"
 FUNDRAISING_EMAIL_UNSUBSCRIBE_EXT_DIR="$DONUT_SRC_DIR/extensions/FundraisingEmailUnsubscribe"
@@ -7,6 +9,7 @@ MW_CORE_BRANCH="master"
 MW_LANG="en"
 MW_USER="admin"
 MW_PASSWORD="dockerpass"
+TK_DB_PASSWORD="dockerpass"
 
 echo
 echo "**** Clone Donut wiki"
@@ -48,7 +51,7 @@ EOF
 
   pushd ${DONUT_SRC_DIR}/extensions
     # Loop over donut wiki extensions and clone
-    for i in CentralNotice CodeEditor CodeMirror DonationInterface EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles Translate UniversalLanguageSelector WikiEditor
+    for i in CentralNotice CodeEditor CodeMirror DonationInterface EventBus EventLogging FundraiserLandingPage FundraisingTranslateWorkflow LandingCheck Linter MobileFrontend ParserFunctions Scribunto TemplateSandbox TemplateStyles TestKitchen Translate UniversalLanguageSelector WikiEditor
 		do
 			git clone $(make_gerrit_url "mediawiki/extensions/$i") \
 				--depth=10 --no-single-branch && \
@@ -177,9 +180,21 @@ $DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
 $DOCKER_COMPOSE_COMMAND_BASE exec -T -w "/var/www/html/w/" \
   donut php maintenance/run.php createAndPromote admin --force --custom-groups centralnoticeadmin
 
+read -p "Install TestKitchen database? [yN] " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mariadb -e "CREATE USER IF NOT EXISTS 'maria'@'%' IDENTIFIED BY '$TK_DB_PASSWORD';"
+  TK_INIT_SQL_PATH="${DONUT_SRC_DIR}/extensions/TestKitchen/devserver/db/init.sql"
+  $DOCKER_COMPOSE_COMMAND_BASE exec -T ${DATABASE_SERVICE_NAME} mariadb < $TK_INIT_SQL_PATH
+fi
+
+docker_compose_up "$DOCKER_COMPOSE_FILE"  "$TK_SERVICE_NAME"
+
 echo
 echo "Donate/Donut Wiki URL: https://localhost:$DONUT_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
 echo "Donate/Donut Wiki HTTP URL: http://localhost:$DONUT_HTTP_PORT/w/index.php/Special:FundraiserLandingPage?uselang=en&country=US"
 echo
 echo "Donate/Donut Wiki Central Notice Login: $MW_USER:$MW_PASSWORD"
 echo "Donate/Donut Wiki Central Notice URL: https://localhost:$DONUT_PORT/w/index.php?title=Special:UserLogin&returnto=Special:CentralNotice"
+echo
+echo "TestKitchen management URL: http://localhost:8086"

@@ -354,6 +354,23 @@ services:
       - "${MAILCATCHER_PORT:-1080}:1080"
     networks: [ "default", "donorprefs", "donut" ]
 
+  test-kitchen:
+    image: docker-registry.wikimedia.org/repos/data-engineering/test-kitchen:latest-dev
+    container_name: test-kitchen
+    restart: always
+    volumes:
+      - ./config/testkitchen/config.dev.yaml:/srv/service/config.dev.yaml
+    environment:
+      DATABASE_PASSWORD: dockerpass
+      IDP_CLIENT_SECRET: idp_client_secret
+      SESSION_SECRET: session_secret
+      CSRF_SECRET: csrf_secret
+
+      # Part 1 of disabling authentication: Ensure that the app is running in development mode
+      NODE_ENV: development
+    ports:
+      - "8086:8086"
+
 volumes:
   dbdata:
   qdata:

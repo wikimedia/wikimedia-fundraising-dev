@@ -1,0 +1,40 @@
+logging:
+  level: trace
+service:
+  name: test-kitchen
+  port: 8086
+  cors: "*"
+  max_body_size: 100kb
+  secure_cookie: false
+  user_agent: Test Kitchen UI/1.2 (#experiment-platform)
+listeners:
+  action_api_basepath: https://meta.wikimedia.org
+database:
+  engine: mysql
+  host: database
+  username: maria
+  database: test_kitchen
+  port: 3306
+
+# Part 3 of disabling authentication: If the following Identity Provider (IdP) config isn't
+# provided, then Test Kitchen will throw an error and exit
+idp:
+  oidc_url: https://idp-test.wikimedia.org/oidc
+  client_id: test_kitchen_next
+
+# Growthbook and Phabricator configuration
+growthbook:
+  include_tk: true
+  include_gb: false
+  api_url: http://growthbook-api-next.wikimedia.org/api/v1/experiments
+  ui_url: https://growthbook-next.wikimedia.org/experiments
+  api_key: <growthbook-api-key>
+  poll_interval_ms: 15000
+  timeout_ms: 5000
+  drafts_validation: false
+  drafts_validation_interval: 4
+phabricator:
+  api_url: https://phabricator.wikimedia.org/api/
+  api_key: <phabricator-api-key>
+  enabled: false
+  timeout_ms: 5000

@@ -333,6 +333,7 @@ wfLoadExtensions( [
 	'CentralNotice',
 	'CodeEditor',
 	'CodeMirror',
+	'EventBus',
 	'EventLogging',
 	'FundraiserLandingPage',
 	'FundraisingTranslateWorkflow',
@@ -343,12 +344,16 @@ wfLoadExtensions( [
 	'Scribunto',
 	'TemplateSandbox',
 	'TemplateStyles',
+	'TestKitchen',
 	'Translate',
 	'UniversalLanguageSelector',
 	'WikiEditor',
 ] );
 
-
+// 1. Define the instrument locally for the POC
+$wgTestKitchenInstrumentConfiguratorBaseUrl = 'http://localhost:8086'; // Points to your local test-kitchen UI
+$wgTestKitchenEnableExperiments = true;
+$wgCentralNoticeProhibitedExperiments = [ 'testy-bobo' ];
 ### Include optional settings not tracked by git
 if ( file_exists ( '/srv/config/exposed/donut/LocalSettings-local.php' ) )
     require( '/srv/config/exposed/donut/LocalSettings-local.php' );
