@@ -143,10 +143,6 @@ setup_djangobannerstats() {
   time source "$SETUP_DIR/django-banner-stats.sh"
 }
 
-setup_gr4vy() {
-  time source "$SETUP_DIR/gr4vy.sh"
-}
-
 show_urls() {
   source "$SETUP_DIR/urls.sh"
 }
@@ -292,11 +288,6 @@ for arg in "$@"; do
     init
     announce_install "DjangoBannerStats"
     setup_djangobannerstats
-    ;;
-  --gr4vy)
-    init
-    announce_install "Gr4vy POC"
-    setup_gr4vy
     ;;
   --config-private)
     setup_config_private
