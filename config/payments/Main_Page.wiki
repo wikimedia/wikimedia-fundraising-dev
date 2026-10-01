@@ -8,7 +8,7 @@ For more details on how to use this environment, please see the [https://gerrit.
 
 To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Freenode.
 = combo wiki =
-* [{{fullurl:Special:ComboWiki}} Combo wiki in US, English, USD]
+* [{{fullurl:Special:Donate}} Donate page in US, English, USD]
 
 = Some donation forms =
 Donate links:
