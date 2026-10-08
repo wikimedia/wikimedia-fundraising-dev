@@ -357,3 +357,5 @@ $wgCentralNoticeProhibitedExperiments = [ 'testy-bobo' ];
 ### Include optional settings not tracked by git
 if ( file_exists ( '/srv/config/exposed/donut/LocalSettings-local.php' ) )
     require( '/srv/config/exposed/donut/LocalSettings-local.php' );
+
+$wgCentralBannerRecorder = '/beacon/impression';
