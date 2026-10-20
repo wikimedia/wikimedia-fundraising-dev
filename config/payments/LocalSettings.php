@@ -410,6 +410,9 @@ $wgBraintreeGatewayEnabled = true;
 $wgPaypalExpressGatewayEnabled = true;
 $wgGravyGatewayEnabled = true;
 
+# Gateways for ComboWiki (Special:Donate)
+$wgDonationInterfaceComboWikiGateways = [ 'adyen', 'braintree' ];
+
 # Components
 $wgDonationInterfaceEnableReferrerFilter = true;
 $wgDonationInterfaceEnableSourceFilter = true;
