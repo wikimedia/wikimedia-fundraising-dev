@@ -524,6 +524,8 @@ $wgDonationInterfaceFraudServiceScoreRules = [
 	],
 ];
 
+$wgDonationInterfaceReturnUrlKey = '83c3e877f3a4ec7fb88a3202684ad920f3ad94c4baad432c56cdc8bf6e16a5f3';
+
 ### Include private settings, if present
 if ( file_exists ( '/srv/config/private/payments/LocalSettings-private.php' ) )
 	require( '/srv/config/private/payments/LocalSettings-private.php' );
