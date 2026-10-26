@@ -15,7 +15,7 @@ x-civicrm-site-key: &civicrm-site-key
 
 # Most apps build from this generic image
 x-common-settings: &common-settings
-    image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2:1.0.1-s5
+    image: docker-registry.wikimedia.org/dev/fundraising-bookworm-php82-apache2
     user: *user
     platform: linux/amd64
     # Debian overrides containerd defaults to set these to basically infinity, but that
@@ -28,7 +28,7 @@ x-common-settings: &common-settings
         hard: 524288
 
 x-common-settings-trixie: &common-settings-trixie
-  image: docker-registry.wikimedia.org/dev/fundraising-trixie-php84-apache2:1.0.0-s2
+  image: docker-registry.wikimedia.org/dev/fundraising-trixie-php84-apache2
   user: *user
   platform: linux/amd64
   # Debian overrides containerd defaults to set these to basically infinity, but that
@@ -154,7 +154,7 @@ services:
 
 
   civicrm:
-    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-trixie-php84-apache2:1.0.0-s2
+    image: docker-registry.wikimedia.org/dev/fundraising-civicrm-trixie-php84-apache2
     depends_on:
       - database
       - queues
@@ -214,7 +214,7 @@ services:
       - FR_DOCKER_SERVICE_NAME=smashpig
 
   civiproxy:
-    image: docker-registry.wikimedia.org/dev/fundraising-trixie-php84-apache2:1.0.0-s2
+    image: docker-registry.wikimedia.org/dev/fundraising-trixie-php84-apache2
     platform: linux/amd64
     ports:
       - 9005:9001
@@ -238,7 +238,7 @@ services:
         hard: 524288
 
   tools:
-    image: docker-registry.wikimedia.org/dev/fundraising-tools-trixie:1.0.0
+    image: docker-registry.wikimedia.org/dev/fundraising-tools-trixie
     depends_on:
       - database
     user: *user
@@ -288,7 +288,7 @@ services:
       - FR_DOCKER_SERVICE_NAME=fundraising-ml
 
   djangobannerstats:
-    image: docker-registry.wikimedia.org/dev/fundraising-trixie-python:1.0.0
+    image: docker-registry.wikimedia.org/dev/fundraising-trixie-python
     depends_on:
       - database
     user: *user
@@ -319,7 +319,7 @@ services:
       MARIADB_AUTO_UPGRADE: 1
 
   logger:
-    image: docker-registry.wikimedia.org/dev/buster-rsyslog:1.0.0-s4
+    image: docker-registry.wikimedia.org/dev/buster-rsyslog
     user: *user
     platform: linux/amd64
     networks: [ "default", "donorprefs", "donut" ]
